@@ -190,6 +190,7 @@ RUNTIME_BASELINE_REQUIRED_PHRASES = [
     "AppImage runtime baseline",
     "fuse",
     "fuse3",
+    "xwayland",
 ]
 
 

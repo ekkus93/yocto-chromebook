@@ -7,4 +7,5 @@ inherit packagegroup
 RDEPENDS:${PN} = "\
     fuse \
     fuse3 \
+    xwayland \
 "

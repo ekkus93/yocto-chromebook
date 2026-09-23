@@ -402,7 +402,7 @@ Prove third-party x86-64 AppImage execution.
 
 - [x] Include FUSE support.
 - [x] Include libfuse compatibility if required.
-- [ ] Include XWayland support.
+- [x] Include XWayland support.
 - [ ] Include common runtime libraries needed by test AppImage.
 - [x] Create `/data/apps` convention.
 - [ ] Select small known-good x86-64 graphical AppImage for testing.
