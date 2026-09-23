@@ -197,10 +197,10 @@ Get the POC image booting from MrChromebox UEFI.
 
 ### Tasks
 
-- [ ] Select bootloader approach.
-- [ ] Ensure EFI System Partition contents are generated correctly.
+- [x] Select bootloader approach.
+- [x] Ensure EFI System Partition contents are generated correctly.
 - [ ] Generate bootable `.wic` image.
-- [ ] Document flashing/writing the image to USB or eMMC.
+- [x] Document flashing/writing the image to USB or eMMC.
 - [ ] Boot SNAPPY from external USB first.
 - [ ] Boot VORTICON from external USB first.
 - [ ] Record UEFI boot menu behavior.
@@ -225,7 +225,7 @@ Validate eMMC visibility and define install layout.
 - [ ] Verify read/write access from POC image.
 - [ ] Define initial POC partition layout.
 - [ ] Define future A/B partition layout.
-- [ ] Add installer/deployment notes.
+- [x] Add installer/deployment notes.
 
 ### Acceptance criteria
 
@@ -532,18 +532,18 @@ Define how users get the Yocto image onto converted Chromebooks.
 
 ### Tasks
 
-- [ ] Document external USB boot workflow.
-- [ ] Document internal eMMC installation workflow.
+- [x] Document external USB boot workflow.
+- [x] Document internal eMMC installation workflow.
 - [ ] Decide whether to provide installer script.
 - [ ] Add safety checks for target disk selection.
 - [ ] Preserve `/data` where applicable.
-- [ ] Document recovery procedure.
+- [x] Document recovery procedure.
 
 ### Acceptance criteria
 
-- [ ] A tester can boot from USB using documented steps.
-- [ ] A tester can install to internal eMMC using documented steps or explicit manual process.
-- [ ] Disk-destructive actions require clear confirmation.
+- [x] A tester can boot from USB using documented steps.
+- [x] A tester can install to internal eMMC using documented steps or explicit manual process.
+- [x] Disk-destructive actions require clear confirmation.
 
 ## M21 — A/B update design
 
@@ -619,13 +619,13 @@ Make the first proof of concept repeatable.
 ### Tasks
 
 - [ ] Update README quick-start.
-- [ ] Document supported hardware and limitations.
-- [ ] Document build prerequisites.
-- [ ] Document kas build commands.
-- [ ] Document writing image to USB.
-- [ ] Document booting from MrChromebox UEFI.
+- [x] Document supported hardware and limitations.
+- [x] Document build prerequisites.
+- [x] Document kas build commands.
+- [x] Document writing image to USB.
+- [x] Document booting from MrChromebox UEFI.
 - [ ] Document known failures.
-- [ ] Document audio safety status.
+- [x] Document audio safety status.
 - [ ] Document AppImage workflow.
 - [ ] Document current image size and RAM metrics.
 

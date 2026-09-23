@@ -14,6 +14,7 @@ REQUIRED_FILES = [
     "README.md",
     "docs/HARDWARE_NOTES.md",
     "docs/POC_PACKAGE_BASELINE.md",
+    "docs/UEFI_DEPLOYMENT.md",
     "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md",
     "kas/snappy-poc.yml",
@@ -116,6 +117,16 @@ NCDU_RECIPE_REQUIRED_PHRASES = [
     "inherit autotools pkgconfig",
 ]
 
+UEFI_DEPLOYMENT_REQUIRED_PHRASES = [
+    "MrChromebox UEFI Full ROM",
+    "External USB boot workflow",
+    "Internal eMMC deployment workflow",
+    "GPT disk image",
+    "EFI System Partition",
+    "dd if=yocto-chromebook-poc-snappy.wic",
+    "Evidence to capture",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -171,6 +182,7 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb", ["packagegroup-yocto-chromebook-poc"])
     assert_contains("meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb", NCDU_RECIPE_REQUIRED_PHRASES)
     assert_contains("docs/POC_PACKAGE_BASELINE.md", POC_PACKAGEGROUP_REQUIRED_PHRASES)
+    assert_contains("docs/UEFI_DEPLOYMENT.md", UEFI_DEPLOYMENT_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")

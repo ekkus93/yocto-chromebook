@@ -75,12 +75,20 @@ kas build kas/vorticon-desktop.yml
 
 The current image recipes are placeholders. M5 and later milestones add real package content, boot qualification, and hardware evidence.
 
+## Deployment
+
+Initial deployment targets MrChromebox UEFI Full ROM systems and uses external USB boot before any internal eMMC writes.
+
+See `docs/UEFI_DEPLOYMENT.md` for the bootloader policy, WIC artifact expectations, USB writing workflow, internal eMMC gating, recovery notes, and evidence to capture.
+
 ## Repository layout
 
 ```text
 .
 ├── docs/
 │   ├── HARDWARE_NOTES.md
+│   ├── POC_PACKAGE_BASELINE.md
+│   ├── UEFI_DEPLOYMENT.md
 │   ├── YOCTO_CHROMEBOOK_SPEC.md
 │   └── YOCTO_CHROMEBOOK_POC_TODO.md
 ├── kas/
@@ -119,4 +127,4 @@ Run the repository validator locally with:
 python3 scripts/validate_repo.py
 ```
 
-CI additionally runs `kas dump` on all kas configs and BitBake parse validation for `kas/snappy-poc.yml`.
+CI additionally runs `kas dump` on all kas configs, BitBake parse validation, and dependency graph validation for `kas/snappy-poc.yml`.
