@@ -8,8 +8,8 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 
 | Board | Representative hardware | Status |
 | --- | --- | --- |
-| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse-level POC machine config; hardware not release-qualified |
-| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
+| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Matrix entry exists; hardware status currently unknown/unsafe-disabled until evidence is recorded |
+| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Matrix entry exists; hardware status currently unknown/unsafe-disabled until evidence is recorded |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
 
@@ -87,11 +87,16 @@ The persistent data model uses `/data` as the boundary between replaceable OS im
 
 See `docs/STORAGE_AND_UPDATE_DESIGN.md` for the POC partition policy, `/data` layout, manual-installer safety requirements, and future A/B update design.
 
+## Hardware qualification
+
+Hardware support status is tracked in `docs/HARDWARE_MATRIX.md`. SNAPPY and VORTICON start with explicit `unknown` component states, and internal speakers remain `unsafe-disabled` until the audio safety gate is resolved.
+
 ## Repository layout
 
 ```text
 .
 ├── docs/
+│   ├── HARDWARE_MATRIX.md
 │   ├── HARDWARE_NOTES.md
 │   ├── POC_PACKAGE_BASELINE.md
 │   ├── STORAGE_AND_UPDATE_DESIGN.md

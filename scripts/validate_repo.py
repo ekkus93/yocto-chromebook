@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ".gitignore",
     "README.md",
+    "docs/HARDWARE_MATRIX.md",
     "docs/HARDWARE_NOTES.md",
     "docs/POC_PACKAGE_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md",
@@ -67,6 +68,7 @@ TODO_REQUIRED_PHRASES = [
     "## M1 — Yocto layer skeleton",
     "## M2 — kas bootstrap",
     "## M5 — POC image package baseline",
+    "## M22 — Hardware qualification matrix",
     "## POC-1 release gate",
     "## Desktop release gate",
 ]
@@ -140,6 +142,37 @@ STORAGE_UPDATE_REQUIRED_PHRASES = [
     "rollback",
 ]
 
+HARDWARE_MATRIX_REQUIRED_PHRASES = [
+    "Status vocabulary",
+    "unknown",
+    "detected",
+    "works",
+    "partial",
+    "blocked",
+    "unsafe-disabled",
+    "## SNAPPY",
+    "## VORTICON",
+    "UEFI boot",
+    "eMMC",
+    "keyboard",
+    "touchpad",
+    "Wi-Fi",
+    "Bluetooth",
+    "graphics",
+    "USB-A",
+    "USB-C",
+    "battery",
+    "brightness",
+    "suspend/resume",
+    "speakers",
+    "headphones",
+    "microphone",
+    "webcam",
+    "Firefox",
+    "VLC",
+    "AppImage",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -197,6 +230,7 @@ def main() -> int:
     assert_contains("docs/POC_PACKAGE_BASELINE.md", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("docs/UEFI_DEPLOYMENT.md", UEFI_DEPLOYMENT_REQUIRED_PHRASES)
     assert_contains("docs/STORAGE_AND_UPDATE_DESIGN.md", STORAGE_UPDATE_REQUIRED_PHRASES)
+    assert_contains("docs/HARDWARE_MATRIX.md", HARDWARE_MATRIX_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
