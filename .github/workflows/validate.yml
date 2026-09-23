@@ -40,3 +40,6 @@ jobs:
 
       - name: Validate BitBake parse for SNAPPY POC
         run: kas shell kas/snappy-poc.yml -c 'bitbake -p'
+
+      - name: Validate SNAPPY POC dependency graph
+        run: kas shell kas/snappy-poc.yml -c 'bitbake -g yocto-chromebook-poc'
