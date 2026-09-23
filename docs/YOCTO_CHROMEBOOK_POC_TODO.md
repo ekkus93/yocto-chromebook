@@ -574,41 +574,41 @@ Create a persistent support matrix for each board.
 
 ### Tasks
 
-- [ ] Add `docs/HARDWARE_MATRIX.md`.
-- [ ] Include rows for SNAPPY and VORTICON.
-- [ ] Track status values:
-  - [ ] unknown
-  - [ ] detected
-  - [ ] works
-  - [ ] partial
-  - [ ] blocked
-  - [ ] unsafe-disabled
-- [ ] Track components:
-  - [ ] UEFI boot
-  - [ ] eMMC
-  - [ ] keyboard
-  - [ ] touchpad
-  - [ ] Wi-Fi
-  - [ ] Bluetooth
-  - [ ] graphics
-  - [ ] USB-A
-  - [ ] USB-C
-  - [ ] battery
-  - [ ] brightness
-  - [ ] suspend/resume
-  - [ ] speakers
-  - [ ] headphones
-  - [ ] microphone
-  - [ ] webcam
-  - [ ] Firefox
-  - [ ] VLC
-  - [ ] AppImage
+- [x] Add `docs/HARDWARE_MATRIX.md`.
+- [x] Include rows for SNAPPY and VORTICON.
+- [x] Track status values:
+  - [x] unknown
+  - [x] detected
+  - [x] works
+  - [x] partial
+  - [x] blocked
+  - [x] unsafe-disabled
+- [x] Track components:
+  - [x] UEFI boot
+  - [x] eMMC
+  - [x] keyboard
+  - [x] touchpad
+  - [x] Wi-Fi
+  - [x] Bluetooth
+  - [x] graphics
+  - [x] USB-A
+  - [x] USB-C
+  - [x] battery
+  - [x] brightness
+  - [x] suspend/resume
+  - [x] speakers
+  - [x] headphones
+  - [x] microphone
+  - [x] webcam
+  - [x] Firefox
+  - [x] VLC
+  - [x] AppImage
 
 ### Acceptance criteria
 
-- [ ] Matrix exists.
-- [ ] Every supported board has explicit component statuses.
-- [ ] Unknowns are visible rather than implied supported.
+- [x] Matrix exists.
+- [x] Every supported board has explicit component statuses.
+- [x] Unknowns are visible rather than implied supported.
 
 ## M23 — Documentation closeout for POC-1
 
@@ -645,7 +645,7 @@ The first POC release is acceptable when at least one initial target board satis
 - [ ] keyboard works
 - [ ] Wi-Fi connects and reaches HTTPS
 - [ ] base utilities present: `nano`, `screen`, `htop`, `ncdu`
-- [ ] hardware matrix created
+- [x] hardware matrix created
 - [ ] image size and RAM metrics recorded
 - [ ] audio hardware identified, even if internal speakers remain disabled for safety
 - [ ] known gaps documented
