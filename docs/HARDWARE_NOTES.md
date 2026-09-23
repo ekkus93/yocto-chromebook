@@ -8,6 +8,7 @@ The project targets Chromebooks already converted to MrChromebox UEFI Full ROM f
 
 - Kernel baseline: `linux-yocto` through Poky's generic x86-64 UEFI machine baseline.
 - Boot baseline: GPT + EFI System Partition through Yocto `.wic` images.
+- Machine compatibility baseline: SNAPPY and VORTICON inherit `genericx86-64` and advertise the `genericx86-64` machine override so Poky's `linux-yocto` provider remains compatible during dependency resolution and image builds.
 - Audio policy: internal speakers remain unqualified until board-specific codec, amplifier, topology, UCM2, mixer limits, mute behavior, and suspend/resume behavior are reviewed.
 - Firmware policy: required firmware is not considered identified until captured from hardware evidence such as `lspci -nn`, `lsusb`, kernel logs, ALSA cards, and Bluetooth controller enumeration.
 - Storage expectation: internal storage is expected to be eMMC on the first targets, but device names and write behavior must be confirmed on hardware.
