@@ -20,7 +20,20 @@ jobs:
       - name: Install Yocto host tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y chrpath diffstat
+          sudo apt-get install -y \
+            chrpath \
+            cpio \
+            diffstat \
+            file \
+            gawk \
+            gcc \
+            git \
+            lz4 \
+            make \
+            python3 \
+            python3-pip \
+            xz-utils \
+            zstd
 
       - name: Allow BitBake user namespaces on Ubuntu 24.04
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
@@ -43,3 +56,38 @@ jobs:
 
       - name: Validate SNAPPY POC dependency graph
         run: kas shell kas/snappy-poc.yml -c 'bitbake -g yocto-chromebook-poc'
+
+  snappy-poc-image:
+    name: SNAPPY POC image build
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Yocto host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            chrpath \
+            cpio \
+            diffstat \
+            file \
+            gawk \
+            gcc \
+            git \
+            lz4 \
+            make \
+            python3 \
+            python3-pip \
+            xz-utils \
+            zstd
+
+      - name: Allow BitBake user namespaces on Ubuntu 24.04
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Build SNAPPY POC image
+        run: kas build kas/snappy-poc.yml
