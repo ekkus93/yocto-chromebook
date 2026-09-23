@@ -22,6 +22,7 @@ The project targets Chromebooks already converted to MrChromebox UEFI Full ROM f
 - Audio expectation: Intel Chromebook audio is board-specific; codec, amplifier, topology, and UCM2 details remain an M3/M17 investigation item. Internal speakers stay disabled/unqualified until the safety gate is satisfied.
 - Internal storage expectation: eMMC is expected, with actual Linux device naming to be recorded during hardware boot validation.
 - Firmware assumption: MrChromebox UEFI Full ROM.
+- Parse note: the required machine ID `snappy` collides with meta-oe's `snappy` compression recipe PN through BitBake `OVERRIDES`; the SNAPPY machine config masks that recipe for now because the POC image does not use it.
 
 ## VORTICON / Gemini Lake Chromebook
 
