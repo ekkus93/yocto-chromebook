@@ -14,6 +14,7 @@ REQUIRED_FILES = [
     "README.md",
     "docs/HARDWARE_NOTES.md",
     "docs/POC_PACKAGE_BASELINE.md",
+    "docs/STORAGE_AND_UPDATE_DESIGN.md",
     "docs/UEFI_DEPLOYMENT.md",
     "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md",
@@ -127,6 +128,18 @@ UEFI_DEPLOYMENT_REQUIRED_PHRASES = [
     "Evidence to capture",
 ]
 
+STORAGE_UPDATE_REQUIRED_PHRASES = [
+    "Initial POC partition layout",
+    "Future persistent layout",
+    "/data/apps",
+    "/data/home",
+    "Manual installer decision",
+    "Future A/B update design",
+    "rootfs-A",
+    "rootfs-B",
+    "rollback",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -183,6 +196,7 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb", NCDU_RECIPE_REQUIRED_PHRASES)
     assert_contains("docs/POC_PACKAGE_BASELINE.md", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("docs/UEFI_DEPLOYMENT.md", UEFI_DEPLOYMENT_REQUIRED_PHRASES)
+    assert_contains("docs/STORAGE_AND_UPDATE_DESIGN.md", STORAGE_UPDATE_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")

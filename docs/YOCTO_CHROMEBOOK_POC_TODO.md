@@ -223,8 +223,8 @@ Validate eMMC visibility and define install layout.
 - [ ] Confirm internal eMMC device name on SNAPPY.
 - [ ] Confirm internal eMMC device name on VORTICON.
 - [ ] Verify read/write access from POC image.
-- [ ] Define initial POC partition layout.
-- [ ] Define future A/B partition layout.
+- [x] Define initial POC partition layout.
+- [x] Define future A/B partition layout.
 - [x] Add installer/deployment notes.
 
 ### Acceptance criteria
@@ -232,7 +232,7 @@ Validate eMMC visibility and define install layout.
 - [ ] Internal eMMC visible on SNAPPY.
 - [ ] Internal eMMC visible on VORTICON.
 - [ ] POC image can be installed or written in a documented way.
-- [ ] Production A/B layout remains feasible.
+- [x] Production A/B layout remains feasible.
 
 ## M8 — Keyboard, touchpad, and input
 
@@ -423,19 +423,19 @@ Separate OS image from persistent user/application data.
 
 ### Tasks
 
-- [ ] Define `/data` mount point.
-- [ ] Decide whether `/home` is symlinked/bind-mounted into `/data/home`.
-- [ ] Define `/data/apps`.
-- [ ] Define `/data/downloads`.
-- [ ] Define `/data/config` if needed.
-- [ ] Ensure `/data` survives rootfs replacement in design.
-- [ ] Document backup implications.
+- [x] Define `/data` mount point.
+- [x] Decide whether `/home` is symlinked/bind-mounted into `/data/home`.
+- [x] Define `/data/apps`.
+- [x] Define `/data/downloads`.
+- [x] Define `/data/config` if needed.
+- [x] Ensure `/data` survives rootfs replacement in design.
+- [x] Document backup implications.
 
 ### Acceptance criteria
 
-- [ ] `/data` layout documented.
-- [ ] User files can survive rootfs replacement in planned layout.
-- [ ] AppImage storage path defined.
+- [x] `/data` layout documented.
+- [x] User files can survive rootfs replacement in planned layout.
+- [x] AppImage storage path defined.
 
 ## M17 — Audio investigation and safety gate
 
@@ -534,9 +534,9 @@ Define how users get the Yocto image onto converted Chromebooks.
 
 - [x] Document external USB boot workflow.
 - [x] Document internal eMMC installation workflow.
-- [ ] Decide whether to provide installer script.
-- [ ] Add safety checks for target disk selection.
-- [ ] Preserve `/data` where applicable.
+- [x] Decide whether to provide installer script.
+- [x] Add safety checks for target disk selection.
+- [x] Preserve `/data` where applicable.
 - [x] Document recovery procedure.
 
 ### Acceptance criteria
@@ -553,18 +553,18 @@ Design production-safe updates without requiring implementation in POC-1.
 
 ### Tasks
 
-- [ ] Define rootfs-A/rootfs-B partition scheme.
-- [ ] Select boot-state mechanism.
-- [ ] Define update artifact format.
-- [ ] Define verification mechanism.
-- [ ] Define rollback behavior.
-- [ ] Decide whether existing Yocto update frameworks are appropriate.
-- [ ] Document not-required-for-POC status.
+- [x] Define rootfs-A/rootfs-B partition scheme.
+- [x] Select boot-state mechanism.
+- [x] Define update artifact format.
+- [x] Define verification mechanism.
+- [x] Define rollback behavior.
+- [x] Decide whether existing Yocto update frameworks are appropriate.
+- [x] Document not-required-for-POC status.
 
 ### Acceptance criteria
 
-- [ ] A/B update design documented.
-- [ ] POC partition choices do not block future A/B updates.
+- [x] A/B update design documented.
+- [x] POC partition choices do not block future A/B updates.
 
 ## M22 — Hardware qualification matrix
 
@@ -626,7 +626,7 @@ Make the first proof of concept repeatable.
 - [x] Document booting from MrChromebox UEFI.
 - [ ] Document known failures.
 - [x] Document audio safety status.
-- [ ] Document AppImage workflow.
+- [x] Document AppImage workflow.
 - [ ] Document current image size and RAM metrics.
 
 ### Acceptance criteria
@@ -664,5 +664,5 @@ The first desktop milestone is acceptable when at least one initial target board
 - [ ] touchpad works in desktop
 - [ ] graphics acceleration path is documented
 - [ ] audio output is safe or explicitly disabled
-- [ ] `/data` design documented
+- [x] `/data` design documented
 - [ ] known gaps documented
