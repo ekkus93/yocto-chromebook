@@ -20,6 +20,11 @@ jobs:
       - name: Validate repository layout
         run: python3 scripts/validate_repo.py
 
+      - name: Install Yocto host prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chrpath diffstat
+
       - name: Install kas
         run: python3 -m pip install --upgrade kas
 
