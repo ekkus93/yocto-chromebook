@@ -56,25 +56,25 @@ Create a valid `meta-yocto-chromebook` layer that can be added to a Yocto build.
 
 ### Tasks
 
-- [ ] Add `meta-yocto-chromebook/conf/layer.conf`.
-- [ ] Define layer compatibility policy.
-- [ ] Add initial distro config:
-  - [ ] `meta-yocto-chromebook/conf/distro/yocto-chromebook.conf`
-- [ ] Configure distro-level defaults:
-  - [ ] glibc
-  - [ ] systemd
-  - [ ] Wayland-first graphics policy
-  - [ ] package features needed for AppImage/FUSE compatibility
-  - [ ] no unnecessary debug/development packages in production images
-- [ ] Add image recipe placeholders:
-  - [ ] `yocto-chromebook-poc`
-  - [ ] `yocto-chromebook-desktop`
+- [x] Add `meta-yocto-chromebook/conf/layer.conf`.
+- [x] Define layer compatibility policy.
+- [x] Add initial distro config:
+  - [x] `meta-yocto-chromebook/conf/distro/yocto-chromebook.conf`
+- [x] Configure distro-level defaults:
+  - [x] glibc
+  - [x] systemd
+  - [x] Wayland-first graphics policy
+  - [x] package features needed for AppImage/FUSE compatibility
+  - [x] no unnecessary debug/development packages in production images
+- [x] Add image recipe placeholders:
+  - [x] `yocto-chromebook-poc`
+  - [x] `yocto-chromebook-desktop`
 
 ### Acceptance criteria
 
-- [ ] Layer parses in a minimal Yocto environment.
-- [ ] Distro config can be selected without parse failure.
-- [ ] Empty or placeholder image recipes are structured for later package additions.
+- [x] Layer parses in a minimal Yocto environment.
+- [x] Distro config can be selected without parse failure.
+- [x] Empty or placeholder image recipes are structured for later package additions.
 
 ## M2 — kas bootstrap
 
@@ -84,21 +84,21 @@ Make builds reproducible through kas.
 
 ### Tasks
 
-- [ ] Add `kas/snappy-poc.yml`.
-- [ ] Add `kas/vorticon-poc.yml`.
-- [ ] Add `kas/snappy-desktop.yml`.
-- [ ] Add `kas/vorticon-desktop.yml`.
-- [ ] Pin Poky/OE-Core branch or revision.
-- [ ] Add required upstream layers.
-- [ ] Add this repository layer.
-- [ ] Select appropriate `MACHINE`, `DISTRO`, and image target per kas file.
-- [ ] Document kas installation and invocation in `README.md`.
+- [x] Add `kas/snappy-poc.yml`.
+- [x] Add `kas/vorticon-poc.yml`.
+- [x] Add `kas/snappy-desktop.yml`.
+- [x] Add `kas/vorticon-desktop.yml`.
+- [x] Pin Poky/OE-Core branch or revision.
+- [x] Add required upstream layers.
+- [x] Add this repository layer.
+- [x] Select appropriate `MACHINE`, `DISTRO`, and image target per kas file.
+- [x] Document kas installation and invocation in `README.md`.
 
 ### Acceptance criteria
 
-- [ ] `kas dump` succeeds for each file.
-- [ ] `kas build` reaches BitBake parsing for at least one POC target.
-- [ ] Missing upstream layer or branch assumptions are documented.
+- [x] `kas dump` succeeds for each file.
+- [x] `kas build` reaches BitBake parsing for at least one POC target.
+- [x] Missing upstream layer or branch assumptions are documented.
 
 ## M3 — Machine config: SNAPPY
 
@@ -108,21 +108,21 @@ Add first-board support for SNAPPY / Apollo Lake Chromebook hardware.
 
 ### Tasks
 
-- [ ] Create `meta-yocto-chromebook/conf/machine/snappy.conf`.
-- [ ] Create or use `include/intel-apollolake-chromebook.inc`.
-- [ ] Identify kernel baseline suitable for SNAPPY.
+- [x] Create `meta-yocto-chromebook/conf/machine/snappy.conf`.
+- [x] Create or use `include/intel-apollolake-chromebook.inc`.
+- [x] Identify kernel baseline suitable for SNAPPY.
 - [ ] Identify required firmware packages/blobs.
-- [ ] Document Wi-Fi chipset expectation.
-- [ ] Document Bluetooth expectation.
-- [ ] Document audio codec/amplifier expectation.
-- [ ] Document internal storage device expectations.
-- [ ] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM.
+- [x] Document Wi-Fi chipset expectation.
+- [x] Document Bluetooth expectation.
+- [x] Document audio codec/amplifier expectation.
+- [x] Document internal storage device expectations.
+- [x] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM.
 
 ### Acceptance criteria
 
-- [ ] `MACHINE=snappy` parses.
-- [ ] SNAPPY image build starts without unresolved machine include errors.
-- [ ] Board-specific unknowns are tracked in this TODO or a hardware notes file.
+- [x] `MACHINE=snappy` parses.
+- [x] SNAPPY image build starts without unresolved machine include errors.
+- [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M4 — Machine config: VORTICON
 
@@ -132,21 +132,21 @@ Add second-board support for VORTICON / Gemini Lake Chromebook hardware.
 
 ### Tasks
 
-- [ ] Create `meta-yocto-chromebook/conf/machine/vorticon.conf`.
-- [ ] Create or use `include/intel-geminilake-chromebook.inc`.
-- [ ] Identify kernel baseline suitable for VORTICON.
+- [x] Create `meta-yocto-chromebook/conf/machine/vorticon.conf`.
+- [x] Create or use `include/intel-geminilake-chromebook.inc`.
+- [x] Identify kernel baseline suitable for VORTICON.
 - [ ] Identify required firmware packages/blobs.
-- [ ] Document Wi-Fi chipset expectation.
-- [ ] Document Bluetooth expectation.
-- [ ] Document audio codec/amplifier expectation.
-- [ ] Document internal storage device expectations.
-- [ ] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM.
+- [x] Document Wi-Fi chipset expectation.
+- [x] Document Bluetooth expectation.
+- [x] Document audio codec/amplifier expectation.
+- [x] Document internal storage device expectations.
+- [x] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM.
 
 ### Acceptance criteria
 
-- [ ] `MACHINE=vorticon` parses.
-- [ ] VORTICON image build starts without unresolved machine include errors.
-- [ ] Board-specific unknowns are tracked in this TODO or a hardware notes file.
+- [x] `MACHINE=vorticon` parses.
+- [x] VORTICON image build starts without unresolved machine include errors.
+- [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M5 — POC image package baseline
 

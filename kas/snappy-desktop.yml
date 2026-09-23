@@ -1,0 +1,31 @@
+header:
+  version: 14
+
+machine: snappy
+distro: yocto-chromebook
+target:
+  - yocto-chromebook-desktop
+
+repos:
+  poky:
+    url: "https://git.yoctoproject.org/poky"
+    branch: "scarthgap"
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded.git"
+    branch: "scarthgap"
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-python:
+      meta-filesystems:
+      meta-multimedia:
+
+  yocto-chromebook:
+    path: "."
+    layers:
+      meta-yocto-chromebook:

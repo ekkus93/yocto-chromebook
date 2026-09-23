@@ -12,8 +12,22 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ".gitignore",
     "README.md",
+    "docs/HARDWARE_NOTES.md",
     "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md",
+    "kas/snappy-poc.yml",
+    "kas/vorticon-poc.yml",
+    "kas/snappy-desktop.yml",
+    "kas/vorticon-desktop.yml",
+    "meta-yocto-chromebook/conf/layer.conf",
+    "meta-yocto-chromebook/conf/distro/yocto-chromebook.conf",
+    "meta-yocto-chromebook/conf/machine/snappy.conf",
+    "meta-yocto-chromebook/conf/machine/vorticon.conf",
+    "meta-yocto-chromebook/conf/machine/include/intel-apollolake-chromebook.inc",
+    "meta-yocto-chromebook/conf/machine/include/intel-geminilake-chromebook.inc",
+    "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb",
+    "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb",
+    "scripts/validate_repo.py",
 ]
 
 REQUIRED_DIRS = [
@@ -24,6 +38,7 @@ REQUIRED_DIRS = [
     "meta-yocto-chromebook/conf/machine",
     "meta-yocto-chromebook/conf/machine/include",
     "meta-yocto-chromebook/recipes-core",
+    "meta-yocto-chromebook/recipes-core/images",
     "meta-yocto-chromebook/recipes-desktop",
     "meta-yocto-chromebook/recipes-bsp",
     "meta-yocto-chromebook/recipes-kernel",
@@ -43,8 +58,22 @@ SPEC_REQUIRED_PHRASES = [
 TODO_REQUIRED_PHRASES = [
     "## M0 — Repository bootstrap",
     "## M1 — Yocto layer skeleton",
+    "## M2 — kas bootstrap",
     "## POC-1 release gate",
     "## Desktop release gate",
+]
+
+LAYER_REQUIRED_PHRASES = [
+    "BBFILE_COLLECTIONS",
+    "LAYERSERIES_COMPAT_yoctochromebook",
+    "scarthgap",
+]
+
+DISTRO_REQUIRED_PHRASES = [
+    "TCLIBC = \"glibc\"",
+    "INIT_MANAGER = \"systemd\"",
+    "wayland",
+    "AppImage",
 ]
 
 
@@ -70,6 +99,20 @@ def assert_contains(relative_path: str, phrases: list[str]) -> None:
             fail(f"{relative_path} does not contain required phrase: {phrase!r}")
 
 
+def assert_kas_file(relative_path: str, machine: str, target: str) -> None:
+    text = (ROOT / relative_path).read_text(encoding="utf-8")
+    for phrase in [
+        "version: 14",
+        f"machine: {machine}",
+        "distro: yocto-chromebook",
+        f"- {target}",
+        "branch: \"scarthgap\"",
+        "meta-yocto-chromebook:",
+    ]:
+        if phrase not in text:
+            fail(f"{relative_path} does not contain required phrase: {phrase!r}")
+
+
 def main() -> int:
     for required_file in REQUIRED_FILES:
         assert_path_exists(required_file)
@@ -79,8 +122,15 @@ def main() -> int:
 
     assert_contains("docs/YOCTO_CHROMEBOOK_SPEC.md", SPEC_REQUIRED_PHRASES)
     assert_contains("docs/YOCTO_CHROMEBOOK_POC_TODO.md", TODO_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/conf/layer.conf", LAYER_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", DISTRO_REQUIRED_PHRASES)
 
-    print("yocto-chromebook bootstrap validation passed")
+    assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
+    assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
+    assert_kas_file("kas/snappy-desktop.yml", "snappy", "yocto-chromebook-desktop")
+    assert_kas_file("kas/vorticon-desktop.yml", "vorticon", "yocto-chromebook-desktop")
+
+    print("yocto-chromebook repository validation passed")
     return 0
 
 

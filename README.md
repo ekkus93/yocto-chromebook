@@ -8,8 +8,8 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 
 | Board | Representative hardware | Status |
 | --- | --- | --- |
-| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Planned; machine config not implemented yet |
-| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Planned; machine config not implemented yet |
+| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse-level POC machine config; hardware not release-qualified |
+| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
 
@@ -29,9 +29,42 @@ The desktop direction is LXQt + Labwc on Wayland, with Firefox, VLC, QTerminal, 
 
 See `docs/YOCTO_CHROMEBOOK_SPEC.md` for the architecture source of truth.
 
-## Quick-start placeholder
+## Build prerequisites
 
-Buildable kas configurations are not implemented yet. The intended future commands are:
+The repository uses `kas` to pin Poky/OE-Core and required layers.
+
+Install kas in a Python environment:
+
+```bash
+python3 -m pip install --upgrade kas
+```
+
+The first POC is pinned to the Yocto `scarthgap` branch. Later work can deliberately qualify another Yocto release series by updating `LAYERSERIES_COMPAT_yoctochromebook` and the kas files together.
+
+## Quick start
+
+Validate the repository bootstrap files:
+
+```bash
+python3 scripts/validate_repo.py
+```
+
+Validate kas configuration expansion:
+
+```bash
+kas dump kas/snappy-poc.yml
+kas dump kas/vorticon-poc.yml
+kas dump kas/snappy-desktop.yml
+kas dump kas/vorticon-desktop.yml
+```
+
+Run BitBake parse validation for the first POC target:
+
+```bash
+kas shell kas/snappy-poc.yml -c 'bitbake -p'
+```
+
+Build commands are expected to become:
 
 ```bash
 kas build kas/snappy-poc.yml
@@ -40,23 +73,37 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-Until M1 and M2 in `docs/YOCTO_CHROMEBOOK_POC_TODO.md` are complete, the repository only contains the bootstrap specification, checklist, validation script, and tracked directory skeleton.
+The current image recipes are placeholders. M5 and later milestones add real package content, boot qualification, and hardware evidence.
 
 ## Repository layout
 
 ```text
 .
 ├── docs/
+│   ├── HARDWARE_NOTES.md
 │   ├── YOCTO_CHROMEBOOK_SPEC.md
 │   └── YOCTO_CHROMEBOOK_POC_TODO.md
 ├── kas/
+│   ├── snappy-desktop.yml
+│   ├── snappy-poc.yml
+│   ├── vorticon-desktop.yml
+│   └── vorticon-poc.yml
 ├── meta-yocto-chromebook/
 │   ├── conf/
 │   │   ├── distro/
+│   │   │   └── yocto-chromebook.conf
+│   │   ├── layer.conf
 │   │   └── machine/
-│   │       └── include/
+│   │       ├── include/
+│   │       │   ├── intel-apollolake-chromebook.inc
+│   │       │   └── intel-geminilake-chromebook.inc
+│   │       ├── snappy.conf
+│   │       └── vorticon.conf
 │   ├── recipes-bsp/
 │   ├── recipes-core/
+│   │   └── images/
+│   │       ├── yocto-chromebook-desktop.bb
+│   │       └── yocto-chromebook-poc.bb
 │   ├── recipes-desktop/
 │   ├── recipes-kernel/
 │   ├── recipes-multimedia/
@@ -66,10 +113,10 @@ Until M1 and M2 in `docs/YOCTO_CHROMEBOOK_POC_TODO.md` are complete, the reposit
 
 ## Validation
 
-Run the repository bootstrap validator locally with:
+Run the repository validator locally with:
 
 ```bash
 python3 scripts/validate_repo.py
 ```
 
-The validator checks that the M0 layout and source-of-truth documents are present. Later milestones should extend validation with Yocto layer parsing, kas dumps, and build smoke tests.
+CI additionally runs `kas dump` on all kas configs and BitBake parse validation for `kas/snappy-poc.yml`.
