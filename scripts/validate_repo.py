@@ -36,8 +36,8 @@ SPEC_REQUIRED_PHRASES = [
     "LXQt + Labwc",
     "AppImage",
     "MrChromebox UEFI",
-    "SNAPPY",
-    "VORTICON",
+    "`snappy`",
+    "`vorticon`",
 ]
 
 TODO_REQUIRED_PHRASES = [
