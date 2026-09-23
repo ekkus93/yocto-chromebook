@@ -13,6 +13,7 @@ REQUIRED_FILES = [
     ".gitignore",
     "README.md",
     "docs/HARDWARE_NOTES.md",
+    "docs/POC_PACKAGE_BASELINE.md",
     "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md",
     "kas/snappy-poc.yml",
@@ -27,6 +28,7 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/conf/machine/include/intel-geminilake-chromebook.inc",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb",
+    "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb",
     "scripts/validate_repo.py",
 ]
 
@@ -39,6 +41,7 @@ REQUIRED_DIRS = [
     "meta-yocto-chromebook/conf/machine/include",
     "meta-yocto-chromebook/recipes-core",
     "meta-yocto-chromebook/recipes-core/images",
+    "meta-yocto-chromebook/recipes-core/packagegroups",
     "meta-yocto-chromebook/recipes-desktop",
     "meta-yocto-chromebook/recipes-bsp",
     "meta-yocto-chromebook/recipes-kernel",
@@ -59,6 +62,7 @@ TODO_REQUIRED_PHRASES = [
     "## M0 — Repository bootstrap",
     "## M1 — Yocto layer skeleton",
     "## M2 — kas bootstrap",
+    "## M5 — POC image package baseline",
     "## POC-1 release gate",
     "## Desktop release gate",
 ]
@@ -74,6 +78,34 @@ DISTRO_REQUIRED_PHRASES = [
     "INIT_MANAGER = \"systemd\"",
     "wayland",
     "AppImage",
+]
+
+POC_PACKAGEGROUP_REQUIRED_PHRASES = [
+    "bash",
+    "coreutils",
+    "util-linux",
+    "curl",
+    "wget",
+    "ca-certificates",
+    "tar",
+    "gzip",
+    "xz",
+    "unzip",
+    "iproute2",
+    "ethtool",
+    "pciutils",
+    "usbutils",
+    "procps",
+    "less",
+    "nano",
+    "screen",
+    "htop",
+    "ncdu",
+    "openssh-ssh",
+    "packagegroup-core-boot",
+    "networkmanager",
+    "kernel-modules",
+    "linux-firmware",
 ]
 
 
@@ -124,6 +156,12 @@ def main() -> int:
     assert_contains("docs/YOCTO_CHROMEBOOK_POC_TODO.md", TODO_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/conf/layer.conf", LAYER_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", DISTRO_REQUIRED_PHRASES)
+    assert_contains(
+        "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb",
+        POC_PACKAGEGROUP_REQUIRED_PHRASES,
+    )
+    assert_contains("meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb", ["packagegroup-yocto-chromebook-poc"])
+    assert_contains("docs/POC_PACKAGE_BASELINE.md", POC_PACKAGEGROUP_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")

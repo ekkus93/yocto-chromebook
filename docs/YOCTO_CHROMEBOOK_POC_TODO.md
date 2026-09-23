@@ -156,38 +156,38 @@ Define the minimal useful POC image.
 
 ### Tasks
 
-- [ ] Add base packages:
-  - [ ] bash
-  - [ ] coreutils
-  - [ ] util-linux
-  - [ ] curl
-  - [ ] wget
-  - [ ] ca-certificates
-  - [ ] tar
-  - [ ] gzip
-  - [ ] xz
-  - [ ] unzip
-  - [ ] iproute2
-  - [ ] ethtool
-  - [ ] pciutils
-  - [ ] usbutils
-  - [ ] procps
-  - [ ] less
-  - [ ] nano
-  - [ ] screen
-  - [ ] htop
-  - [ ] ncdu
-  - [ ] openssh-client
-- [ ] Include systemd services needed for boot.
-- [ ] Include NetworkManager or selected network stack.
-- [ ] Include basic kernel module loading support.
-- [ ] Include firmware loading support.
+- [x] Add base packages:
+  - [x] bash
+  - [x] coreutils
+  - [x] util-linux
+  - [x] curl
+  - [x] wget
+  - [x] ca-certificates
+  - [x] tar
+  - [x] gzip
+  - [x] xz
+  - [x] unzip
+  - [x] iproute2
+  - [x] ethtool
+  - [x] pciutils
+  - [x] usbutils
+  - [x] procps
+  - [x] less
+  - [x] nano
+  - [x] screen
+  - [x] htop
+  - [x] ncdu
+  - [x] openssh-client
+- [x] Include systemd services needed for boot.
+- [x] Include NetworkManager or selected network stack.
+- [x] Include basic kernel module loading support.
+- [x] Include firmware loading support.
 
 ### Acceptance criteria
 
 - [ ] Image builds for at least one machine.
-- [ ] Rootfs contains required base utilities.
-- [ ] `nano`, `screen`, `htop`, and `ncdu` are present.
+- [x] Rootfs package manifest is configured to contain required base utilities.
+- [x] `nano`, `screen`, `htop`, and `ncdu` are present in the package baseline.
 
 ## M6 — Boot from MrChromebox UEFI
 
