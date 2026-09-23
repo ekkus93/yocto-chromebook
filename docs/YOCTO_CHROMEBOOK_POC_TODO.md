@@ -26,27 +26,27 @@ Create the initial project structure and documentation.
 - [x] Create Yocto-specific `.gitignore`.
 - [x] Create `docs/YOCTO_CHROMEBOOK_SPEC.md`.
 - [x] Create `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
-- [ ] Create `README.md` with project purpose, supported-target status, and quick-start placeholder.
-- [ ] Create initial directory skeleton:
-  - [ ] `kas/`
-  - [ ] `meta-yocto-chromebook/`
-  - [ ] `meta-yocto-chromebook/conf/`
-  - [ ] `meta-yocto-chromebook/conf/distro/`
-  - [ ] `meta-yocto-chromebook/conf/machine/`
-  - [ ] `meta-yocto-chromebook/conf/machine/include/`
-  - [ ] `meta-yocto-chromebook/recipes-core/`
-  - [ ] `meta-yocto-chromebook/recipes-desktop/`
-  - [ ] `meta-yocto-chromebook/recipes-bsp/`
-  - [ ] `meta-yocto-chromebook/recipes-kernel/`
-  - [ ] `meta-yocto-chromebook/recipes-multimedia/`
-  - [ ] `meta-yocto-chromebook/recipes-support/`
-  - [ ] `scripts/`
+- [x] Create `README.md` with project purpose, supported-target status, and quick-start placeholder.
+- [x] Create initial directory skeleton:
+  - [x] `kas/`
+  - [x] `meta-yocto-chromebook/`
+  - [x] `meta-yocto-chromebook/conf/`
+  - [x] `meta-yocto-chromebook/conf/distro/`
+  - [x] `meta-yocto-chromebook/conf/machine/`
+  - [x] `meta-yocto-chromebook/conf/machine/include/`
+  - [x] `meta-yocto-chromebook/recipes-core/`
+  - [x] `meta-yocto-chromebook/recipes-desktop/`
+  - [x] `meta-yocto-chromebook/recipes-bsp/`
+  - [x] `meta-yocto-chromebook/recipes-kernel/`
+  - [x] `meta-yocto-chromebook/recipes-multimedia/`
+  - [x] `meta-yocto-chromebook/recipes-support/`
+  - [x] `scripts/`
 
 ### Acceptance criteria
 
-- [ ] Fresh clone contains the spec and TODO.
-- [ ] Git ignores Yocto generated output.
-- [ ] Repository layout supports adding kas configs and a real Yocto layer.
+- [x] Fresh clone contains the spec and TODO.
+- [x] Git ignores Yocto generated output.
+- [x] Repository layout supports adding kas configs and a real Yocto layer.
 
 ## M1 — Yocto layer skeleton
 

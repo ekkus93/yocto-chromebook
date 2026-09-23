@@ -1,0 +1,21 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - master
+      - "ralph/**"
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  repo-bootstrap:
+    name: Repository bootstrap validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate repository layout
+        run: python3 scripts/validate_repo.py
