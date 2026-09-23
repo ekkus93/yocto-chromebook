@@ -15,6 +15,7 @@ REQUIRED_FILES = [
     "docs/HARDWARE_MATRIX.md",
     "docs/HARDWARE_NOTES.md",
     "docs/POC_PACKAGE_BASELINE.md",
+    "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md",
     "docs/UEFI_DEPLOYMENT.md",
     "docs/YOCTO_CHROMEBOOK_SPEC.md",
@@ -32,6 +33,9 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb",
+    "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-bluetooth.bb",
+    "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
+    "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
     "scripts/validate_repo.py",
 ]
@@ -112,6 +116,9 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "networkmanager",
     "kernel-modules",
     "linux-firmware",
+    "packagegroup-yocto-chromebook-bluetooth",
+    "packagegroup-yocto-chromebook-graphics",
+    "packagegroup-yocto-chromebook-appimage",
 ]
 
 NCDU_RECIPE_REQUIRED_PHRASES = [
@@ -173,6 +180,18 @@ HARDWARE_MATRIX_REQUIRED_PHRASES = [
     "AppImage",
 ]
 
+RUNTIME_BASELINE_REQUIRED_PHRASES = [
+    "Bluetooth baseline",
+    "bluez5",
+    "Graphics and Wayland baseline",
+    "mesa",
+    "libdrm",
+    "weston",
+    "AppImage runtime baseline",
+    "fuse",
+    "fuse3",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -231,6 +250,7 @@ def main() -> int:
     assert_contains("docs/UEFI_DEPLOYMENT.md", UEFI_DEPLOYMENT_REQUIRED_PHRASES)
     assert_contains("docs/STORAGE_AND_UPDATE_DESIGN.md", STORAGE_UPDATE_REQUIRED_PHRASES)
     assert_contains("docs/HARDWARE_MATRIX.md", HARDWARE_MATRIX_REQUIRED_PHRASES)
+    assert_contains("docs/RUNTIME_COMPATIBILITY_BASELINE.md", RUNTIME_BASELINE_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")

@@ -30,4 +30,7 @@ RDEPENDS:${PN} = "\
     kernel-modules \
     linux-firmware \
     networkmanager \
+    packagegroup-yocto-chromebook-bluetooth \
+    packagegroup-yocto-chromebook-graphics \
+    packagegroup-yocto-chromebook-appimage \
 "

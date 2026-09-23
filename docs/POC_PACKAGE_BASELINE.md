@@ -41,4 +41,14 @@ The packagegroup also pulls in:
 - `kernel-modules` for broad first-boot module availability during bring-up
 - `linux-firmware` for initial firmware loading support while board-specific firmware identities remain under M3/M4 investigation
 
+## Runtime hardware support packagegroups
+
+The POC packagegroup also includes modular runtime packagegroups:
+
+- `packagegroup-yocto-chromebook-bluetooth`
+- `packagegroup-yocto-chromebook-graphics`
+- `packagegroup-yocto-chromebook-appimage`
+
+These groups add the software-side Bluetooth, graphics/Wayland, and AppImage compatibility baseline. Their contents and remaining runtime validation requirements are documented in `docs/RUNTIME_COMPATIBILITY_BASELINE.md`.
+
 Board-specific Wi-Fi, Bluetooth, and audio firmware identities still need hardware evidence before the M3/M4 firmware checkboxes can be closed.

@@ -268,7 +268,7 @@ Bring up networking reliably.
 - [ ] Identify Wi-Fi chipset on SNAPPY.
 - [ ] Identify Wi-Fi chipset on VORTICON.
 - [ ] Include required firmware.
-- [ ] Include NetworkManager configuration.
+- [x] Include NetworkManager configuration.
 - [ ] Validate scan.
 - [ ] Validate WPA2 network association.
 - [ ] Validate DHCP.
@@ -289,12 +289,12 @@ Initialize Bluetooth hardware.
 
 ### Tasks
 
-- [ ] Include BlueZ.
+- [x] Include BlueZ.
 - [ ] Include required firmware.
 - [ ] Verify adapter enumeration.
 - [ ] Verify `bluetoothctl list` output.
 - [ ] Attempt scan.
-- [ ] Document pairing test as optional if no devices are available.
+- [x] Document pairing test as optional if no devices are available.
 
 ### Acceptance criteria
 
@@ -309,11 +309,11 @@ Enable Intel graphics and a Wayland compositor path.
 
 ### Tasks
 
-- [ ] Include Mesa.
-- [ ] Include DRM/KMS support.
+- [x] Include Mesa.
+- [x] Include DRM/KMS support.
 - [ ] Validate panel native resolution.
 - [ ] Validate kernel modesetting.
-- [ ] Add minimal Wayland compositor test if desktop is not ready.
+- [x] Add minimal Wayland compositor test if desktop is not ready.
 - [ ] Record graphics logs.
 
 ### Acceptance criteria
@@ -400,11 +400,11 @@ Prove third-party x86-64 AppImage execution.
 
 ### Tasks
 
-- [ ] Include FUSE support.
-- [ ] Include libfuse compatibility if required.
+- [x] Include FUSE support.
+- [x] Include libfuse compatibility if required.
 - [ ] Include XWayland support.
 - [ ] Include common runtime libraries needed by test AppImage.
-- [ ] Create `/data/apps` convention.
+- [x] Create `/data/apps` convention.
 - [ ] Select small known-good x86-64 graphical AppImage for testing.
 - [ ] Run AppImage from `/data/apps`.
 - [ ] Validate application appears in desktop environment or document manual launch path.
@@ -413,7 +413,7 @@ Prove third-party x86-64 AppImage execution.
 
 - [ ] At least one x86-64 AppImage launches successfully.
 - [ ] Failure output for unsupported AppImages is documented.
-- [ ] `/data/apps` policy is implemented or documented.
+- [x] `/data/apps` policy is implemented or documented.
 
 ## M16 — Persistent `/data` design
 
