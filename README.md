@@ -8,8 +8,8 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 
 | Board | Representative hardware | Status |
 | --- | --- | --- |
-| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Matrix entry exists; hardware status currently unknown/unsafe-disabled until evidence is recorded |
-| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Matrix entry exists; hardware status currently unknown/unsafe-disabled until evidence is recorded |
+| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse-level POC machine config; hardware not release-qualified |
+| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
 
@@ -73,7 +73,7 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes are placeholders. M5 and later milestones add real package content, boot qualification, and hardware evidence.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. M5 and later milestones add full image-build qualification, boot qualification, and hardware evidence.
 
 ## Deployment
 
@@ -87,9 +87,9 @@ The persistent data model uses `/data` as the boundary between replaceable OS im
 
 See `docs/STORAGE_AND_UPDATE_DESIGN.md` for the POC partition policy, `/data` layout, manual-installer safety requirements, and future A/B update design.
 
-## Hardware qualification
+## Runtime compatibility
 
-Hardware support status is tracked in `docs/HARDWARE_MATRIX.md`. SNAPPY and VORTICON start with explicit `unknown` component states, and internal speakers remain `unsafe-disabled` until the audio safety gate is resolved.
+The software-side Bluetooth, graphics/Wayland, and AppImage runtime package baseline is documented in `docs/RUNTIME_COMPATIBILITY_BASELINE.md`. Hardware and desktop runtime behavior remains unqualified until evidence is recorded in `docs/HARDWARE_MATRIX.md` and the canonical TODO.
 
 ## Repository layout
 
@@ -99,6 +99,7 @@ Hardware support status is tracked in `docs/HARDWARE_MATRIX.md`. SNAPPY and VORT
 │   ├── HARDWARE_MATRIX.md
 │   ├── HARDWARE_NOTES.md
 │   ├── POC_PACKAGE_BASELINE.md
+│   ├── RUNTIME_COMPATIBILITY_BASELINE.md
 │   ├── STORAGE_AND_UPDATE_DESIGN.md
 │   ├── UEFI_DEPLOYMENT.md
 │   ├── YOCTO_CHROMEBOOK_SPEC.md
@@ -121,9 +122,10 @@ Hardware support status is tracked in `docs/HARDWARE_MATRIX.md`. SNAPPY and VORT
 │   │       └── vorticon.conf
 │   ├── recipes-bsp/
 │   ├── recipes-core/
-│   │   └── images/
-│   │       ├── yocto-chromebook-desktop.bb
-│   │       └── yocto-chromebook-poc.bb
+│   │   ├── images/
+│   │   │   ├── yocto-chromebook-desktop.bb
+│   │   │   └── yocto-chromebook-poc.bb
+│   │   └── packagegroups/
 │   ├── recipes-desktop/
 │   ├── recipes-kernel/
 │   ├── recipes-multimedia/
