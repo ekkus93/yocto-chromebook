@@ -11,7 +11,7 @@ on:
 
 jobs:
   repo-bootstrap:
-    name: Repository bootstrap validation
+    name: Repository and Yocto parse validation
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -19,3 +19,16 @@ jobs:
 
       - name: Validate repository layout
         run: python3 scripts/validate_repo.py
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Validate kas configuration expansion
+        run: |
+          kas dump kas/snappy-poc.yml >/tmp/snappy-poc.yml
+          kas dump kas/vorticon-poc.yml >/tmp/vorticon-poc.yml
+          kas dump kas/snappy-desktop.yml >/tmp/snappy-desktop.yml
+          kas dump kas/vorticon-desktop.yml >/tmp/vorticon-desktop.yml
+
+      - name: Validate BitBake parse for SNAPPY POC
+        run: kas shell kas/snappy-poc.yml -c 'bitbake -p'
