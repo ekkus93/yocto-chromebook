@@ -29,6 +29,7 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb",
+    "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
     "scripts/validate_repo.py",
 ]
 
@@ -47,6 +48,7 @@ REQUIRED_DIRS = [
     "meta-yocto-chromebook/recipes-kernel",
     "meta-yocto-chromebook/recipes-multimedia",
     "meta-yocto-chromebook/recipes-support",
+    "meta-yocto-chromebook/recipes-support/ncdu",
     "scripts",
 ]
 
@@ -108,6 +110,12 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "linux-firmware",
 ]
 
+NCDU_RECIPE_REQUIRED_PHRASES = [
+    "SRC_URI",
+    "f4452faa69887dfe4203691a8334b069defdd522a9ce6ddda6458aba89fa4765",
+    "inherit autotools pkgconfig",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -161,6 +169,7 @@ def main() -> int:
         POC_PACKAGEGROUP_REQUIRED_PHRASES,
     )
     assert_contains("meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb", ["packagegroup-yocto-chromebook-poc"])
+    assert_contains("meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb", NCDU_RECIPE_REQUIRED_PHRASES)
     assert_contains("docs/POC_PACKAGE_BASELINE.md", POC_PACKAGEGROUP_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")

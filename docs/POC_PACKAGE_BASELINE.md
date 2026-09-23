@@ -30,6 +30,8 @@ The packagegroup pulls in:
 
 Yocto's OpenSSH client binary package is represented as `openssh-ssh`, which satisfies the checklist's `openssh-client` intent without enabling an SSH server by default.
 
+The selected scarthgap layer set does not provide `ncdu`, so this repository carries `meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb` to keep the POC diagnostic baseline self-contained.
+
 ## Boot, network, modules, and firmware
 
 The packagegroup also pulls in:
