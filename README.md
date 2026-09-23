@@ -81,6 +81,12 @@ Initial deployment targets MrChromebox UEFI Full ROM systems and uses external U
 
 See `docs/UEFI_DEPLOYMENT.md` for the bootloader policy, WIC artifact expectations, USB writing workflow, internal eMMC gating, recovery notes, and evidence to capture.
 
+## Storage and updates
+
+The persistent data model uses `/data` as the boundary between replaceable OS images and user/application state. Optional AppImages are stored under `/data/apps`, and the future production direction is A/B rootfs updates with `/data` preserved across rootfs replacement.
+
+See `docs/STORAGE_AND_UPDATE_DESIGN.md` for the POC partition policy, `/data` layout, manual-installer safety requirements, and future A/B update design.
+
 ## Repository layout
 
 ```text
@@ -88,6 +94,7 @@ See `docs/UEFI_DEPLOYMENT.md` for the bootloader policy, WIC artifact expectatio
 ├── docs/
 │   ├── HARDWARE_NOTES.md
 │   ├── POC_PACKAGE_BASELINE.md
+│   ├── STORAGE_AND_UPDATE_DESIGN.md
 │   ├── UEFI_DEPLOYMENT.md
 │   ├── YOCTO_CHROMEBOOK_SPEC.md
 │   └── YOCTO_CHROMEBOOK_POC_TODO.md
