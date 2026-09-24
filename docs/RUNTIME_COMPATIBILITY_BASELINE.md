@@ -44,6 +44,18 @@ The POC image includes `packagegroup-yocto-chromebook-appimage`, which currently
 - `fuse`
 - `fuse3`
 - `xwayland`
+- `libx11`
+- `libxext`
+- `libxrender`
+- `libxrandr`
+- `libxi`
+- `libxfixes`
+- `libxcb`
+- `libxkbcommon`
+- `fontconfig`
+- `freetype`
+
+The X11/XCB, keyboard, and font libraries form the common compatibility baseline for graphical x86-64 AppImages. Application-specific libraries remain the responsibility of the selected test AppImage or a later targeted compatibility addition based on observed loader failures.
 
 The project policy remains that optional user applications live under `/data/apps`; the Yocto image provides compatibility libraries and launch support, not an end-user package manager.
 
