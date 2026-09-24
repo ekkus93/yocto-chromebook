@@ -33,39 +33,43 @@ See `docs/YOCTO_CHROMEBOOK_SPEC.md` for the architecture source of truth.
 
 The repository uses `kas` to pin Poky/OE-Core and required layers.
 
-Install kas in a Python environment:
+On Ubuntu 24.04, install the host packages used by repository CI and install kas in a Python environment:
 
 ```bash
+sudo apt-get update
+sudo apt-get install -y chrpath diffstat python3 python3-pip
 python3 -m pip install --upgrade kas
+```
+
+BitBake requires unprivileged user namespaces. Ubuntu 24.04 hosts with AppArmor user-namespace restrictions may need the same temporary setting used by CI:
+
+```bash
+sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 ```
 
 The first POC is pinned to the Yocto `scarthgap` branch. Later work can deliberately qualify another Yocto release series by updating `LAYERSERIES_COMPAT_yoctochromebook` and the kas files together.
 
 ## Quick start
 
-Validate the repository bootstrap files:
+From a clean checkout, reproduce the current qualified repository state in this order:
 
 ```bash
 python3 scripts/validate_repo.py
-```
 
-Validate kas configuration expansion:
+kas dump kas/snappy-poc.yml >/tmp/snappy-poc.yml
+kas dump kas/vorticon-poc.yml >/tmp/vorticon-poc.yml
+kas dump kas/snappy-desktop.yml >/tmp/snappy-desktop.yml
+kas dump kas/vorticon-desktop.yml >/tmp/vorticon-desktop.yml
 
-```bash
-kas dump kas/snappy-poc.yml
-kas dump kas/vorticon-poc.yml
-kas dump kas/snappy-desktop.yml
-kas dump kas/vorticon-desktop.yml
-```
-
-Run BitBake parse and dependency-graph validation for the first POC target:
-
-```bash
 kas shell kas/snappy-poc.yml -c 'bitbake -p'
 kas shell kas/snappy-poc.yml -c 'bitbake -g yocto-chromebook-poc'
+kas shell kas/snappy-desktop.yml -c 'bitbake -p'
+kas shell kas/snappy-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
 ```
 
-Build commands are expected to become:
+These commands are the CI-backed reproduction gate. They validate repository structure, all kas expansions, and the SNAPPY POC/desktop parse and dependency graphs. They do **not** claim that a complete image or hardware boot is qualified.
+
+Full image build commands are:
 
 ```bash
 kas build kas/snappy-poc.yml
@@ -74,7 +78,7 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. Full POC image-build qualification is still tracked separately.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. Full POC image-build qualification remains tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
 
 ## Deployment
 
@@ -147,4 +151,4 @@ Run the repository validator locally with:
 python3 scripts/validate_repo.py
 ```
 
-CI additionally runs `kas dump` on all kas configs, BitBake parse validation, and dependency graph validation for `kas/snappy-poc.yml`.
+CI additionally runs `kas dump` on all kas configs plus BitBake parse and dependency-graph validation for both the SNAPPY POC and SNAPPY desktop scaffold.
