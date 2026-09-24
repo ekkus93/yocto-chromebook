@@ -41,7 +41,9 @@ The current scarthgap layer set does not provide the remaining LXQt package name
 
 The provider strategy and rejected shortcuts are recorded in `docs/LXQT_PROVIDER_STRATEGY.md`.
 
-Firefox, a selected AppImage test artifact, and desktop runtime launch evidence also remain open.
+The initial AppImage candidate and evidence policy are recorded in `docs/APPIMAGE_TEST_SELECTION.md`, but runtime launch evidence remains open.
+
+Firefox and desktop runtime launch evidence also remain open.
 
 ## Next actionable milestones
 
