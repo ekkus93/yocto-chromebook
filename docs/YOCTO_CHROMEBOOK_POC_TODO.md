@@ -405,7 +405,7 @@ Prove third-party x86-64 AppImage execution.
 - [x] Include XWayland support.
 - [x] Include common runtime libraries needed by test AppImage.
 - [x] Create `/data/apps` convention.
-- [ ] Select small known-good x86-64 graphical AppImage for testing.
+- [x] Select small known-good x86-64 graphical AppImage for testing.
 - [ ] Run AppImage from `/data/apps`.
 - [ ] Validate application appears in desktop environment or document manual launch path.
 
