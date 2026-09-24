@@ -209,7 +209,7 @@ Get the POC image booting from MrChromebox UEFI.
 ### Acceptance criteria
 
 - [ ] SNAPPY reaches kernel boot log from MrChromebox UEFI.
-- [ ] VORTICON reaches kernel boot log from MrChromebox UEFI.
+- [ ] VORTICON reaches kernel boot log from MrChrombox UEFI.
 - [ ] At least one board reaches a shell login.
 
 ## M7 — Internal storage and partitioning
@@ -405,7 +405,7 @@ Prove third-party x86-64 AppImage execution.
 - [x] Include XWayland support.
 - [x] Include common runtime libraries needed by test AppImage.
 - [x] Create `/data/apps` convention.
-- [ ] Select small known-good x86-64 graphical AppImage for testing.
+- [x] Select small known-good x86-64 graphical AppImage for testing.
 - [ ] Run AppImage from `/data/apps`.
 - [ ] Validate application appears in desktop environment or document manual launch path.
 
