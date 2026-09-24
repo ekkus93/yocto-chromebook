@@ -493,6 +493,12 @@ Make the machines usable as laptops.
 - [ ] Check input after resume.
 - [ ] Check audio after resume only within safety policy.
 
+### Acceptance criteria
+
+- [ ] Basic suspend/resume works on SNAPPY or limitation documented.
+- [ ] Basic suspend/resume works on VORTICON or limitation documented.
+- [ ] No data-loss or hardware-risk behavior observed.
+
 ## M19 — Image size, RAM, and boot-time metrics
 
 ### Goals
@@ -658,4 +664,5 @@ The first desktop milestone is acceptable when at least one initial target board
 - [ ] touchpad works in desktop
 - [ ] graphics acceleration path is documented
 - [ ] audio output is safe or explicitly disabled
-[x] known gaps documented
+- [x] `/data` design documented
+- [x] known gaps documented
