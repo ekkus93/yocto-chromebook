@@ -43,6 +43,7 @@ The POC image includes `packagegroup-yocto-chromebook-appimage`, which currently
 
 - `fuse`
 - `fuse3`
+- `xwayland`
 
 The project policy remains that optional user applications live under `/data/apps`; the Yocto image provides compatibility libraries and launch support, not an end-user package manager.
 
