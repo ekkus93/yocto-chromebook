@@ -209,7 +209,7 @@ Get the POC image booting from MrChromebox UEFI.
 ### Acceptance criteria
 
 - [ ] SNAPPY reaches kernel boot log from MrChromebox UEFI.
-- [ ] VORTICON reaches kernel boot log from MrChrombox UEFI.
+- [ ] VORTICON reaches kernel boot log from MrChromebox UEFI.
 - [ ] At least one board reaches a shell login.
 
 ## M7 — Internal storage and partitioning
