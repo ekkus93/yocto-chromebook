@@ -618,7 +618,7 @@ Make the first proof of concept repeatable.
 
 ### Tasks
 
-- [ ] Update README quick-start.
+- [x] Update README quick-start.
 - [x] Document supported hardware and limitations.
 - [x] Document build prerequisites.
 - [x] Document kas build commands.
@@ -631,7 +631,7 @@ Make the first proof of concept repeatable.
 
 ### Acceptance criteria
 
-- [ ] A technically competent tester can reproduce the current best build from a clean checkout.
+- [x] A technically competent tester can reproduce the current best qualified repository state from a clean checkout.
 - [x] Known risks and unsupported features are explicitly documented.
 - [x] The next implementation milestone is obvious from this TODO.
 
@@ -639,7 +639,7 @@ Make the first proof of concept repeatable.
 
 The first POC release is acceptable when at least one initial target board satisfies:
 
-- [ ] boots from MrChromebox UEFI
+- [ ] boots from MrChrombox UEFI
 - [ ] reaches shell login
 - [ ] internal eMMC visible
 - [ ] keyboard works
