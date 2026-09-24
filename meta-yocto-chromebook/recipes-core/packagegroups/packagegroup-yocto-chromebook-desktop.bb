@@ -1,5 +1,5 @@
-SUMMARY = "Yocto Chromebook desktop compositor baseline"
-DESCRIPTION = "Wayland compositor, XWayland compatibility, and desktop application packages."
+SUMMARY = "Yocto Chromebook desktop package baseline"
+DESCRIPTION = "Packages currently resolved by the selected scarthgap desktop layer set."
 LICENSE = "MIT"
 
 inherit packagegroup
