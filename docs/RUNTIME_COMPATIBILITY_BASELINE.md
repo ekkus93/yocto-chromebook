@@ -37,6 +37,31 @@ Hardware validation still requires:
 - compositor startup logs
 - confirmation that no software-only fallback is being treated as final acceleration
 
+## LXQt + Labwc desktop baseline
+
+The desktop image includes `packagegroup-yocto-chromebook-desktop`, which currently pulls in:
+
+- `labwc`
+- `xwayland`
+- `sddm`
+- `lxqt-session`
+- `lxqt-panel`
+- `lxqt-powermanagement`
+- `lxqt-config`
+- `pcmanfm-qt`
+- `qterminal`
+- `vlc`
+
+This is the software package baseline for the first LXQt + Labwc desktop milestone. Dependency-graph validation proves the selected scarthgap layer set can resolve these packages; runtime login/session behavior remains hardware and image-boot validation work.
+
+Desktop validation still requires:
+
+- a desktop image build for at least one target
+- SDDM or another configured login path reaching an LXQt session
+- QTerminal launch evidence
+- PCManFM-Qt launch evidence
+- touchpad and keyboard evidence in the graphical session
+
 ## AppImage runtime baseline
 
 The POC image includes `packagegroup-yocto-chromebook-appimage`, which currently pulls in:
@@ -68,4 +93,4 @@ AppImage validation still requires:
 
 ## Qualification policy
 
-This package baseline is qualified when the SNAPPY POC dependency graph resolves and BitBake parsing succeeds. Runtime behavior is not considered qualified until the relevant hardware or desktop tests are captured in the hardware matrix and TODO.
+This package baseline is qualified when the relevant dependency graph resolves and BitBake parsing succeeds. Runtime behavior is not considered qualified until the relevant hardware or desktop tests are captured in the hardware matrix and TODO.
