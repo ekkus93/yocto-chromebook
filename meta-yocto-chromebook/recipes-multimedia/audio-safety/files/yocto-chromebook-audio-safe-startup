@@ -1,0 +1,17 @@
+#!/bin/sh
+# Apply a conservative, mute-first ALSA mixer baseline when amixer exists.
+# This helper is intentionally not enabled automatically by a service.
+
+set -eu
+
+if ! command -v amixer >/dev/null 2>&1; then
+    echo "amixer not found; leaving audio state unchanged" >&2
+    exit 0
+fi
+
+for control in Master Speaker PCM Front Headphone; do
+    amixer set "$control" mute >/dev/null 2>&1 || true
+    amixer set "$control" 0% >/dev/null 2>&1 || true
+done
+
+echo "Applied conservative mute-first audio baseline where controls existed" >&2

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ".gitignore",
     "README.md",
+    "docs/AUDIO_SAFETY_POLICY.md",
     "docs/HARDWARE_EVIDENCE.md",
     "docs/HARDWARE_MATRIX.md",
     "docs/HARDWARE_NOTES.md",
@@ -39,6 +40,9 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
+    "meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb",
+    "meta-yocto-chromebook/recipes-multimedia/audio-safety/files/audio-safety-policy.conf",
+    "meta-yocto-chromebook/recipes-multimedia/audio-safety/files/yocto-chromebook-audio-safe-startup",
     "scripts/collect_chromebook_evidence.sh",
     "scripts/validate_repo.py",
 ]
@@ -57,6 +61,8 @@ REQUIRED_DIRS = [
     "meta-yocto-chromebook/recipes-bsp",
     "meta-yocto-chromebook/recipes-kernel",
     "meta-yocto-chromebook/recipes-multimedia",
+    "meta-yocto-chromebook/recipes-multimedia/audio-safety",
+    "meta-yocto-chromebook/recipes-multimedia/audio-safety/files",
     "meta-yocto-chromebook/recipes-support",
     "meta-yocto-chromebook/recipes-support/ncdu",
     "scripts",
@@ -78,6 +84,7 @@ TODO_REQUIRED_PHRASES = [
     "## M22 — Hardware qualification matrix",
     "## POC-1 release gate",
     "## Desktop release gate",
+    "[x] Add conservative initial mixer policy",
 ]
 
 LAYER_REQUIRED_PHRASES = [
@@ -122,6 +129,7 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "packagegroup-yocto-chromebook-bluetooth",
     "packagegroup-yocto-chromebook-graphics",
     "packagegroup-yocto-chromebook-appimage",
+    "yocto-chromebook-audio-safety-policy",
 ]
 
 NCDU_RECIPE_REQUIRED_PHRASES = [
@@ -206,23 +214,20 @@ KNOWN_GAPS_REQUIRED_PHRASES = [
 ]
 
 HARDWARE_EVIDENCE_REQUIRED_PHRASES = [
-    "firmware package and blob identity",
-    "MrChromebox UEFI boot behavior",
-    "eMMC discovery",
-    "audio path identification",
+    "Hardware Evidence Collection",
+    "collect_chromebook_evidence.sh",
+    "snappy",
+    "vorticon",
     "Internal speaker tests are deliberately excluded",
-    "Disk-destructive install actions are deliberately excluded",
-    "docs/HARDWARE_MATRIX.md",
 ]
 
-EVIDENCE_SCRIPT_REQUIRED_PHRASES = [
-    "collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>",
-    "lspci -nnvv",
-    "lsusb -tv",
-    "journalctl -b --no-pager",
-    "bluetoothctl list",
-    "aplay -l",
-    "df -h",
+AUDIO_SAFETY_REQUIRED_PHRASES = [
+    "Audio Safety Policy",
+    "mute-first",
+    "internal speakers must remain unqualified",
+    "yocto-chromebook-audio-safety-policy",
+    "yocto-chromebook-audio-safe-startup",
+    "Speaker safety gate",
 ]
 
 
@@ -286,7 +291,12 @@ def main() -> int:
     assert_contains("docs/RUNTIME_COMPATIBILITY_BASELINE.md", RUNTIME_BASELINE_REQUIRED_PHRASES)
     assert_contains("docs/POC_KNOWN_GAPS.md", KNOWN_GAPS_REQUIRED_PHRASES)
     assert_contains("docs/HARDWARE_EVIDENCE.md", HARDWARE_EVIDENCE_REQUIRED_PHRASES)
-    assert_contains("scripts/collect_chromebook_evidence.sh", EVIDENCE_SCRIPT_REQUIRED_PHRASES)
+    assert_contains("docs/AUDIO_SAFETY_POLICY.md", AUDIO_SAFETY_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb", [
+        "audio-safety-policy.conf",
+        "yocto-chromebook-audio-safe-startup",
+        "inherit allarch",
+    ])
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")

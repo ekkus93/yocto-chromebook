@@ -33,4 +33,5 @@ RDEPENDS:${PN} = "\
     packagegroup-yocto-chromebook-bluetooth \
     packagegroup-yocto-chromebook-graphics \
     packagegroup-yocto-chromebook-appimage \
+    yocto-chromebook-audio-safety-policy \
 "
