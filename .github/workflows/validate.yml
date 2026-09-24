@@ -53,7 +53,7 @@ jobs:
   snappy-poc-image:
     name: SNAPPY POC image build
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -81,6 +81,16 @@ jobs:
 
       - name: Install kas
         run: python3 -m pip install --upgrade kas
+
+      - name: Restore Yocto downloads cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/downloads
+            build/sstate-cache
+          key: yocto-snappy-poc-${{ runner.os }}-${{ hashFiles('kas/snappy-poc.yml', 'meta-yocto-chromebook/**/*.bb', 'meta-yocto-chromebook/**/*.bbappend', 'meta-yocto-chromebook/conf/**/*.conf') }}
+          restore-keys: |
+            yocto-snappy-poc-${{ runner.os }}-
 
       - name: Build SNAPPY POC image
         run: kas build kas/snappy-poc.yml
