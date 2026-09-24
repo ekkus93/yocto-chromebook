@@ -52,11 +52,19 @@ jobs:
 
   snappy-poc-image:
     name: SNAPPY POC image build
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Free hosted-runner disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+          sudo docker system prune --all --force || true
+          df -h
 
       - name: Install Yocto host tools
         run: |
