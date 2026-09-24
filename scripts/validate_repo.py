@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     ".gitignore",
     "README.md",
+    "docs/HARDWARE_EVIDENCE.md",
     "docs/HARDWARE_MATRIX.md",
     "docs/HARDWARE_NOTES.md",
     "docs/POC_KNOWN_GAPS.md",
@@ -38,6 +39,7 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
+    "scripts/collect_chromebook_evidence.sh",
     "scripts/validate_repo.py",
 ]
 
@@ -203,6 +205,26 @@ KNOWN_GAPS_REQUIRED_PHRASES = [
     "Next actionable milestones",
 ]
 
+HARDWARE_EVIDENCE_REQUIRED_PHRASES = [
+    "firmware package and blob identity",
+    "MrChromebox UEFI boot behavior",
+    "eMMC discovery",
+    "audio path identification",
+    "Internal speaker tests are deliberately excluded",
+    "Disk-destructive install actions are deliberately excluded",
+    "docs/HARDWARE_MATRIX.md",
+]
+
+EVIDENCE_SCRIPT_REQUIRED_PHRASES = [
+    "collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>",
+    "lspci -nnvv",
+    "lsusb -tv",
+    "journalctl -b --no-pager",
+    "bluetoothctl list",
+    "aplay -l",
+    "df -h",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -263,6 +285,8 @@ def main() -> int:
     assert_contains("docs/HARDWARE_MATRIX.md", HARDWARE_MATRIX_REQUIRED_PHRASES)
     assert_contains("docs/RUNTIME_COMPATIBILITY_BASELINE.md", RUNTIME_BASELINE_REQUIRED_PHRASES)
     assert_contains("docs/POC_KNOWN_GAPS.md", KNOWN_GAPS_REQUIRED_PHRASES)
+    assert_contains("docs/HARDWARE_EVIDENCE.md", HARDWARE_EVIDENCE_REQUIRED_PHRASES)
+    assert_contains("scripts/collect_chromebook_evidence.sh", EVIDENCE_SCRIPT_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
