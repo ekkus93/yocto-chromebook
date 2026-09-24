@@ -454,7 +454,7 @@ Identify audio hardware and define safe enablement per board.
 - [ ] VORTICON: identify required kernel options/modules.
 - [ ] VORTICON: identify firmware/topology/UCM2 requirements.
 - [ ] Determine whether either board uses MAX98357A or another speaker-risk amp path.
-- [ ] Add conservative initial mixer policy.
+- [x] Add conservative initial mixer policy.
 - [ ] Validate PipeWire/WirePlumber enumeration.
 - [ ] Validate headphones before internal speakers if possible.
 - [ ] Validate microphone path.
@@ -492,12 +492,6 @@ Make the machines usable as laptops.
 - [ ] Check graphics after resume.
 - [ ] Check input after resume.
 - [ ] Check audio after resume only within safety policy.
-
-### Acceptance criteria
-
-- [ ] Basic suspend/resume works on SNAPPY or limitation documented.
-- [ ] Basic suspend/resume works on VORTICON or limitation documented.
-- [ ] No data-loss or hardware-risk behavior observed.
 
 ## M19 — Image size, RAM, and boot-time metrics
 
@@ -664,5 +658,4 @@ The first desktop milestone is acceptable when at least one initial target board
 - [ ] touchpad works in desktop
 - [ ] graphics acceleration path is documented
 - [ ] audio output is safe or explicitly disabled
-- [x] `/data` design documented
-- [x] known gaps documented
+[x] known gaps documented
