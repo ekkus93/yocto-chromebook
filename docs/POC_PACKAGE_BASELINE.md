@@ -48,7 +48,8 @@ The POC packagegroup also includes modular runtime packagegroups:
 - `packagegroup-yocto-chromebook-bluetooth`
 - `packagegroup-yocto-chromebook-graphics`
 - `packagegroup-yocto-chromebook-appimage`
+- `yocto-chromebook-audio-safety-policy`
 
-These groups add the software-side Bluetooth, graphics/Wayland, and AppImage compatibility baseline. Their contents and remaining runtime validation requirements are documented in `docs/RUNTIME_COMPATIBILITY_BASELINE.md`.
+These groups add the software-side Bluetooth, graphics/Wayland, AppImage compatibility, and conservative mute-first audio-safety baseline. Their contents and remaining runtime validation requirements are documented in `docs/RUNTIME_COMPATIBILITY_BASELINE.md` and `docs/AUDIO_SAFETY_POLICY.md`.
 
 Board-specific Wi-Fi, Bluetooth, and audio firmware identities still need hardware evidence before the M3/M4 firmware checkboxes can be closed.
