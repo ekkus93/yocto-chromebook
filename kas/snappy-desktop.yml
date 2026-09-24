@@ -25,6 +25,10 @@ repos:
       meta-filesystems:
       meta-multimedia:
 
+  meta-wayland:
+    url: "https://codeberg.org/flk/meta-wayland.git"
+    branch: "scarthgap"
+
   yocto-chromebook:
     path: "."
     layers:
