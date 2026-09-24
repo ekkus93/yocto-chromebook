@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     ".gitignore", "README.md", "docs/AUDIO_SAFETY_POLICY.md", "docs/FIRMWARE_IDENTIFICATION.md", "docs/HARDWARE_EVIDENCE.md",
-    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/POC_KNOWN_GAPS.md",
+    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
     "docs/POC_PACKAGE_BASELINE.md", "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md", "docs/UEFI_DEPLOYMENT.md", "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md", "kas/snappy-poc.yml", "kas/vorticon-poc.yml",
@@ -68,7 +68,8 @@ UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB b
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
 HARDWARE_MATRIX_REQUIRED_PHRASES = ["Status vocabulary", "unknown", "detected", "works", "partial", "blocked", "unsafe-disabled", "## SNAPPY", "## VORTICON", "UEFI boot", "eMMC", "keyboard", "touchpad", "Wi-Fi", "Bluetooth", "graphics", "USB-A", "USB-C", "battery", "brightness", "suspend/resume", "speakers", "headphones", "microphone", "webcam", "Firefox", "VLC", "AppImage"]
 RUNTIME_BASELINE_REQUIRED_PHRASES = ["Bluetooth baseline", "bluez5", "Graphics and Wayland baseline", "mesa", "libdrm", "weston", "Desktop package baseline", "labwc", "xwayland", "vlc", "lxqt-session", "pcmanfm-qt", "qterminal", "AppImage runtime baseline", "fuse", "fuse3"]
-KNOWN_GAPS_REQUIRED_PHRASES = ["Build and image status", "Hardware validation status", "Firmware gaps", "Audio safety gaps", "Desktop and AppImage gaps", "LXQt provider strategy", "Next actionable milestones"]
+KNOWN_GAPS_REQUIRED_PHRASES = ["Build and image status", "Hardware validation status", "Firmware gaps", "Audio safety gaps", "Desktop and AppImage gaps", "docs/LXQT_PROVIDER_STRATEGY.md", "LXQt provider strategy", "Next actionable milestones"]
+LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim Labwc-only desktop", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
 FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES = ["SNAPPY / Apollo Lake triage baseline", "VORTICON / Gemini Lake triage baseline", "linux-firmware", "iwlwifi", "Realtek", "not enough to mark the checklist items complete"]
 HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
 EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "df -h"]
@@ -112,6 +113,7 @@ def main() -> int:
     assert_contains("docs/HARDWARE_MATRIX.md", HARDWARE_MATRIX_REQUIRED_PHRASES)
     assert_contains("docs/RUNTIME_COMPATIBILITY_BASELINE.md", RUNTIME_BASELINE_REQUIRED_PHRASES)
     assert_contains("docs/POC_KNOWN_GAPS.md", KNOWN_GAPS_REQUIRED_PHRASES)
+    assert_contains("docs/LXQT_PROVIDER_STRATEGY.md", LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES)
     assert_contains("docs/FIRMWARE_IDENTIFICATION.md", FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES)
     assert_contains("docs/HARDWARE_EVIDENCE.md", HARDWARE_EVIDENCE_REQUIRED_PHRASES)
     assert_contains("scripts/collect_chromebook_evidence.sh", EVIDENCE_SCRIPT_REQUIRED_PHRASES)

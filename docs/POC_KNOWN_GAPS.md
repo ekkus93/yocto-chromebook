@@ -39,6 +39,8 @@ The repository includes a software-side AppImage runtime path (`/data/apps`, FUS
 
 The current scarthgap layer set does not provide the remaining LXQt package names attempted during dependency-graph validation: `lxqt-session`, `lxqt-panel`, `lxqt-powermanagement`, `lxqt-config`, `pcmanfm-qt`, and `qterminal`. M12 remains open until an LXQt-capable layer or local recipes are added and qualified.
 
+The provider strategy and rejected shortcuts are recorded in `docs/LXQT_PROVIDER_STRATEGY.md`.
+
 Firefox, a selected AppImage test artifact, and desktop runtime launch evidence also remain open.
 
 ## Next actionable milestones
