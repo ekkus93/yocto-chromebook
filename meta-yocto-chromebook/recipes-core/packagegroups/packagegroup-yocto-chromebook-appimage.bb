@@ -8,4 +8,14 @@ RDEPENDS:${PN} = "\
     fuse \
     fuse3 \
     xwayland \
+    libx11 \
+    libxext \
+    libxrender \
+    libxrandr \
+    libxi \
+    libxfixes \
+    libxcb \
+    libxkbcommon \
+    fontconfig \
+    freetype \
 "
