@@ -639,7 +639,7 @@ Make the first proof of concept repeatable.
 
 The first POC release is acceptable when at least one initial target board satisfies:
 
-- [ ] boots from MrChrombox UEFI
+- [ ] boots from MrChromebox UEFI
 - [ ] reaches shell login
 - [ ] internal eMMC visible
 - [ ] keyboard works
