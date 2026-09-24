@@ -331,14 +331,14 @@ Build the user-facing desktop image.
 ### Tasks
 
 - [ ] Add LXQt packages.
-- [ ] Add Labwc.
+- [x] Add Labwc.
 - [ ] Add SDDM.
 - [ ] Add PCManFM-Qt.
 - [ ] Add QTerminal.
 - [ ] Add LXQt panel.
 - [ ] Add LXQt power management.
 - [ ] Add LXQt configuration tools.
-- [ ] Add XWayland.
+- [x] Add XWayland.
 - [ ] Configure default session to LXQt on Labwc.
 - [ ] Validate login session.
 
@@ -380,8 +380,8 @@ Include VLC in the desktop image and prove local media playback.
 
 ### Tasks
 
-- [ ] Add VLC recipe/layer dependency.
-- [ ] Include required multimedia plugins/codecs allowed by project policy.
+- [x] Add VLC recipe/layer dependency.
+- [x] Include required multimedia plugins/codecs allowed by project policy.
 - [ ] Validate video playback.
 - [ ] Validate audio output only through safe output path initially.
 - [ ] Record CPU usage during playback.
@@ -390,7 +390,7 @@ Include VLC in the desktop image and prove local media playback.
 
 - [ ] VLC launches.
 - [ ] Local video file plays.
-- [ ] Audio path behavior is documented and does not bypass speaker-safety policy.
+- [x] Audio path behavior is documented and does not bypass speaker-safety policy.
 
 ## M15 — AppImage compatibility
 
@@ -403,7 +403,7 @@ Prove third-party x86-64 AppImage execution.
 - [x] Include FUSE support.
 - [x] Include libfuse compatibility if required.
 - [x] Include XWayland support.
-- [ ] Include common runtime libraries needed by test AppImage.
+- [x] Include common runtime libraries needed by test AppImage.
 - [x] Create `/data/apps` convention.
 - [ ] Select small known-good x86-64 graphical AppImage for testing.
 - [ ] Run AppImage from `/data/apps`.
