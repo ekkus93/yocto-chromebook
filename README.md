@@ -8,7 +8,7 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 
 | Board | Representative hardware | Status |
 | --- | --- | --- |
-| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse-level POC machine config; hardware not release-qualified |
+| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse/dependency-qualified POC machine config; hardware not release-qualified |
 | `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
@@ -58,10 +58,11 @@ kas dump kas/snappy-desktop.yml
 kas dump kas/vorticon-desktop.yml
 ```
 
-Run BitBake parse validation for the first POC target:
+Run BitBake parse and dependency-graph validation for the first POC target:
 
 ```bash
 kas shell kas/snappy-poc.yml -c 'bitbake -p'
+kas shell kas/snappy-poc.yml -c 'bitbake -g yocto-chromebook-poc'
 ```
 
 Build commands are expected to become:
@@ -73,7 +74,7 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. M5 and later milestones add full image-build qualification, boot qualification, and hardware evidence.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. Full POC image-build qualification is still tracked separately.
 
 ## Deployment
 
@@ -91,6 +92,10 @@ See `docs/STORAGE_AND_UPDATE_DESIGN.md` for the POC partition policy, `/data` la
 
 The software-side Bluetooth, graphics/Wayland, and AppImage runtime package baseline is documented in `docs/RUNTIME_COMPATIBILITY_BASELINE.md`. Hardware and desktop runtime behavior remains unqualified until evidence is recorded in `docs/HARDWARE_MATRIX.md` and the canonical TODO.
 
+## Known gaps
+
+Current build, hardware, firmware, audio, desktop, and AppImage limitations are summarized in `docs/POC_KNOWN_GAPS.md`.
+
 ## Repository layout
 
 ```text
@@ -98,6 +103,7 @@ The software-side Bluetooth, graphics/Wayland, and AppImage runtime package base
 ├── docs/
 │   ├── HARDWARE_MATRIX.md
 │   ├── HARDWARE_NOTES.md
+│   ├── POC_KNOWN_GAPS.md
 │   ├── POC_PACKAGE_BASELINE.md
 │   ├── RUNTIME_COMPATIBILITY_BASELINE.md
 │   ├── STORAGE_AND_UPDATE_DESIGN.md

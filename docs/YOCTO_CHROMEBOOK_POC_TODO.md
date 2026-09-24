@@ -624,7 +624,7 @@ Make the first proof of concept repeatable.
 - [x] Document kas build commands.
 - [x] Document writing image to USB.
 - [x] Document booting from MrChromebox UEFI.
-- [ ] Document known failures.
+- [x] Document known failures.
 - [x] Document audio safety status.
 - [x] Document AppImage workflow.
 - [ ] Document current image size and RAM metrics.
@@ -632,8 +632,8 @@ Make the first proof of concept repeatable.
 ### Acceptance criteria
 
 - [ ] A technically competent tester can reproduce the current best build from a clean checkout.
-- [ ] Known risks and unsupported features are explicitly documented.
-- [ ] The next implementation milestone is obvious from this TODO.
+- [x] Known risks and unsupported features are explicitly documented.
+- [x] The next implementation milestone is obvious from this TODO.
 
 ## POC-1 release gate
 
@@ -648,7 +648,7 @@ The first POC release is acceptable when at least one initial target board satis
 - [x] hardware matrix created
 - [ ] image size and RAM metrics recorded
 - [ ] audio hardware identified, even if internal speakers remain disabled for safety
-- [ ] known gaps documented
+- [x] known gaps documented
 
 ## Desktop release gate
 
@@ -665,4 +665,4 @@ The first desktop milestone is acceptable when at least one initial target board
 - [ ] graphics acceleration path is documented
 - [ ] audio output is safe or explicitly disabled
 - [x] `/data` design documented
-- [ ] known gaps documented
+- [x] known gaps documented

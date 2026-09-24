@@ -14,6 +14,7 @@ REQUIRED_FILES = [
     "README.md",
     "docs/HARDWARE_MATRIX.md",
     "docs/HARDWARE_NOTES.md",
+    "docs/POC_KNOWN_GAPS.md",
     "docs/POC_PACKAGE_BASELINE.md",
     "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md",
@@ -193,6 +194,15 @@ RUNTIME_BASELINE_REQUIRED_PHRASES = [
     "xwayland",
 ]
 
+KNOWN_GAPS_REQUIRED_PHRASES = [
+    "Build and image status",
+    "Hardware validation status",
+    "Firmware gaps",
+    "Audio safety gaps",
+    "Desktop and AppImage gaps",
+    "Next actionable milestones",
+]
+
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -252,6 +262,7 @@ def main() -> int:
     assert_contains("docs/STORAGE_AND_UPDATE_DESIGN.md", STORAGE_UPDATE_REQUIRED_PHRASES)
     assert_contains("docs/HARDWARE_MATRIX.md", HARDWARE_MATRIX_REQUIRED_PHRASES)
     assert_contains("docs/RUNTIME_COMPATIBILITY_BASELINE.md", RUNTIME_BASELINE_REQUIRED_PHRASES)
+    assert_contains("docs/POC_KNOWN_GAPS.md", KNOWN_GAPS_REQUIRED_PHRASES)
 
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
