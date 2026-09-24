@@ -1,5 +1,5 @@
 SUMMARY = "Yocto Chromebook desktop compositor baseline"
-DESCRIPTION = "Wayland compositor and XWayland compatibility packages for the desktop image."
+DESCRIPTION = "Wayland compositor, XWayland compatibility, and desktop application packages."
 LICENSE = "MIT"
 
 inherit packagegroup
@@ -7,4 +7,5 @@ inherit packagegroup
 RDEPENDS:${PN} = "\
     labwc \
     xwayland \
+    vlc \
 "
