@@ -43,8 +43,10 @@ The provider strategy and rejected shortcuts are recorded in `docs/LXQT_PROVIDER
 
 The initial AppImage candidate and evidence policy are recorded in `docs/APPIMAGE_TEST_SELECTION.md`, but runtime launch evidence remains open.
 
-Firefox and desktop runtime launch evidence also remain open.
+The Firefox provider strategy is recorded in `docs/FIREFOX_PROVIDER_STRATEGY.md`. Firefox remains out of the image until a provider layer or recipe passes build, maintenance, security, and runtime review.
+
+Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next non-hardware milestone is to complete and merge a full POC image-build validation gate, then record image artifacts and size metrics. In parallel, the desktop milestone needs an LXQt provider strategy that resolves in the selected Yocto layer stack. After that, the next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix.
+The next non-hardware milestone is to complete and merge a full POC image-build validation gate, then record image artifacts and size metrics. In parallel, the desktop milestone needs an LXQt provider strategy that resolves in the selected Yocto layer stack, and the browser milestone needs a maintained Firefox provider decision. After that, the next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix.
