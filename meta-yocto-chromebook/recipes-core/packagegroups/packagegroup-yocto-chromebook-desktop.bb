@@ -1,5 +1,5 @@
-SUMMARY = "Yocto Chromebook LXQt desktop package baseline"
-DESCRIPTION = "LXQt, Labwc, login manager, terminal, file manager, and desktop utility packages."
+SUMMARY = "Yocto Chromebook desktop package baseline"
+DESCRIPTION = "Packages currently resolved by the selected scarthgap desktop layer set."
 LICENSE = "MIT"
 
 inherit packagegroup
@@ -7,12 +7,5 @@ inherit packagegroup
 RDEPENDS:${PN} = "\
     labwc \
     xwayland \
-    sddm \
-    lxqt-session \
-    lxqt-panel \
-    lxqt-powermanagement \
-    lxqt-config \
-    pcmanfm-qt \
-    qterminal \
     vlc \
 "

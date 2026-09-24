@@ -37,25 +37,21 @@ Hardware validation still requires:
 - compositor startup logs
 - confirmation that no software-only fallback is being treated as final acceleration
 
-## LXQt + Labwc desktop baseline
+## Desktop package baseline
 
-The desktop image includes `packagegroup-yocto-chromebook-desktop`, which currently pulls in:
+The desktop image includes `packagegroup-yocto-chromebook-desktop`, which currently pulls in the packages that resolve with the selected scarthgap layer set:
 
 - `labwc`
 - `xwayland`
-- `sddm`
-- `lxqt-session`
-- `lxqt-panel`
-- `lxqt-powermanagement`
-- `lxqt-config`
-- `pcmanfm-qt`
-- `qterminal`
 - `vlc`
 
-This is the software package baseline for the first LXQt + Labwc desktop milestone. Dependency-graph validation proves the selected scarthgap layer set can resolve these packages; runtime login/session behavior remains hardware and image-boot validation work.
+These packages cover the current compositor, XWayland compatibility, and VLC baseline. They do not complete the LXQt desktop milestone.
+
+The attempted LXQt package expansion for `lxqt-session`, `lxqt-panel`, `lxqt-powermanagement`, `lxqt-config`, `pcmanfm-qt`, and `qterminal` failed dependency-graph validation because the current layer set does not provide those package names. The failure is intentionally documented instead of being hidden by TODO reconciliation.
 
 Desktop validation still requires:
 
+- an LXQt-capable layer or local recipes that provide the missing LXQt packages
 - a desktop image build for at least one target
 - SDDM or another configured login path reaching an LXQt session
 - QTerminal launch evidence
