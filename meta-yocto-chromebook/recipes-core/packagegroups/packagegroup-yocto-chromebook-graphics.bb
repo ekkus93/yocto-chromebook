@@ -4,6 +4,8 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 RDEPENDS:${PN} = "\
     mesa \
     libdrm \
