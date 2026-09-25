@@ -91,6 +91,14 @@ def assert_contains(relative_path: str, phrases: list[str]) -> None:
     for phrase in phrases:
         if phrase not in text: fail(f"{relative_path} does not contain required phrase: {phrase!r}")
 
+def assert_precedes(relative_path: str, first: str, second: str) -> None:
+    text = (ROOT / relative_path).read_text(encoding="utf-8")
+    first_index = text.find(first)
+    second_index = text.find(second)
+    if first_index < 0: fail(f"{relative_path} does not contain required phrase: {first!r}")
+    if second_index < 0: fail(f"{relative_path} does not contain required phrase: {second!r}")
+    if first_index >= second_index: fail(f"{relative_path} must place {first!r} before {second!r}")
+
 def assert_kas_file(relative_path: str, machine: str, target: str) -> None:
     text = (ROOT / relative_path).read_text(encoding="utf-8")
     for phrase in ["version: 14", f"machine: {machine}", "distro: yocto-chromebook", f"- {target}", "branch: \"scarthgap\"", "meta-yocto-chromebook:"]:
@@ -105,6 +113,11 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", DISTRO_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb", DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES)
+    for packagegroup_path in [
+        "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
+        "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
+    ]:
+        assert_precedes(packagegroup_path, 'PACKAGE_ARCH = "${TUNE_PKGARCH}"', "inherit packagegroup")
     assert_contains("meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb", ["packagegroup-yocto-chromebook-poc"])
     assert_contains("meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb", ["packagegroup-yocto-chromebook-desktop"])
     assert_contains("meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb", NCDU_RECIPE_REQUIRED_PHRASES)
