@@ -2,13 +2,12 @@ SUMMARY = "Yocto Chromebook graphics and Wayland baseline"
 DESCRIPTION = "Intel graphics, DRM/KMS, and minimal Wayland compositor packages for hardware bring-up."
 LICENSE = "MIT"
 
-inherit packagegroup
-
-# This packagegroup intentionally depends on runtime packages whose IPK output
-# names are dynamically renamed. Scope the emitted package away from allarch so
-# package_write_ipk accepts those dependencies.
+# packagegroup.bbclass conditionally inherits allarch at parse time. Set this
+# before inheriting packagegroup because libdrm's IPK output is dynamically
+# renamed.
 PACKAGE_ARCH = "${TUNE_PKGARCH}"
-PACKAGE_ARCH:${PN} = "${TUNE_PKGARCH}"
+
+inherit packagegroup
 
 RDEPENDS:${PN} = "\
     mesa \
