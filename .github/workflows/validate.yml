@@ -49,3 +49,97 @@ jobs:
 
       - name: Validate SNAPPY desktop dependency graph
         run: kas shell kas/snappy-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
+
+  snappy-poc-image:
+    name: SNAPPY POC image build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Free hosted-runner disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+          sudo docker system prune --all --force || true
+          df -h
+
+      - name: Install Yocto host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            chrpath \
+            cpio \
+            diffstat \
+            file \
+            gawk \
+            gcc \
+            git \
+            lz4 \
+            make \
+            python3 \
+            python3-pip \
+            xz-utils \
+            zstd
+
+      - name: Allow BitBake user namespaces on Ubuntu 24.04
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Restore Yocto downloads cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/downloads
+            build/sstate-cache
+          key: yocto-snappy-poc-${{ runner.os }}-${{ hashFiles('kas/snappy-poc.yml', 'meta-yocto-chromebook/**/*.bb', 'meta-yocto-chromebook/**/*.bbappend', 'meta-yocto-chromebook/conf/**/*.conf') }}
+          restore-keys: |
+            yocto-snappy-poc-${{ runner.os }}-
+
+      - name: Build SNAPPY POC WIC image
+        run: kas shell kas/snappy-poc.yml -c 'bitbake yocto-chromebook-poc:do_image_wic'
+
+      - name: Capture SNAPPY POC image evidence
+        run: |
+          deploy_dir="build/build/tmp/deploy/images/snappy"
+          artifact_dir="build/ci-artifacts/snappy-poc"
+          mkdir -p "$artifact_dir"
+
+          for name in \
+            yocto-chromebook-poc-snappy.wic \
+            yocto-chromebook-poc-snappy.wic.gz \
+            yocto-chromebook-poc-snappy.manifest
+          do
+            test -e "$deploy_dir/$name" || {
+              echo "Missing expected image output: $deploy_dir/$name" >&2
+              ls -lah "$deploy_dir" >&2 || true
+              exit 1
+            }
+          done
+
+          sha256sum \
+            "$deploy_dir/yocto-chromebook-poc-snappy.wic" \
+            "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" \
+            "$deploy_dir/yocto-chromebook-poc-snappy.manifest" \
+            | tee "$artifact_dir/SHA256SUMS.txt"
+
+          stat --printf='%n %s bytes\n' \
+            "$deploy_dir/yocto-chromebook-poc-snappy.wic" \
+            "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" \
+            "$deploy_dir/yocto-chromebook-poc-snappy.manifest" \
+            | tee "$artifact_dir/SIZES.txt"
+
+          cp -L "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" "$artifact_dir/"
+          cp -L "$deploy_dir/yocto-chromebook-poc-snappy.manifest" "$artifact_dir/"
+
+      - name: Upload SNAPPY POC image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snappy-poc-image-${{ github.sha }}
+          path: build/ci-artifacts/snappy-poc/
+          if-no-files-found: error
+          compression-level: 0
