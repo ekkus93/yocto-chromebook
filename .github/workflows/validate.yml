@@ -100,8 +100,8 @@ jobs:
           restore-keys: |
             yocto-snappy-poc-${{ runner.os }}-
 
-      - name: Build SNAPPY POC image
-        run: kas build kas/snappy-poc.yml
+      - name: Build SNAPPY POC WIC image
+        run: kas shell kas/snappy-poc.yml -c 'bitbake yocto-chromebook-poc:do_image_wic'
 
       - name: Capture SNAPPY POC image evidence
         run: |
