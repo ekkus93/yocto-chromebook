@@ -105,36 +105,42 @@ jobs:
 
       - name: Capture SNAPPY POC image evidence
         run: |
-          deploy_dir="build/build/tmp/deploy/images/snappy"
           artifact_dir="build/ci-artifacts/snappy-poc"
           mkdir -p "$artifact_dir"
 
-          for name in \
-            yocto-chromebook-poc-snappy.wic \
-            yocto-chromebook-poc-snappy.wic.gz \
-            yocto-chromebook-poc-snappy.manifest
-          do
-            test -e "$deploy_dir/$name" || {
-              echo "Missing expected image output: $deploy_dir/$name" >&2
-              ls -lah "$deploy_dir" >&2 || true
+          echo "Searching for generated SNAPPY POC image outputs under build/"
+          find build -type f \
+            \( -name 'yocto-chromebook-poc-*.wic' \
+               -o -name 'yocto-chromebook-poc-*.wic.gz' \
+               -o -name 'yocto-chromebook-poc-*.manifest' \) \
+            -print | sort | tee "$artifact_dir/FOUND_IMAGE_FILES.txt"
+
+          wic="$(find build -type f -name 'yocto-chromebook-poc-*.wic' | sort | head -n 1 || true)"
+          wic_gz="$(find build -type f -name 'yocto-chromebook-poc-*.wic.gz' | sort | head -n 1 || true)"
+          manifest="$(find build -type f -name 'yocto-chromebook-poc-*.manifest' | sort | head -n 1 || true)"
+
+          for output in "$wic" "$wic_gz" "$manifest"; do
+            test -n "$output" && test -e "$output" || {
+              echo "Missing expected SNAPPY POC image output" >&2
+              echo "wic=$wic" >&2
+              echo "wic_gz=$wic_gz" >&2
+              echo "manifest=$manifest" >&2
+              find build -maxdepth 5 -type d | sort >&2
               exit 1
             }
           done
 
-          sha256sum \
-            "$deploy_dir/yocto-chromebook-poc-snappy.wic" \
-            "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" \
-            "$deploy_dir/yocto-chromebook-poc-snappy.manifest" \
-            | tee "$artifact_dir/SHA256SUMS.txt"
+          {
+            echo "wic=$wic"
+            echo "wic_gz=$wic_gz"
+            echo "manifest=$manifest"
+          } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
 
-          stat --printf='%n %s bytes\n' \
-            "$deploy_dir/yocto-chromebook-poc-snappy.wic" \
-            "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" \
-            "$deploy_dir/yocto-chromebook-poc-snappy.manifest" \
-            | tee "$artifact_dir/SIZES.txt"
+          sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
+          stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
 
-          cp -L "$deploy_dir/yocto-chromebook-poc-snappy.wic.gz" "$artifact_dir/"
-          cp -L "$deploy_dir/yocto-chromebook-poc-snappy.manifest" "$artifact_dir/"
+          cp -L "$wic_gz" "$artifact_dir/"
+          cp -L "$manifest" "$artifact_dir/"
 
       - name: Upload SNAPPY POC image artifact
         uses: actions/upload-artifact@v4
