@@ -185,7 +185,7 @@ Define the minimal useful POC image.
 
 ### Acceptance criteria
 
-- [ ] Image builds for at least one machine.
+- [x] Image builds for at least one machine.
 - [x] Rootfs package manifest is configured to contain required base utilities.
 - [x] `nano`, `screen`, `htop`, and `ncdu` are present in the package baseline.
 
@@ -199,7 +199,7 @@ Get the POC image booting from MrChromebox UEFI.
 
 - [x] Select bootloader approach.
 - [x] Ensure EFI System Partition contents are generated correctly.
-- [ ] Generate bootable `.wic` image.
+- [x] Generate bootable `.wic` image.
 - [x] Document flashing/writing the image to USB or eMMC.
 - [ ] Boot SNAPPY from external USB first.
 - [ ] Boot VORTICON from external USB first.
