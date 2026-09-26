@@ -105,7 +105,7 @@ jobs:
 
       - name: Capture SNAPPY POC image evidence
         run: |
-          deploy_dir="build/tmp/deploy/images/snappy"
+          deploy_dir="build/build/tmp/deploy/images/snappy"
           artifact_dir="build/ci-artifacts/snappy-poc"
           mkdir -p "$artifact_dir"
 
