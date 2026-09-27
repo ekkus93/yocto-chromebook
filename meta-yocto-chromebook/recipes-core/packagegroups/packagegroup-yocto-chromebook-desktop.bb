@@ -8,4 +8,11 @@ RDEPENDS:${PN} = "\
     labwc \
     xwayland \
     vlc \
+    sddm \
+    lxqt-session \
+    lxqt-panel \
+    lxqt-powermanagement \
+    lxqt-config \
+    pcmanfm-qt \
+    qterminal \
 "

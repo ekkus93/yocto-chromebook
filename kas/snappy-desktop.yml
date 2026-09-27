@@ -26,6 +26,14 @@ repos:
       meta-multimedia:
       meta-gnome:
 
+  meta-qt5:
+    url: "https://github.com/meta-qt5/meta-qt5.git"
+    branch: "scarthgap"
+
+  meta-qt5-extra:
+    url: "https://github.com/schnitzeltony/meta-qt5-extra.git"
+    branch: "master"
+
   meta-wayland:
     url: "https://codeberg.org/flk/meta-wayland.git"
     branch: "scarthgap"
