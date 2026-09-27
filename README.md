@@ -8,7 +8,7 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 
 | Board | Representative hardware | Status |
 | --- | --- | --- |
-| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | Parse/dependency-qualified POC machine config; hardware not release-qualified |
+| `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | POC WIC image-build qualified; hardware not release-qualified |
 | `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
@@ -67,7 +67,7 @@ kas shell kas/snappy-desktop.yml -c 'bitbake -p'
 kas shell kas/snappy-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
 ```
 
-These commands are the CI-backed reproduction gate. They validate repository structure, all kas expansions, and the SNAPPY POC/desktop parse and dependency graphs. They do **not** claim that a complete image or hardware boot is qualified.
+These commands are the CI-backed reproduction gate. They validate repository structure, all kas expansions, and the SNAPPY POC/desktop parse and dependency graphs. They do **not** claim that hardware boot is qualified.
 
 Full image build commands are:
 
@@ -78,7 +78,9 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. Full POC image-build qualification remains tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. The SNAPPY POC WIC image-build gate is qualified; VORTICON POC, desktop images, and all hardware boot evidence remain tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
+
+Current SNAPPY POC image metrics are recorded in `docs/IMAGE_METRICS.md`.
 
 ## Deployment
 
@@ -107,6 +109,7 @@ Current build, hardware, firmware, audio, desktop, and AppImage limitations are 
 ├── docs/
 │   ├── HARDWARE_MATRIX.md
 │   ├── HARDWARE_NOTES.md
+│   ├── IMAGE_METRICS.md
 │   ├── POC_KNOWN_GAPS.md
 │   ├── POC_PACKAGE_BASELINE.md
 │   ├── RUNTIME_COMPATIBILITY_BASELINE.md

@@ -7,8 +7,14 @@ It is intentionally conservative: a feature is not marked supported until there 
 ## Build and image status
 
 - The repository has parse and dependency-graph validation for the SNAPPY POC image.
-- A full SNAPPY POC image-build validation PR exists, but the full image-build gate is not yet merged into `master`.
-- Because the image-build gate is not yet merged, compressed image size, installed rootfs size, and WIC artifact names are not release evidence yet.
+- The SNAPPY POC WIC image-build gate has been merged into `master` through PR #30.
+- The qualified SNAPPY POC image artifact is recorded in `docs/IMAGE_METRICS.md`.
+- Current qualified SNAPPY POC image sizes are:
+  - raw `.wic`: `2,656,201,728 bytes`
+  - compressed `.wic.gz`: `699,995,369 bytes`
+  - manifest: `62,502 bytes`
+- VORTICON full-image build evidence is still open.
+- Installed rootfs size, boot-time, and RAM metrics still require booted or mounted-image evidence.
 
 ## Hardware validation status
 
@@ -49,4 +55,4 @@ Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next non-hardware milestone is to complete and merge a full POC image-build validation gate, then record image artifacts and size metrics. In parallel, the desktop milestone needs an LXQt provider strategy that resolves in the selected Yocto layer stack, and the browser milestone needs a maintained Firefox provider decision. After that, the next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix.
+The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size and desktop image sizes. The desktop milestone needs an LXQt provider strategy that resolves in the selected Yocto layer stack, and the browser milestone needs a maintained Firefox provider decision.
