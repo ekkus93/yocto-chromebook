@@ -25,6 +25,7 @@ RDEPENDS:${PN} = "\
     screen \
     htop \
     ncdu \
+    gparted \
     openssh-ssh \
     packagegroup-core-boot \
     kernel-modules \
