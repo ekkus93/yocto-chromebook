@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+export MOZ_ENABLE_WAYLAND="${MOZ_ENABLE_WAYLAND:-1}"
+exec @LIBDIR@/firefox/firefox "$@"

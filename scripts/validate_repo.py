@@ -32,6 +32,10 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/start-lxqt-labwc",
     "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-seed-sddm-session",
     "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-sddm-default.service",
+    "meta-yocto-chromebook/recipes-browser/firefox/firefox-esr-bin_153.3.0esr.bb",
+    "meta-yocto-chromebook/recipes-browser/firefox/files/firefox-wrapper",
+    "meta-yocto-chromebook/recipes-browser/firefox/files/firefox.desktop",
+    "meta-yocto-chromebook/recipes-browser/firefox/files/policies.json",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/files/audio-safety-policy.conf",
@@ -68,8 +72,9 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "packagegroup-yocto-chromebook-bluetooth", "packagegroup-yocto-chromebook-graphics",
     "packagegroup-yocto-chromebook-appimage", "yocto-chromebook-audio-safety-policy",
 ]
-DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc", "sddm", "lxqt-session", "lxqt-panel", "lxqt-powermanagement", "lxqt-config", "pcmanfm-qt", "qterminal", "yocto-chromebook-lxqt-labwc-session"]
+DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc", "sddm", "lxqt-session", "lxqt-panel", "lxqt-powermanagement", "lxqt-config", "pcmanfm-qt", "qterminal", "yocto-chromebook-lxqt-labwc-session", "firefox-esr-bin"]
 LXQT_LABWC_SESSION_REQUIRED_PHRASES = ["lxqt-labwc.desktop", "start-lxqt-labwc", "labwc-autostart", "yocto-chromebook-sddm-default.service", "inherit systemd"]
+FIREFOX_ESR_REQUIRED_PHRASES = ["153.3.0esr", "8c36ca21beddcf09261661a74236b75a24a39c9a7c3193f812ca519e77c7c6d8", "MOZ_ENABLE_WAYLAND", "DisableAppUpdate", "COMPATIBLE_HOST"]
 NCDU_RECIPE_REQUIRED_PHRASES = ["SRC_URI", "30363019180cde0752c7fb006c12e154920412f4e1b5dc3090654698496bb17d", "inherit autotools pkgconfig"]
 UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB boot workflow", "Internal eMMC deployment workflow", "GPT disk image", "EFI System Partition", "dd if=yocto-chromebook-poc-snappy.wic", "Evidence to capture"]
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
@@ -122,6 +127,9 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb", DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/yocto-chromebook-lxqt-labwc-session_1.0.bb", LXQT_LABWC_SESSION_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/recipes-browser/firefox/firefox-esr-bin_153.3.0esr.bb", FIREFOX_ESR_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/recipes-browser/firefox/files/firefox-wrapper", ["MOZ_ENABLE_WAYLAND", "@LIBDIR@/firefox/firefox"])
+    assert_contains("meta-yocto-chromebook/recipes-browser/firefox/files/policies.json", ["DisableAppUpdate"])
     for packagegroup_path in [
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
