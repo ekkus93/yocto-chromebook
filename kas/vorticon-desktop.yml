@@ -24,6 +24,15 @@ repos:
       meta-python:
       meta-filesystems:
       meta-multimedia:
+      meta-gnome:
+
+  meta-qt5:
+    url: "https://github.com/meta-qt5/meta-qt5.git"
+    commit: "916d37e38077850ff5a0ac4fce6f2a55ba5b2a86"
+
+  meta-qt5-extra:
+    url: "https://github.com/schnitzeltony/meta-qt5-extra.git"
+    commit: "cb9132b18c1fc5cdfe07407a7c6737b039c02117"
 
   meta-wayland:
     url: "https://codeberg.org/flk/meta-wayland.git"

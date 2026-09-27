@@ -26,6 +26,12 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/yocto-chromebook-lxqt-labwc-session_1.0.bb",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/lxqt-labwc.desktop",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/labwc-autostart",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/start-lxqt-labwc",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-seed-sddm-session",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-sddm-default.service",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/files/audio-safety-policy.conf",
@@ -57,12 +63,13 @@ LAYER_REQUIRED_PHRASES = ["BBFILE_COLLECTIONS", "LAYERSERIES_COMPAT_yoctochromeb
 DISTRO_REQUIRED_PHRASES = ["TCLIBC = \"glibc\"", "INIT_MANAGER = \"systemd\"", "wayland", "AppImage"]
 POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "bash", "coreutils", "util-linux", "curl", "wget", "ca-certificates", "tar", "gzip", "xz", "unzip",
-    "iproute2", "ethtool", "pciutils", "usbutils", "procps", "less", "nano", "screen", "htop", "ncdu",
+    "iproute2", "ethtool", "pciutils", "usbutils", "procps", "less", "nano", "screen", "htop", "ncdu", "gparted",
     "openssh-ssh", "packagegroup-core-boot", "networkmanager", "kernel-modules", "linux-firmware",
     "packagegroup-yocto-chromebook-bluetooth", "packagegroup-yocto-chromebook-graphics",
     "packagegroup-yocto-chromebook-appimage", "yocto-chromebook-audio-safety-policy",
 ]
-DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc"]
+DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc", "sddm", "lxqt-session", "lxqt-panel", "lxqt-powermanagement", "lxqt-config", "pcmanfm-qt", "qterminal", "yocto-chromebook-lxqt-labwc-session"]
+LXQT_LABWC_SESSION_REQUIRED_PHRASES = ["lxqt-labwc.desktop", "start-lxqt-labwc", "labwc-autostart", "yocto-chromebook-sddm-default.service", "inherit systemd"]
 NCDU_RECIPE_REQUIRED_PHRASES = ["SRC_URI", "30363019180cde0752c7fb006c12e154920412f4e1b5dc3090654698496bb17d", "inherit autotools pkgconfig"]
 UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB boot workflow", "Internal eMMC deployment workflow", "GPT disk image", "EFI System Partition", "dd if=yocto-chromebook-poc-snappy.wic", "Evidence to capture"]
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
@@ -70,7 +77,7 @@ HARDWARE_MATRIX_REQUIRED_PHRASES = ["Status vocabulary", "unknown", "detected", 
 RUNTIME_BASELINE_REQUIRED_PHRASES = ["Bluetooth baseline", "bluez5", "Graphics and Wayland baseline", "mesa", "libdrm", "weston", "Desktop package baseline", "labwc", "xwayland", "vlc", "lxqt-session", "pcmanfm-qt", "qterminal", "AppImage runtime baseline", "fuse", "fuse3"]
 KNOWN_GAPS_REQUIRED_PHRASES = ["Build and image status", "Hardware validation status", "Firmware gaps", "Audio safety gaps", "Desktop and AppImage gaps", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/APPIMAGE_TEST_SELECTION.md", "LXQt provider strategy", "Next actionable milestones"]
 APPIMAGE_TEST_SELECTION_REQUIRED_PHRASES = ["GVim AppImage", "x86-64 AppImage", "/data/apps", "SHA256", "--appimage-extract-and-run", "does not close"]
-LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim Labwc-only desktop", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
+LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim build-qualified LXQt package baseline", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
 FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES = ["SNAPPY / Apollo Lake triage baseline", "VORTICON / Gemini Lake triage baseline", "linux-firmware", "iwlwifi", "Realtek", "not enough to mark the checklist items complete"]
 HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
 IMAGE_METRICS_REQUIRED_PHRASES = ["SNAPPY POC image", "2,656,201,728", "699,995,369", "Artifact ID", "10918571968", "RAM and boot-time metrics remain pending"]
@@ -102,7 +109,7 @@ def assert_precedes(relative_path: str, first: str, second: str) -> None:
 
 def assert_kas_file(relative_path: str, machine: str, target: str) -> None:
     text = (ROOT / relative_path).read_text(encoding="utf-8")
-    for phrase in ["version: 14", f"machine: {machine}", "distro: yocto-chromebook", f"- {target}", "branch: \"scarthgap\"", "meta-yocto-chromebook:"]:
+    for phrase in ["version: 14", f"machine: {machine}", "distro: yocto-chromebook", f"- {target}", "branch: \"scarthgap\"", "meta-gnome:", "meta-yocto-chromebook:"]:
         if phrase not in text: fail(f"{relative_path} does not contain required phrase: {phrase!r}")
 
 def main() -> int:
@@ -114,6 +121,7 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", DISTRO_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb", DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/yocto-chromebook-lxqt-labwc-session_1.0.bb", LXQT_LABWC_SESSION_REQUIRED_PHRASES)
     for packagegroup_path in [
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",

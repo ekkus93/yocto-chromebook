@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   repo-bootstrap:
@@ -58,7 +59,7 @@ jobs:
 
   snappy-poc-image:
     name: SNAPPY POC image build
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -158,7 +159,7 @@ jobs:
 
   vorticon-poc-image:
     name: VORTICON POC image build
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -253,5 +254,103 @@ jobs:
         with:
           name: vorticon-poc-image-${{ github.sha }}
           path: build/ci-artifacts/vorticon-poc/
+          if-no-files-found: error
+          compression-level: 0
+
+  snappy-desktop-image:
+    name: SNAPPY desktop image build
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Free hosted-runner disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+          sudo docker system prune --all --force || true
+          df -h
+
+      - name: Install Yocto host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            chrpath \
+            cpio \
+            diffstat \
+            file \
+            gawk \
+            gcc \
+            git \
+            lz4 \
+            make \
+            python3 \
+            python3-pip \
+            xz-utils \
+            zstd
+
+      - name: Allow BitBake user namespaces on Ubuntu 24.04
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Restore Yocto downloads cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/downloads
+            build/sstate-cache
+          key: yocto-snappy-desktop-${{ runner.os }}-${{ hashFiles('kas/snappy-desktop.yml', 'meta-yocto-chromebook/**/*.bb', 'meta-yocto-chromebook/**/*.bbappend', 'meta-yocto-chromebook/conf/**/*.conf') }}
+          restore-keys: |
+            yocto-snappy-desktop-${{ runner.os }}-
+
+      - name: Build SNAPPY desktop WIC image
+        run: kas shell kas/snappy-desktop.yml -c 'bitbake yocto-chromebook-desktop:do_image_wic'
+
+      - name: Capture SNAPPY desktop image evidence
+        run: |
+          artifact_dir="build/ci-artifacts/snappy-desktop"
+          mkdir -p "$artifact_dir"
+
+          find build -type f \
+            \( -name 'yocto-chromebook-desktop-*.wic' \
+               -o -name 'yocto-chromebook-desktop-*.wic.gz' \
+               -o -name 'yocto-chromebook-desktop-*.manifest' \) \
+            -print | sort | tee "$artifact_dir/FOUND_IMAGE_FILES.txt"
+
+          wic="$(find build -type f -name 'yocto-chromebook-desktop-*.wic' | sort | head -n 1 || true)"
+          wic_gz="$(find build -type f -name 'yocto-chromebook-desktop-*.wic.gz' | sort | head -n 1 || true)"
+          manifest="$(find build -type f -name 'yocto-chromebook-desktop-*.manifest' | sort | head -n 1 || true)"
+
+          for output in "$wic" "$wic_gz" "$manifest"; do
+            test -n "$output" && test -e "$output" || {
+              echo "Missing expected SNAPPY desktop image output" >&2
+              echo "wic=$wic" >&2
+              echo "wic_gz=$wic_gz" >&2
+              echo "manifest=$manifest" >&2
+              exit 1
+            }
+          done
+
+          {
+            echo "wic=$wic"
+            echo "wic_gz=$wic_gz"
+            echo "manifest=$manifest"
+          } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
+
+          sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
+          stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
+
+          cp -L "$wic_gz" "$artifact_dir/"
+          cp -L "$manifest" "$artifact_dir/"
+
+      - name: Upload SNAPPY desktop image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snappy-desktop-image-${{ github.sha }}
+          path: build/ci-artifacts/snappy-desktop/
           if-no-files-found: error
           compression-level: 0
