@@ -57,7 +57,7 @@ LAYER_REQUIRED_PHRASES = ["BBFILE_COLLECTIONS", "LAYERSERIES_COMPAT_yoctochromeb
 DISTRO_REQUIRED_PHRASES = ["TCLIBC = \"glibc\"", "INIT_MANAGER = \"systemd\"", "wayland", "AppImage"]
 POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "bash", "coreutils", "util-linux", "curl", "wget", "ca-certificates", "tar", "gzip", "xz", "unzip",
-    "iproute2", "ethtool", "pciutils", "usbutils", "procps", "less", "nano", "screen", "htop", "ncdu",
+    "iproute2", "ethtool", "pciutils", "usbutils", "procps", "less", "nano", "screen", "htop", "ncdu", "gparted",
     "openssh-ssh", "packagegroup-core-boot", "networkmanager", "kernel-modules", "linux-firmware",
     "packagegroup-yocto-chromebook-bluetooth", "packagegroup-yocto-chromebook-graphics",
     "packagegroup-yocto-chromebook-appimage", "yocto-chromebook-audio-safety-policy",
@@ -102,7 +102,7 @@ def assert_precedes(relative_path: str, first: str, second: str) -> None:
 
 def assert_kas_file(relative_path: str, machine: str, target: str) -> None:
     text = (ROOT / relative_path).read_text(encoding="utf-8")
-    for phrase in ["version: 14", f"machine: {machine}", "distro: yocto-chromebook", f"- {target}", "branch: \"scarthgap\"", "meta-yocto-chromebook:"]:
+    for phrase in ["version: 14", f"machine: {machine}", "distro: yocto-chromebook", f"- {target}", "branch: \"scarthgap\"", "meta-gnome:", "meta-yocto-chromebook:"]:
         if phrase not in text: fail(f"{relative_path} does not contain required phrase: {phrase!r}")
 
 def main() -> int:

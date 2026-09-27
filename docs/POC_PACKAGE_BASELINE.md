@@ -26,11 +26,14 @@ The packagegroup pulls in:
 - `screen`
 - `htop`
 - `ncdu`
+- `gparted`
 - `openssh-ssh`
 
 Yocto's OpenSSH client binary package is represented as `openssh-ssh`, which satisfies the checklist's `openssh-client` intent without enabling an SSH server by default.
 
 The selected scarthgap layer set does not provide `ncdu`, so this repository carries `meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb` to keep the POC diagnostic baseline self-contained.
+
+`gparted` is provided by the Scarthgap `meta-gnome` layer from `meta-openembedded`; every kas configuration enables that layer so the common POC packagegroup resolves consistently for SNAPPY, VORTICON, and desktop builds.
 
 ## Boot, network, modules, and firmware
 

@@ -63,11 +63,13 @@ kas dump kas/vorticon-desktop.yml >/tmp/vorticon-desktop.yml
 
 kas shell kas/snappy-poc.yml -c 'bitbake -p'
 kas shell kas/snappy-poc.yml -c 'bitbake -g yocto-chromebook-poc'
+kas shell kas/vorticon-poc.yml -c 'bitbake -p'
+kas shell kas/vorticon-poc.yml -c 'bitbake -g yocto-chromebook-poc'
 kas shell kas/snappy-desktop.yml -c 'bitbake -p'
 kas shell kas/snappy-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
 ```
 
-These commands are the CI-backed reproduction gate. They validate repository structure, all kas expansions, and the SNAPPY POC/desktop parse and dependency graphs. They do **not** claim that hardware boot is qualified.
+These commands are the CI-backed reproduction gate. They validate repository structure, all kas expansions, the SNAPPY and VORTICON POC parse/dependency graphs, and the SNAPPY desktop parse/dependency graph. They do **not** claim that hardware boot is qualified.
 
 Full image build commands are:
 
@@ -78,7 +80,7 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, and AppImage runtime support. The SNAPPY POC WIC image-build gate is qualified; VORTICON POC, desktop images, and all hardware boot evidence remain tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, AppImage runtime support, and GParted for partition inspection/maintenance. The SNAPPY POC WIC image-build gate is qualified; VORTICON POC, desktop images, and all hardware boot evidence remain tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
 
 Current SNAPPY POC image metrics are recorded in `docs/IMAGE_METRICS.md`.
 
@@ -154,4 +156,4 @@ Run the repository validator locally with:
 python3 scripts/validate_repo.py
 ```
 
-CI additionally runs `kas dump` on all kas configs plus BitBake parse and dependency-graph validation for both the SNAPPY POC and SNAPPY desktop scaffold.
+CI additionally runs `kas dump` on all kas configs plus BitBake parse and dependency-graph validation for SNAPPY POC, VORTICON POC, and the SNAPPY desktop scaffold. Full SNAPPY and VORTICON POC WIC jobs run in parallel for pull-request qualification or explicit manual workflow dispatch.

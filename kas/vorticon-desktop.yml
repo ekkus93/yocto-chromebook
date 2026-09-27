@@ -24,6 +24,7 @@ repos:
       meta-python:
       meta-filesystems:
       meta-multimedia:
+      meta-gnome:
 
   meta-wayland:
     url: "https://codeberg.org/flk/meta-wayland.git"
