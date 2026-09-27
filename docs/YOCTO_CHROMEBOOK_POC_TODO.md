@@ -507,7 +507,7 @@ Measure actual footprint before setting hard limits.
 
 ### Tasks
 
-- [ ] Measure compressed POC image size.
+- [x] Measure compressed POC image size.
 - [ ] Measure installed POC rootfs size.
 - [ ] Measure compressed desktop image size.
 - [ ] Measure installed desktop rootfs size.

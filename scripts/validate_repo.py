@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     ".gitignore", "README.md", "docs/APPIMAGE_TEST_SELECTION.md", "docs/AUDIO_SAFETY_POLICY.md", "docs/FIRMWARE_IDENTIFICATION.md", "docs/HARDWARE_EVIDENCE.md",
-    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
+    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/IMAGE_METRICS.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
     "docs/POC_PACKAGE_BASELINE.md", "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md", "docs/UEFI_DEPLOYMENT.md", "docs/YOCTO_CHROMEBOOK_SPEC.md",
     "docs/YOCTO_CHROMEBOOK_POC_TODO.md", "kas/snappy-poc.yml", "kas/vorticon-poc.yml",
@@ -73,6 +73,7 @@ APPIMAGE_TEST_SELECTION_REQUIRED_PHRASES = ["GVim AppImage", "x86-64 AppImage", 
 LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim Labwc-only desktop", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
 FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES = ["SNAPPY / Apollo Lake triage baseline", "VORTICON / Gemini Lake triage baseline", "linux-firmware", "iwlwifi", "Realtek", "not enough to mark the checklist items complete"]
 HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
+IMAGE_METRICS_REQUIRED_PHRASES = ["SNAPPY POC image", "2,656,201,728", "699,995,369", "Artifact ID", "10918571968", "RAM and boot-time metrics remain pending"]
 EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "df -h"]
 AUDIO_SAFETY_REQUIRED_PHRASES = ["Audio Safety Policy", "mute-first", "internal speakers must remain unqualified", "yocto-chromebook-audio-safety-policy", "yocto-chromebook-audio-safe-startup", "Speaker safety gate"]
 
@@ -131,6 +132,7 @@ def main() -> int:
     assert_contains("docs/LXQT_PROVIDER_STRATEGY.md", LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES)
     assert_contains("docs/FIRMWARE_IDENTIFICATION.md", FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES)
     assert_contains("docs/HARDWARE_EVIDENCE.md", HARDWARE_EVIDENCE_REQUIRED_PHRASES)
+    assert_contains("docs/IMAGE_METRICS.md", IMAGE_METRICS_REQUIRED_PHRASES)
     assert_contains("scripts/collect_chromebook_evidence.sh", EVIDENCE_SCRIPT_REQUIRED_PHRASES)
     assert_contains("docs/AUDIO_SAFETY_POLICY.md", AUDIO_SAFETY_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb", ["audio-safety-policy.conf", "yocto-chromebook-audio-safe-startup", "inherit allarch"])
