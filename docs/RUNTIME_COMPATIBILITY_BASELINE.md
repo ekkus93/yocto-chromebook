@@ -51,13 +51,13 @@ The desktop image includes `packagegroup-yocto-chromebook-desktop`, which curren
 - `lxqt-config`
 - `pcmanfm-qt`
 - `qterminal`
+- `yocto-chromebook-lxqt-labwc-session`
 
-The LXQt/SDDM packages are supplied by pinned `meta-qt5` and `meta-qt5-extra` revisions and pass exact-head SNAPPY desktop parse and dependency-graph validation. This is a build-time package baseline, not a claim that the final LXQt-on-Labwc login/session path works on hardware.
+The LXQt/SDDM packages are supplied by pinned `meta-qt5` and `meta-qt5-extra` revisions and pass exact-head SNAPPY desktop parse and dependency-graph validation. The repository-owned session package installs the SDDM Wayland session entry, starts Labwc with an LXQt-oriented environment, autostarts the panel/desktop/power components, and seeds the first SDDM session choice without overwriting later user state. This is a build-time and configuration baseline, not a claim that the login/session path works on hardware.
 
 Desktop validation still requires:
 
 - a desktop image build for at least one target
-- confirmation of the intended LXQt-on-Labwc session launch path
 - SDDM or another configured login path reaching an LXQt session
 - QTerminal launch evidence
 - PCManFM-Qt launch evidence

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=LXQt (Labwc)
+Comment=LXQt desktop components on the Labwc Wayland compositor
+Exec=/usr/bin/start-lxqt-labwc
+TryExec=/usr/bin/labwc
+Type=Application
+DesktopNames=LXQt;Labwc

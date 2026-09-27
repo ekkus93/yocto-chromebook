@@ -15,4 +15,5 @@ RDEPENDS:${PN} = "\
     lxqt-config \
     pcmanfm-qt \
     qterminal \
+    yocto-chromebook-lxqt-labwc-session \
 "

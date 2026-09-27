@@ -90,3 +90,17 @@ Minimum merge evidence:
 5. A desktop image build for at least one target passes before claiming the M12 build acceptance criterion.
 
 Runtime acceptance still requires booted-system evidence for login/session launch, QTerminal, PCManFM-Qt, keyboard, touchpad, and graphics behavior.
+
+
+## Repository-owned session integration
+
+Because the pinned Qt5/LXQt provider line does not itself prove a modern upstream LXQt Wayland session, the image carries a small repository-owned integration package, `yocto-chromebook-lxqt-labwc-session`.
+
+That package provides:
+
+- an SDDM Wayland session entry named `LXQt (Labwc)`,
+- a `start-lxqt-labwc` wrapper that establishes the LXQt/Labwc Wayland session environment and starts Labwc,
+- a Labwc autostart file that launches the LXQt panel, PCManFM-Qt desktop, and LXQt power management after the compositor is running,
+- a one-shot first-boot SDDM state seeder that selects `lxqt-labwc.desktop` only when no prior SDDM session state exists.
+
+This closes the software configuration task for the default session. It does not close login/runtime acceptance: SDDM launch, compositor startup, QTerminal, PCManFM-Qt, keyboard, touchpad, and graphics behavior still require booted-system evidence.

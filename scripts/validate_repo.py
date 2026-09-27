@@ -26,6 +26,12 @@ REQUIRED_FILES = [
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/yocto-chromebook-lxqt-labwc-session_1.0.bb",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/lxqt-labwc.desktop",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/labwc-autostart",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/start-lxqt-labwc",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-seed-sddm-session",
+    "meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/files/yocto-chromebook-sddm-default.service",
     "meta-yocto-chromebook/recipes-support/ncdu/ncdu_1.19.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb",
     "meta-yocto-chromebook/recipes-multimedia/audio-safety/files/audio-safety-policy.conf",
@@ -62,7 +68,8 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
     "packagegroup-yocto-chromebook-bluetooth", "packagegroup-yocto-chromebook-graphics",
     "packagegroup-yocto-chromebook-appimage", "yocto-chromebook-audio-safety-policy",
 ]
-DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc"]
+DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc", "sddm", "lxqt-session", "lxqt-panel", "lxqt-powermanagement", "lxqt-config", "pcmanfm-qt", "qterminal", "yocto-chromebook-lxqt-labwc-session"]
+LXQT_LABWC_SESSION_REQUIRED_PHRASES = ["lxqt-labwc.desktop", "start-lxqt-labwc", "labwc-autostart", "yocto-chromebook-sddm-default.service", "inherit systemd"]
 NCDU_RECIPE_REQUIRED_PHRASES = ["SRC_URI", "30363019180cde0752c7fb006c12e154920412f4e1b5dc3090654698496bb17d", "inherit autotools pkgconfig"]
 UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB boot workflow", "Internal eMMC deployment workflow", "GPT disk image", "EFI System Partition", "dd if=yocto-chromebook-poc-snappy.wic", "Evidence to capture"]
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
@@ -114,6 +121,7 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", DISTRO_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb", POC_PACKAGEGROUP_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-desktop.bb", DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES)
+    assert_contains("meta-yocto-chromebook/recipes-desktop/lxqt-labwc-session/yocto-chromebook-lxqt-labwc-session_1.0.bb", LXQT_LABWC_SESSION_REQUIRED_PHRASES)
     for packagegroup_path in [
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-appimage.bb",
         "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-graphics.bb",
