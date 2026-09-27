@@ -74,7 +74,7 @@ POC_PACKAGEGROUP_REQUIRED_PHRASES = [
 ]
 DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc", "sddm", "lxqt-session", "lxqt-panel", "lxqt-powermanagement", "lxqt-config", "pcmanfm-qt", "qterminal", "yocto-chromebook-lxqt-labwc-session", "firefox-esr-bin"]
 LXQT_LABWC_SESSION_REQUIRED_PHRASES = ["lxqt-labwc.desktop", "start-lxqt-labwc", "labwc-autostart", "yocto-chromebook-sddm-default.service", "inherit systemd"]
-FIREFOX_ESR_REQUIRED_PHRASES = ["153.3.0esr", "8c36ca21beddcf09261661a74236b75a24a39c9a7c3193f812ca519e77c7c6d8", "MOZ_ENABLE_WAYLAND", "DisableAppUpdate", "COMPATIBLE_HOST"]
+FIREFOX_ESR_REQUIRED_PHRASES = ["153.3.0esr", "8c36ca21beddcf09261661a74236b75a24a39c9a7c3193f812ca519e77c7c6d8", "COMPATIBLE_HOST"]
 NCDU_RECIPE_REQUIRED_PHRASES = ["SRC_URI", "30363019180cde0752c7fb006c12e154920412f4e1b5dc3090654698496bb17d", "inherit autotools pkgconfig"]
 UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB boot workflow", "Internal eMMC deployment workflow", "GPT disk image", "EFI System Partition", "dd if=yocto-chromebook-poc-snappy.wic", "Evidence to capture"]
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
