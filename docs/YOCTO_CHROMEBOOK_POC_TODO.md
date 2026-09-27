@@ -330,14 +330,14 @@ Build the user-facing desktop image.
 
 ### Tasks
 
-- [ ] Add LXQt packages.
+- [x] Add LXQt packages.
 - [x] Add Labwc.
-- [ ] Add SDDM.
-- [ ] Add PCManFM-Qt.
-- [ ] Add QTerminal.
-- [ ] Add LXQt panel.
-- [ ] Add LXQt power management.
-- [ ] Add LXQt configuration tools.
+- [x] Add SDDM.
+- [x] Add PCManFM-Qt.
+- [x] Add QTerminal.
+- [x] Add LXQt panel.
+- [x] Add LXQt power management.
+- [x] Add LXQt configuration tools.
 - [x] Add XWayland.
 - [ ] Configure default session to LXQt on Labwc.
 - [ ] Validate login session.
