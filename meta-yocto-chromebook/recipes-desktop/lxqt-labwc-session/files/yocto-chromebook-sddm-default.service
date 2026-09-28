@@ -1,0 +1,11 @@
+[Unit]
+Description=Seed the default Yocto Chromebook SDDM session
+Before=sddm.service
+ConditionPathExists=!/var/lib/sddm/state.conf
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/yocto-chromebook-seed-sddm-session
+
+[Install]
+WantedBy=graphical.target

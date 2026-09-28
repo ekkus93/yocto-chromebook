@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+export XDG_CURRENT_DESKTOP="LXQt:Labwc"
+export XDG_SESSION_DESKTOP="lxqt-labwc"
+export XDG_SESSION_TYPE="wayland"
+export MOZ_ENABLE_WAYLAND="1"
+
+exec /usr/bin/labwc
