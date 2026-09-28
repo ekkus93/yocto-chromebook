@@ -16,4 +16,5 @@ RDEPENDS:${PN} = "\
     pcmanfm-qt \
     qterminal \
     yocto-chromebook-lxqt-labwc-session \
+    firefox-esr-bin \
 "

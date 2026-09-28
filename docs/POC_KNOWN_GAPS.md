@@ -44,7 +44,7 @@ Internal speakers are deliberately not qualified. Audio hardware identity, ampli
 
 ## Desktop and AppImage gaps
 
-The repository includes a software-side AppImage runtime path (`/data/apps`, FUSE, FUSE3, XWayland, common X11/XCB libraries, and font libraries), a minimal Wayland compositor baseline through Weston, and a desktop packagegroup containing Labwc, XWayland, VLC, SDDM, and the required LXQt applications.
+The repository includes a software-side AppImage runtime path (`/data/apps`, FUSE, FUSE3, XWayland, common X11/XCB libraries, and font libraries), a minimal Wayland compositor baseline through Weston, and a desktop packagegroup containing Labwc, XWayland, VLC, SDDM, the required LXQt applications, and the Firefox ESR provider package.
 
 Pinned `meta-qt5` and `meta-qt5-extra` revisions now resolve the LXQt package graph in exact-head Scarthgap CI. M12 remains open for the full desktop image build and for the actual LXQt-on-Labwc login/session and application runtime checks.
 
@@ -52,10 +52,10 @@ The LXQt provider strategy, pinned revisions, and remaining runtime caveat are r
 
 The initial AppImage candidate and evidence policy are recorded in `docs/APPIMAGE_TEST_SELECTION.md`, but runtime launch evidence remains open.
 
-The Firefox provider strategy is recorded in `docs/FIREFOX_PROVIDER_STRATEGY.md`. Firefox remains out of the image until a provider layer or recipe passes build, maintenance, security, and runtime review.
+The Firefox provider strategy and selected binary ESR recipe are recorded in `docs/FIREFOX_PROVIDER_STRATEGY.md`. Firefox remains runtime-unqualified until a booted desktop launches it, loads HTTPS, and records startup/memory behavior.
 
 Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The next build milestone is qualifying the KEFKA and MAGOLOR target gates on current `master`; the desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone needs a maintained Firefox provider decision.
+The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The next build milestone is qualifying the KEFKA and MAGOLOR target gates on current `master`; the desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone is qualifying the Firefox provider workflow and then collecting runtime evidence on a booted desktop.

@@ -2,64 +2,63 @@
 
 This document records the repository-side provider strategy for the M13 Firefox base application milestone.
 
-It does not add Firefox to the desktop image and it does not close any Firefox runtime checklist items. The goal is to prevent an unsafe or stale browser recipe from being pulled into the image without an explicit build, security, and runtime qualification path.
+Firefox is now represented by a repository-owned x86-64 binary ESR recipe, `firefox-esr-bin`. This closes the provider-selection portion only after the focused provider workflow passes for the exact commit. Runtime acceptance remains open until a booted desktop proves Firefox launches, loads HTTPS, and records startup/memory behavior.
 
-## Current provider finding
+## Selected provider
 
-The OpenEmbedded Layer Index lists a `meta-firefox` layer with a scarthgap Firefox recipe, but the visible recipe version is Firefox 68.9.0 ESR.
+The selected provider is a pinned Mozilla Firefox ESR binary archive for Linux x86-64:
 
-That is useful as evidence that a scarthgap provider path exists, but it is not enough to add Firefox to `yocto-chromebook-desktop` because browser age and maintenance status are release-critical security concerns.
+- recipe: `meta-yocto-chromebook/recipes-browser/firefox/firefox-esr-bin_153.3.0esr.bb`
+- version: `153.3.0esr`
+- locale: `en-US`
+- architecture: `linux-x86_64`
+- SHA-256: `8c36ca21beddcf09261661a74236b75a24a39c9a7c3193f812ca519e77c7c6d8`
 
-## Provider options
+The recipe is intentionally scoped to x86-64 Linux hosts through `COMPATIBLE_HOST`; ARM, AMD, and non-Linux targets remain out of scope for POC-1.
 
-### 1. Use `meta-firefox` only after maintenance review
+## Packaging policy
 
-This is the most direct Yocto-native path if the project accepts the recipe version and maintenance state.
+The Firefox archive is treated as a prebuilt upstream browser bundle. The recipe:
 
-Before adding it to kas or any packagegroup, a future PR must document:
+- installs the upstream bundle under `${libdir}/firefox`,
+- installs `/usr/bin/firefox` through a small wrapper,
+- sets `MOZ_ENABLE_WAYLAND=1` by default while preserving caller overrides,
+- installs a desktop entry for LXQt menus,
+- disables Firefox self-update through enterprise policies so browser updates remain image-owned, and
+- includes `ca-certificates` as a runtime dependency for HTTPS validation.
 
-- exact layer URL, branch, and revision policy,
-- exact Firefox recipe version,
-- required layer dependencies,
-- build dependency closure,
-- security/update posture for the selected browser version,
-- whether Wayland support is available or whether XWayland fallback is required,
-- desktop launch path and certificate store behavior.
+Because the upstream archive contains prebuilt binaries and bundled shared objects, the recipe skips QA checks that are not meaningful for this binary repackaging path. Native Yocto-built browser recipes may tighten those checks later.
 
-### 2. Use a different maintained browser provider
+## Validation workflow
 
-If Firefox 68.9.0 ESR is not acceptable, the project should evaluate a newer maintained browser provider rather than force the stale recipe into the image.
+The focused provider workflow is `.github/workflows/firefox-provider.yml`.
 
-A future browser provider PR may choose:
+Minimum repository-side evidence before marking provider/build work complete:
 
-- a maintained Firefox recipe from a different compatible layer,
-- Chromium or another browser if Firefox is not viable for POC-1,
-- a browser AppImage or externally supplied test artifact for manual desktop validation, if that better matches the `/data/apps` application model.
+1. `python3 scripts/validate_repo.py` passes.
+2. `bitbake firefox-esr-bin -c fetch` verifies the upstream archive checksum.
+3. `bitbake firefox-esr-bin -c install` succeeds.
+4. `bitbake firefox-esr-bin -c package` succeeds.
+5. The SNAPPY desktop parse/dependency graph includes `firefox-esr-bin` through `packagegroup-yocto-chromebook-desktop`.
 
-### 3. Defer browser inclusion until after the desktop image is build-qualified
+## Remaining runtime acceptance
 
-The desktop stack still has unresolved LXQt provider work and runtime launch validation. It is acceptable to keep Firefox out of the image until the desktop image itself builds and boots, provided M13 stays open and the limitation remains visible.
+The following M13 tasks are not closed by provider packaging alone:
+
+- launching Firefox from LXQt,
+- loading an HTTPS page,
+- confirming Wayland-native operation or documenting XWayland fallback,
+- recording memory and startup time, and
+- validating browser behavior after suspend/resume if relevant.
+
+Runtime evidence must come from a booted desktop image and should be recorded in the canonical TODO and `docs/HARDWARE_MATRIX.md` before Firefox is described as runtime-qualified.
 
 ## Rejected shortcuts
 
 Do not close M13 by:
 
-- adding a browser recipe name that has not passed dependency-graph validation,
-- importing a browser layer without pinning a branch or revision policy,
-- treating an old ESR recipe as safe without explicit maintenance review,
-- claiming HTTPS support without certificate-store and runtime launch evidence,
-- using an AppImage candidate to close the Yocto-native Firefox package task without documenting that substitution.
-
-## Acceptance path
-
-A future Firefox implementation PR should include the provider layer or recipe, packagegroup/image changes, documentation, and validation in one coherent slice.
-
-Minimum merge evidence before marking package/build work complete:
-
-1. `python3 scripts/validate_repo.py` passes.
-2. `kas dump` passes for all affected kas files.
-3. SNAPPY desktop parse passes.
-4. SNAPPY desktop dependency graph resolves with the browser included.
-5. A desktop image build for at least one target passes before claiming desktop-image acceptance.
-
-Runtime acceptance still requires booted-system evidence that Firefox launches, loads an HTTPS page, and records startup and memory behavior.
+- treating provider packaging as launch evidence,
+- enabling Firefox self-update outside the image update model,
+- using an AppImage candidate to satisfy the Yocto-native Firefox package task without documenting the substitution,
+- claiming HTTPS support without certificate-store and runtime evidence, or
+- carrying a browser version without an explicit update policy.

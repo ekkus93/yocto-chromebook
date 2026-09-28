@@ -52,8 +52,11 @@ The desktop image includes `packagegroup-yocto-chromebook-desktop`, which curren
 - `pcmanfm-qt`
 - `qterminal`
 - `yocto-chromebook-lxqt-labwc-session`
+- `firefox-esr-bin`
 
-The LXQt/SDDM packages are supplied by pinned `meta-qt5` and `meta-qt5-extra` revisions and pass exact-head SNAPPY desktop parse and dependency-graph validation. The repository-owned session package installs the SDDM Wayland session entry, starts Labwc with an LXQt-oriented environment, autostarts the panel/desktop/power components, and seeds the first SDDM session choice without overwriting later user state. This is a build-time and configuration baseline, not a claim that the login/session path works on hardware.
+The LXQt/SDDM packages are supplied by pinned `meta-qt5` and `meta-qt5-extra` revisions and pass exact-head SNAPPY desktop parse and dependency-graph validation. The repository-owned session package installs the SDDM Wayland session entry, starts Labwc with an LXQt-oriented environment, autostarts the panel/desktop/power components, and seeds the first SDDM session choice without overwriting later user state.
+
+The Firefox provider is a repository-owned x86-64 Firefox ESR binary recipe with a wrapper that defaults to Wayland operation through `MOZ_ENABLE_WAYLAND=1` and disables upstream self-update so browser updates remain image-owned. This is a build-time and configuration baseline, not a claim that Firefox launches or loads HTTPS on hardware.
 
 Desktop validation still requires:
 
@@ -61,6 +64,7 @@ Desktop validation still requires:
 - SDDM or another configured login path reaching an LXQt session
 - QTerminal launch evidence
 - PCManFM-Qt launch evidence
+- Firefox launch and HTTPS evidence
 - touchpad and keyboard evidence in the graphical session
 
 ## AppImage runtime baseline
