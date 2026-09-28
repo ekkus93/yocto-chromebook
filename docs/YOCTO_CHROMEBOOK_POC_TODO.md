@@ -101,11 +101,11 @@ Make builds reproducible through kas.
 ### Acceptance criteria
 
 - [x] `kas dump` succeeds for each SNAPPY and VORTICON file.
-- [ ] `kas dump` succeeds for each KEFKA file.
-- [ ] `kas dump` succeeds for each MAGOLOR file.
+- [x] `kas dump` succeeds for each KEFKA file.
+- [x] `kas dump` succeeds for each MAGOLOR file.
 - [x] `kas build` reaches BitBake parsing for at least one POC target.
-- [ ] KEFKA POC and desktop kas entries reach BitBake parsing.
-- [ ] MAGOLOR POC and desktop kas entries reach BitBake parsing.
+- [x] KEFKA POC and desktop kas entries reach BitBake parsing.
+- [x] MAGOLOR POC and desktop kas entries reach BitBake parsing.
 - [x] Missing upstream layer or branch assumptions are documented.
 
 ## M3 — Machine config: SNAPPY
@@ -177,8 +177,8 @@ Add third-board support for Dell Chromebook 11 3180 / 3189 KEFKA Braswell Chrome
 
 ### Acceptance criteria
 
-- [ ] `MACHINE=kefka` parses.
-- [ ] KEFKA image build starts without unresolved machine include errors.
+- [x] `MACHINE=kefka` parses.
+- [x] KEFKA image build starts without unresolved machine include errors.
 - [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M4B — Machine config: MAGOLOR / Acer Chromebook Spin 511 R753T-C4XP
@@ -202,8 +202,8 @@ Add fourth-board support for Acer Chromebook Spin 511 R753T-C4XP MAGOLOR Jasper 
 
 ### Acceptance criteria
 
-- [ ] `MACHINE=magolor` parses.
-- [ ] MAGOLOR image build starts without unresolved machine include errors.
+- [x] `MACHINE=magolor` parses.
+- [x] MAGOLOR image build starts without unresolved machine include errors.
 - [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M5 — POC image package baseline
@@ -434,10 +434,10 @@ Include Firefox in the desktop image.
 
 ### Tasks
 
-- [ ] Select Firefox recipe/layer.
-- [ ] Resolve build dependencies.
-- [ ] Configure Wayland support.
-- [ ] Ensure certificates are available.
+- [x] Select Firefox recipe/layer.
+- [x] Resolve build dependencies.
+- [x] Configure Wayland support.
+- [x] Ensure certificates are available.
 - [ ] Launch Firefox in LXQt session.
 - [ ] Load an HTTPS page.
 - [ ] Record memory and startup time.
@@ -446,7 +446,7 @@ Include Firefox in the desktop image.
 
 - [ ] Firefox launches from menu or terminal.
 - [ ] HTTPS page loads.
-- [ ] Wayland-native operation or fallback path is documented.
+- [x] Wayland-native operation or fallback path is documented.
 
 ## M14 — VLC and multimedia baseline
 
@@ -757,11 +757,11 @@ The first POC release is acceptable when at least one initial target board satis
 
 The Dell Chromebook 11 3180 KEFKA target is acceptable for initial repository support when:
 
-- [ ] `kas dump kas/kefka-poc.yml` succeeds.
-- [ ] `kas dump kas/kefka-desktop.yml` succeeds.
-- [ ] `MACHINE=kefka` reaches BitBake parsing.
-- [ ] KEFKA POC dependency graph resolves.
-- [ ] KEFKA desktop dependency graph resolves.
+- [x] `kas dump kas/kefka-poc.yml` succeeds.
+- [x] `kas dump kas/kefka-desktop.yml` succeeds.
+- [x] `MACHINE=kefka` reaches BitBake parsing.
+- [x] KEFKA POC dependency graph resolves.
+- [x] KEFKA desktop dependency graph resolves.
 - [ ] KEFKA POC WIC image builds or the blocker is documented.
 - [x] KEFKA appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
 - [x] KEFKA limitations are linked from README or known gaps.
@@ -770,11 +770,11 @@ The Dell Chromebook 11 3180 KEFKA target is acceptable for initial repository su
 
 The Acer Chromebook Spin 511 R753T-C4XP MAGOLOR target is acceptable for initial repository support when:
 
-- [ ] `kas dump kas/magolor-poc.yml` succeeds.
-- [ ] `kas dump kas/magolor-desktop.yml` succeeds.
-- [ ] `MACHINE=magolor` reaches BitBake parsing.
-- [ ] MAGOLOR POC dependency graph resolves.
-- [ ] MAGOLOR desktop dependency graph resolves.
+- [x] `kas dump kas/magolor-poc.yml` succeeds.
+- [x] `kas dump kas/magolor-desktop.yml` succeeds.
+- [x] `MACHINE=magolor` reaches BitBake parsing.
+- [x] MAGOLOR POC dependency graph resolves.
+- [x] MAGOLOR desktop dependency graph resolves.
 - [ ] MAGOLOR POC WIC image builds or the blocker is documented.
 - [x] MAGOLOR appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
 - [x] MAGOLOR limitations are linked from README or known gaps.
