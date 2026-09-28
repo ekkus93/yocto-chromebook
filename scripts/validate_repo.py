@@ -57,7 +57,7 @@ TODO_REQUIRED_PHRASES = [
     "Basic suspend/resume works on KEFKA or limitation documented",
     "Basic suspend/resume works on MAGOLOR or limitation documented",
     "No data-loss or hardware-risk behavior observed", "[x] `/data` design documented", "- [x] known gaps documented",
-    "Capture SOF/AVS firmware request lines", "Capture ALSA UCM2 card/profile state",
+    "SOF/AVS firmware requests", "Capture ALSA/PipeWire evidence",
 ]
 LAYER_REQUIRED_PHRASES = ["BBFILE_COLLECTIONS", "LAYERSERIES_COMPAT_yoctochromebook", "scarthgap"]
 DISTRO_REQUIRED_PHRASES = ["TCLIBC = \"glibc\"", "INIT_MANAGER = \"systemd\"", "wayland", "AppImage"]
