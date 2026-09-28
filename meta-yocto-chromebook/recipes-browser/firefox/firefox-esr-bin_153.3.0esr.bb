@@ -23,7 +23,7 @@ INSANE_SKIP:${PN} += "already-stripped file-rdeps ldflags textrel dev-so"
 
 RDEPENDS:${PN} += "ca-certificates"
 
- do_install() {
+do_install() {
     install -d ${D}${libdir}
     cp -a ${S} ${D}${libdir}/firefox
 
