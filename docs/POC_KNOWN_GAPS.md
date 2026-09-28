@@ -6,14 +6,14 @@ It is intentionally conservative: a feature is not marked supported until there 
 
 ## Build and image status
 
-- The repository has parse and dependency-graph validation for the SNAPPY POC image.
-- The SNAPPY POC WIC image-build gate has been merged into `master` through PR #30.
+- The repository has parse and dependency-graph validation for the SNAPPY and VORTICON POC images and the SNAPPY desktop scaffold.
+- The SNAPPY and VORTICON POC WIC image-build gates have been merged into `master`.
 - The qualified SNAPPY POC image artifact is recorded in `docs/IMAGE_METRICS.md`.
 - Current qualified SNAPPY POC image sizes are:
   - raw `.wic`: `2,656,201,728 bytes`
   - compressed `.wic.gz`: `699,995,369 bytes`
   - manifest: `62,502 bytes`
-- VORTICON full-image build evidence is still open.
+- VORTICON POC WIC build evidence exists from exact-head CI, but VORTICON size metrics still need to be copied into `docs/IMAGE_METRICS.md`.
 - Installed rootfs size, boot-time, and RAM metrics still require booted or mounted-image evidence.
 
 ## Hardware validation status
@@ -41,11 +41,11 @@ Internal speakers are deliberately not qualified. Audio hardware identity, ampli
 
 ## Desktop and AppImage gaps
 
-The repository includes a software-side AppImage runtime path (`/data/apps`, FUSE, FUSE3, XWayland, common X11/XCB libraries, and font libraries), a minimal Wayland compositor baseline through Weston, and a desktop packagegroup with the currently resolving Labwc/XWayland/VLC package set.
+The repository includes a software-side AppImage runtime path (`/data/apps`, FUSE, FUSE3, XWayland, common X11/XCB libraries, and font libraries), a minimal Wayland compositor baseline through Weston, and a desktop packagegroup containing Labwc, XWayland, VLC, SDDM, and the required LXQt applications.
 
-The current scarthgap layer set does not provide the remaining LXQt package names attempted during dependency-graph validation: `lxqt-session`, `lxqt-panel`, `lxqt-powermanagement`, `lxqt-config`, `pcmanfm-qt`, and `qterminal`. M12 remains open until an LXQt-capable layer or local recipes are added and qualified.
+Pinned `meta-qt5` and `meta-qt5-extra` revisions now resolve the LXQt package graph in exact-head Scarthgap CI. M12 remains open for the full desktop image build and for the actual LXQt-on-Labwc login/session and application runtime checks.
 
-The provider strategy and rejected shortcuts are recorded in `docs/LXQT_PROVIDER_STRATEGY.md`.
+The LXQt provider strategy, pinned revisions, and remaining runtime caveat are recorded in `docs/LXQT_PROVIDER_STRATEGY.md`.
 
 The initial AppImage candidate and evidence policy are recorded in `docs/APPIMAGE_TEST_SELECTION.md`, but runtime launch evidence remains open.
 
@@ -55,4 +55,4 @@ Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size and desktop image sizes. The desktop milestone needs an LXQt provider strategy that resolves in the selected Yocto layer stack, and the browser milestone needs a maintained Firefox provider decision.
+The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone needs a maintained Firefox provider decision.

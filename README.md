@@ -9,7 +9,7 @@ The initial proof of concept targets HP Chromebook 11-family Intel devices and k
 | Board | Representative hardware | Status |
 | --- | --- | --- |
 | `snappy` | HP Chromebook 11 G6 EE-family Apollo Lake devices | POC WIC image-build qualified; hardware not release-qualified |
-| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | Parse-level POC machine config; hardware not release-qualified |
+| `vorticon` | HP Chromebook 11 G8 EE Intel / Gemini Lake devices | POC WIC image-build qualified; hardware not release-qualified |
 
 No board is release-qualified yet. Hardware support must be recorded in `docs/HARDWARE_MATRIX.md` before a board is described as supported.
 
@@ -80,7 +80,7 @@ kas build kas/snappy-desktop.yml
 kas build kas/vorticon-desktop.yml
 ```
 
-The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, AppImage runtime support, and GParted for partition inspection/maintenance. The SNAPPY POC WIC image-build gate is qualified; VORTICON POC, desktop images, and all hardware boot evidence remain tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
+The current image recipes include the POC package baseline plus Bluetooth, graphics/Wayland, AppImage runtime support, and GParted for partition inspection/maintenance. The SNAPPY and VORTICON POC WIC image-build gates are qualified; desktop images and all hardware boot evidence remain tracked in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`.
 
 Current SNAPPY POC image metrics are recorded in `docs/IMAGE_METRICS.md`.
 
@@ -156,4 +156,4 @@ Run the repository validator locally with:
 python3 scripts/validate_repo.py
 ```
 
-CI additionally runs `kas dump` on all kas configs plus BitBake parse and dependency-graph validation for SNAPPY POC, VORTICON POC, and the SNAPPY desktop scaffold. Full SNAPPY and VORTICON POC WIC jobs run in parallel for pull-request qualification or explicit manual workflow dispatch.
+CI additionally runs `kas dump` on all kas configs plus BitBake parse and dependency-graph validation for SNAPPY POC, VORTICON POC, and the SNAPPY desktop scaffold. Full SNAPPY and VORTICON POC WIC jobs run in parallel for pull-request qualification, master pushes, or explicit manual workflow dispatch.

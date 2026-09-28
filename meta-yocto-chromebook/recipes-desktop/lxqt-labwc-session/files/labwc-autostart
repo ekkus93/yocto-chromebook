@@ -1,0 +1,9 @@
+#!/bin/sh
+# This file is run by Labwc after the Wayland compositor is ready.
+export XDG_CURRENT_DESKTOP="LXQt:Labwc"
+export XDG_SESSION_DESKTOP="lxqt-labwc"
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland;xcb}"
+
+lxqt-panel &
+pcmanfm-qt --desktop &
+lxqt-powermanagement &
