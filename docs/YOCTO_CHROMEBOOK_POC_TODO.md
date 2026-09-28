@@ -7,7 +7,7 @@ The TODO is intentionally milestone-oriented so future autonomous work can advan
 ## Rules of engagement
 
 - Use `docs/YOCTO_CHROMEBOOK_SPEC.md` as the architecture source of truth.
-- Keep SNAPPY and VORTICON support in the same project architecture, not separate OS forks.
+- Keep SNAPPY, VORTICON, and KEFKA support in the same project architecture, not separate OS forks.
 - Prefer shared includes and common recipes; put only hardware-specific requirements in machine configs.
 - Do not enable unsafe internal speaker output just to claim audio support.
 - Do not add an end-user package manager as the application strategy.
@@ -88,6 +88,8 @@ Make builds reproducible through kas.
 - [x] Add `kas/vorticon-poc.yml`.
 - [x] Add `kas/snappy-desktop.yml`.
 - [x] Add `kas/vorticon-desktop.yml`.
+- [x] Add `kas/kefka-poc.yml`.
+- [x] Add `kas/kefka-desktop.yml`.
 - [x] Pin Poky/OE-Core branch or revision.
 - [x] Add required upstream layers.
 - [x] Add this repository layer.
@@ -96,8 +98,10 @@ Make builds reproducible through kas.
 
 ### Acceptance criteria
 
-- [x] `kas dump` succeeds for each file.
+- [x] `kas dump` succeeds for each SNAPPY and VORTICON file.
+- [ ] `kas dump` succeeds for each KEFKA file.
 - [x] `kas build` reaches BitBake parsing for at least one POC target.
+- [ ] KEFKA POC and desktop kas entries reach BitBake parsing.
 - [x] Missing upstream layer or branch assumptions are documented.
 
 ## M3 — Machine config: SNAPPY
@@ -146,6 +150,31 @@ Add second-board support for VORTICON / Gemini Lake Chromebook hardware.
 
 - [x] `MACHINE=vorticon` parses.
 - [x] VORTICON image build starts without unresolved machine include errors.
+- [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
+
+## M4A — Machine config: KEFKA / Dell Chromebook 11 3180
+
+### Goals
+
+Add third-board support for Dell Chromebook 11 3180 / 3189 KEFKA Braswell Chromebook hardware.
+
+### Tasks
+
+- [x] Create `meta-yocto-chromebook/conf/machine/kefka.conf`.
+- [x] Create or use `include/intel-braswell-chromebook.inc`.
+- [x] Identify kernel baseline suitable for KEFKA.
+- [ ] Identify required firmware packages/blobs.
+- [x] Document Wi-Fi chipset expectation as an investigation item.
+- [x] Document Bluetooth expectation as an investigation item.
+- [x] Document audio codec/amplifier expectation as an investigation item.
+- [x] Document internal storage device expectations as an investigation item.
+- [x] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM.
+- [x] Add `docs/KEFKA_HARDWARE_NOTES.md`.
+
+### Acceptance criteria
+
+- [ ] `MACHINE=kefka` parses.
+- [ ] KEFKA image build starts without unresolved machine include errors.
 - [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M5 — POC image package baseline
@@ -203,6 +232,7 @@ Get the POC image booting from MrChromebox UEFI.
 - [x] Document flashing/writing the image to USB or eMMC.
 - [ ] Boot SNAPPY from external USB first.
 - [ ] Boot VORTICON from external USB first.
+- [ ] Boot KEFKA from external USB first.
 - [ ] Record UEFI boot menu behavior.
 - [ ] Record boot logs.
 
@@ -210,6 +240,7 @@ Get the POC image booting from MrChromebox UEFI.
 
 - [ ] SNAPPY reaches kernel boot log from MrChromebox UEFI.
 - [ ] VORTICON reaches kernel boot log from MrChromebox UEFI.
+- [ ] KEFKA reaches kernel boot log from MrChromebox UEFI.
 - [ ] At least one board reaches a shell login.
 
 ## M7 — Internal storage and partitioning
@@ -222,6 +253,7 @@ Validate eMMC visibility and define install layout.
 
 - [ ] Confirm internal eMMC device name on SNAPPY.
 - [ ] Confirm internal eMMC device name on VORTICON.
+- [ ] Confirm internal eMMC device name on KEFKA.
 - [ ] Verify read/write access from POC image.
 - [x] Define initial POC partition layout.
 - [x] Define future A/B partition layout.
@@ -231,6 +263,7 @@ Validate eMMC visibility and define install layout.
 
 - [ ] Internal eMMC visible on SNAPPY.
 - [ ] Internal eMMC visible on VORTICON.
+- [ ] Internal eMMC visible on KEFKA.
 - [ ] POC image can be installed or written in a documented way.
 - [x] Production A/B layout remains feasible.
 
@@ -254,6 +287,7 @@ Validate laptop input devices.
 
 - [ ] Keyboard works at console on SNAPPY.
 - [ ] Keyboard works at console on VORTICON.
+- [ ] Keyboard works at console on KEFKA.
 - [ ] Touchpad works in graphical session once desktop is available.
 - [ ] Required quirks are captured in machine config or documentation.
 
@@ -267,6 +301,7 @@ Bring up networking reliably.
 
 - [ ] Identify Wi-Fi chipset on SNAPPY.
 - [ ] Identify Wi-Fi chipset on VORTICON.
+- [ ] Identify Wi-Fi chipset on KEFKA.
 - [ ] Include required firmware.
 - [x] Include NetworkManager configuration.
 - [ ] Validate scan.
@@ -279,7 +314,8 @@ Bring up networking reliably.
 
 - [ ] SNAPPY connects to Wi-Fi and resolves DNS.
 - [ ] VORTICON connects to Wi-Fi and resolves DNS.
-- [ ] `curl -I https://example.com/` succeeds on both boards or documented equivalent.
+- [ ] KEFKA connects to Wi-Fi and resolves DNS.
+- [ ] `curl -I` succeeds against a known HTTPS endpoint on each qualified board or documented equivalent.
 
 ## M10 — Bluetooth
 
@@ -300,6 +336,7 @@ Initialize Bluetooth hardware.
 
 - [ ] Bluetooth controller initializes on SNAPPY or limitation documented.
 - [ ] Bluetooth controller initializes on VORTICON or limitation documented.
+- [ ] Bluetooth controller initializes on KEFKA or limitation documented.
 
 ## M11 — Graphics and Wayland baseline
 
@@ -320,6 +357,7 @@ Enable Intel graphics and a Wayland compositor path.
 
 - [ ] SNAPPY starts a Wayland compositor or documented minimal equivalent.
 - [ ] VORTICON starts a Wayland compositor or documented minimal equivalent.
+- [ ] KEFKA starts a Wayland compositor or documented minimal equivalent.
 - [ ] No software-only graphics fallback unless explicitly documented as temporary.
 
 ## M12 — LXQt + Labwc desktop
@@ -453,7 +491,11 @@ Identify audio hardware and define safe enablement per board.
 - [ ] VORTICON: identify codec/amplifier devices.
 - [ ] VORTICON: identify required kernel options/modules.
 - [ ] VORTICON: identify firmware/topology/UCM2 requirements.
-- [ ] Determine whether either board uses MAX98357A or another speaker-risk amp path.
+- [ ] KEFKA: identify Intel audio path: Baytrail/Braswell legacy, AVS, SOF, or other.
+- [ ] KEFKA: identify codec/amplifier devices.
+- [ ] KEFKA: identify required kernel options/modules.
+- [ ] KEFKA: identify firmware/topology/UCM2 requirements.
+- [ ] Determine whether any board uses MAX98357A or another speaker-risk amp path.
 - [x] Add conservative initial mixer policy.
 - [ ] Validate PipeWire/WirePlumber enumeration.
 - [ ] Validate headphones before internal speakers if possible.
@@ -468,6 +510,7 @@ Identify audio hardware and define safe enablement per board.
 
 - [ ] Audio hardware identity documented for SNAPPY.
 - [ ] Audio hardware identity documented for VORTICON.
+- [ ] Audio hardware identity documented for KEFKA.
 - [ ] Internal speakers are not enabled unsafely.
 - [ ] No board is marked audio-qualified until speaker-safety risk is resolved.
 - [ ] At least one safe audio output path works or limitations are explicitly documented.
@@ -497,6 +540,7 @@ Make the machines usable as laptops.
 
 - [ ] Basic suspend/resume works on SNAPPY or limitation documented.
 - [ ] Basic suspend/resume works on VORTICON or limitation documented.
+- [ ] Basic suspend/resume works on KEFKA or limitation documented.
 - [ ] No data-loss or hardware-risk behavior observed.
 
 ## M19 — Image size, RAM, and boot-time metrics
@@ -576,6 +620,7 @@ Create a persistent support matrix for each board.
 
 - [x] Add `docs/HARDWARE_MATRIX.md`.
 - [x] Include rows for SNAPPY and VORTICON.
+- [ ] Include row for KEFKA / Dell Chromebook 11 3180.
 - [x] Track status values:
   - [x] unknown
   - [x] detected
@@ -607,7 +652,7 @@ Create a persistent support matrix for each board.
 ### Acceptance criteria
 
 - [x] Matrix exists.
-- [x] Every supported board has explicit component statuses.
+- [ ] Every supported board has explicit component statuses, including KEFKA.
 - [x] Unknowns are visible rather than implied supported.
 
 ## M23 — Documentation closeout for POC-1
@@ -627,6 +672,7 @@ Make the first proof of concept repeatable.
 - [x] Document known failures.
 - [x] Document audio safety status.
 - [x] Document AppImage workflow.
+- [ ] Document KEFKA build and hardware limitations in README and known gaps.
 - [ ] Document current image size and RAM metrics.
 
 ### Acceptance criteria
@@ -649,6 +695,19 @@ The first POC release is acceptable when at least one initial target board satis
 - [ ] image size and RAM metrics recorded
 - [ ] audio hardware identified, even if internal speakers remain disabled for safety
 - [x] known gaps documented
+
+## KEFKA target acceptance gate
+
+The Dell Chromebook 11 3180 KEFKA target is acceptable for initial repository support when:
+
+- [ ] `kas dump kas/kefka-poc.yml` succeeds.
+- [ ] `kas dump kas/kefka-desktop.yml` succeeds.
+- [ ] `MACHINE=kefka` reaches BitBake parsing.
+- [ ] KEFKA POC dependency graph resolves.
+- [ ] KEFKA desktop dependency graph resolves.
+- [ ] KEFKA POC WIC image builds or the blocker is documented.
+- [ ] KEFKA appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
+- [ ] KEFKA limitations are linked from README or known gaps.
 
 ## Desktop release gate
 
