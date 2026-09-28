@@ -1,10 +1,10 @@
 header:
   version: 14
 
-machine: kefka
+machine: magolor
 distro: yocto-chromebook
 target:
-  - yocto-chromebook-desktop
+  - yocto-chromebook-poc
 
 repos:
   poky:
@@ -24,20 +24,11 @@ repos:
       meta-filesystems:
       meta-multimedia:
       meta-gnome:
-  meta-wayland:
-    url: "https://codeberg.org/flk/meta-wayland.git"
-    branch: "scarthgap"
-  meta-qt5:
-    url: "https://github.com/meta-qt5/meta-qt5.git"
-    commit: "916d37e38077850ff5a0ac4fce6f2a55ba5b2a86"
-  meta-qt5-extra:
-    url: "https://github.com/schnitzeltony/meta-qt5-extra.git"
-    commit: "cb9132b18c1fc5cdfe07407a7c6737b039c02117"
   yocto-chromebook:
     path: .
     layers:
       meta-yocto-chromebook:
 
 local_conf_header:
-  kefka-desktop: |
+  magolor-poc: |
     CONF_VERSION = "2"

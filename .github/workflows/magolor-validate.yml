@@ -1,0 +1,157 @@
+name: Validate MAGOLOR
+
+on:
+  push:
+    branches:
+      - master
+      - "ralph/**"
+    paths:
+      - ".github/workflows/magolor-validate.yml"
+      - "kas/magolor-*.yml"
+      - "meta-yocto-chromebook/**"
+      - "docs/MAGOLOR_HARDWARE_NOTES.md"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/magolor-validate.yml"
+      - "kas/magolor-*.yml"
+      - "meta-yocto-chromebook/**"
+      - "docs/MAGOLOR_HARDWARE_NOTES.md"
+  workflow_dispatch:
+
+jobs:
+  magolor-parse:
+    name: MAGOLOR repository and Yocto parse validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Yocto host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chrpath diffstat
+
+      - name: Allow BitBake user namespaces on Ubuntu 24.04
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Validate MAGOLOR kas configuration expansion
+        run: |
+          kas dump kas/magolor-poc.yml >/tmp/magolor-poc.yml
+          kas dump kas/magolor-desktop.yml >/tmp/magolor-desktop.yml
+
+      - name: Validate BitBake parse for MAGOLOR POC
+        run: kas shell kas/magolor-poc.yml -c 'bitbake -p'
+
+      - name: Validate MAGOLOR POC dependency graph
+        run: kas shell kas/magolor-poc.yml -c 'bitbake -g yocto-chromebook-poc'
+
+      - name: Validate BitBake parse for MAGOLOR desktop scaffold
+        run: kas shell kas/magolor-desktop.yml -c 'bitbake -p'
+
+      - name: Validate MAGOLOR desktop dependency graph
+        run: kas shell kas/magolor-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
+
+  magolor-poc-image:
+    name: MAGOLOR POC image build
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Free hosted-runner disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet
+          sudo docker system prune --all --force || true
+          df -h
+
+      - name: Install Yocto host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            chrpath \
+            cpio \
+            diffstat \
+            file \
+            gawk \
+            gcc \
+            git \
+            lz4 \
+            make \
+            python3 \
+            python3-pip \
+            xz-utils \
+            zstd
+
+      - name: Allow BitBake user namespaces on Ubuntu 24.04
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Install kas
+        run: python3 -m pip install --upgrade kas
+
+      - name: Restore MAGOLOR Yocto downloads cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/downloads
+            build/sstate-cache
+          key: yocto-magolor-poc-${{ runner.os }}-${{ hashFiles('kas/magolor-poc.yml', 'meta-yocto-chromebook/**/*.bb', 'meta-yocto-chromebook/**/*.bbappend', 'meta-yocto-chromebook/conf/**/*.conf') }}
+          restore-keys: |
+            yocto-magolor-poc-${{ runner.os }}-
+
+      - name: Build MAGOLOR POC WIC image
+        run: kas shell kas/magolor-poc.yml -c 'bitbake yocto-chromebook-poc:do_image_wic'
+
+      - name: Capture MAGOLOR POC image evidence
+        run: |
+          artifact_dir="build/ci-artifacts/magolor-poc"
+          mkdir -p "$artifact_dir"
+
+          echo "Searching for generated MAGOLOR POC image outputs under build/"
+          find build -type f \
+            \( -name 'yocto-chromebook-poc-*.wic' \
+               -o -name 'yocto-chromebook-poc-*.wic.gz' \
+               -o -name 'yocto-chromebook-poc-*.manifest' \) \
+            -print | sort | tee "$artifact_dir/FOUND_IMAGE_FILES.txt"
+
+          wic="$(find build -type f -name 'yocto-chromebook-poc-*.wic' | sort | head -n 1 || true)"
+          wic_gz="$(find build -type f -name 'yocto-chromebook-poc-*.wic.gz' | sort | head -n 1 || true)"
+          manifest="$(find build -type f -name 'yocto-chromebook-poc-*.manifest' | sort | head -n 1 || true)"
+
+          for output in "$wic" "$wic_gz" "$manifest"; do
+            test -n "$output" && test -e "$output" || {
+              echo "Missing expected MAGOLOR POC image output" >&2
+              echo "wic=$wic" >&2
+              echo "wic_gz=$wic_gz" >&2
+              echo "manifest=$manifest" >&2
+              find build -maxdepth 5 -type d | sort >&2
+              exit 1
+            }
+          done
+
+          {
+            echo "wic=$wic"
+            echo "wic_gz=$wic_gz"
+            echo "manifest=$manifest"
+          } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
+
+          sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
+          stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
+
+          cp -L "$wic_gz" "$artifact_dir/"
+          cp -L "$manifest" "$artifact_dir/"
+
+      - name: Upload MAGOLOR POC image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: magolor-poc-image-${{ github.sha }}
+          path: build/ci-artifacts/magolor-poc/
+          if-no-files-found: error
+          compression-level: 0

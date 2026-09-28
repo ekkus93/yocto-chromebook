@@ -8,6 +8,7 @@ It is intentionally conservative: a feature is not marked supported until there 
 
 - The repository has parse and dependency-graph validation for the SNAPPY and VORTICON POC images and the SNAPPY desktop scaffold.
 - The SNAPPY and VORTICON POC WIC image-build gates have been merged into `master`.
+- KEFKA and MAGOLOR have repository build scaffolds and dedicated validation workflows, but their final acceptance remains governed by `docs/YOCTO_CHROMEBOOK_POC_TODO.md` until exact-head validation and documentation evidence are reconciled.
 - The qualified SNAPPY POC image artifact is recorded in `docs/IMAGE_METRICS.md`.
 - Current qualified SNAPPY POC image sizes are:
   - raw `.wic`: `2,656,201,728 bytes`
@@ -22,6 +23,8 @@ The current repository state does not include board-run evidence for:
 
 - SNAPPY boot from external USB
 - VORTICON boot from external USB
+- KEFKA boot from external USB
+- MAGOLOR boot from external USB
 - internal eMMC visibility or write safety
 - keyboard and touchpad behavior
 - Wi-Fi chipset identity or network association
@@ -33,7 +36,7 @@ All of these remain hardware-test tasks and should be recorded in `docs/HARDWARE
 
 ## Firmware gaps
 
-Board-specific firmware packages/blobs remain unidentified for SNAPPY and VORTICON. The POC image includes `linux-firmware` as a broad bring-up baseline, but the M3/M4 firmware checkboxes remain open until hardware evidence identifies the exact Wi-Fi, Bluetooth, audio, and other board-specific firmware requirements.
+Board-specific firmware packages/blobs remain unidentified for SNAPPY, VORTICON, KEFKA, and MAGOLOR. The POC image includes `linux-firmware` as a broad bring-up baseline, but the board-specific firmware checkboxes remain open until hardware evidence identifies the exact Wi-Fi, Bluetooth, audio, and other board-specific firmware requirements.
 
 ## Audio safety gaps
 
@@ -55,4 +58,4 @@ Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone needs a maintained Firefox provider decision.
+The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The next build milestone is qualifying the KEFKA and MAGOLOR target gates on current `master`; the desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone needs a maintained Firefox provider decision.

@@ -1,7 +1,7 @@
 header:
   version: 14
 
-machine: kefka
+machine: magolor
 distro: yocto-chromebook
 target:
   - yocto-chromebook-desktop
@@ -39,5 +39,5 @@ repos:
       meta-yocto-chromebook:
 
 local_conf_header:
-  kefka-desktop: |
+  magolor-desktop: |
     CONF_VERSION = "2"

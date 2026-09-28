@@ -90,8 +90,8 @@ Make builds reproducible through kas.
 - [x] Add `kas/vorticon-desktop.yml`.
 - [x] Add `kas/kefka-poc.yml`.
 - [x] Add `kas/kefka-desktop.yml`.
-- [ ] Add `kas/magolor-poc.yml`.
-- [ ] Add `kas/magolor-desktop.yml`.
+- [x] Add `kas/magolor-poc.yml`.
+- [x] Add `kas/magolor-desktop.yml`.
 - [x] Pin Poky/OE-Core branch or revision.
 - [x] Add required upstream layers.
 - [x] Add this repository layer.
@@ -189,22 +189,22 @@ Add fourth-board support for Acer Chromebook Spin 511 R753T-C4XP MAGOLOR Jasper 
 
 ### Tasks
 
-- [ ] Create `meta-yocto-chromebook/conf/machine/magolor.conf`.
-- [ ] Create or use `include/intel-jasperlake-chromebook.inc`.
-- [ ] Identify kernel baseline suitable for MAGOLOR.
+- [x] Create `meta-yocto-chromebook/conf/machine/magolor.conf`.
+- [x] Create or use `include/intel-jasperlake-chromebook.inc`.
+- [x] Identify kernel baseline suitable for MAGOLOR.
 - [ ] Identify required firmware packages/blobs.
-- [ ] Document Wi-Fi chipset expectation as an investigation item.
-- [ ] Document Bluetooth expectation as an investigation item.
-- [ ] Document audio codec/amplifier expectation as an investigation item.
-- [ ] Document internal storage device expectations as an investigation item.
-- [ ] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM or documented alternate firmware path.
-- [ ] Add `docs/MAGOLOR_HARDWARE_NOTES.md`.
+- [x] Document Wi-Fi chipset expectation as an investigation item.
+- [x] Document Bluetooth expectation as an investigation item.
+- [x] Document audio codec/amplifier expectation as an investigation item.
+- [x] Document internal storage device expectations as an investigation item.
+- [x] Document known recovery/firmware assumptions: MrChromebox UEFI Full ROM or documented alternate firmware path.
+- [x] Add `docs/MAGOLOR_HARDWARE_NOTES.md`.
 
 ### Acceptance criteria
 
 - [ ] `MACHINE=magolor` parses.
 - [ ] MAGOLOR image build starts without unresolved machine include errors.
-- [ ] Board-specific unknowns are tracked in this TODO or a hardware notes file.
+- [x] Board-specific unknowns are tracked in this TODO or a hardware notes file.
 
 ## M5 — POC image package baseline
 
@@ -664,8 +664,8 @@ Create a persistent support matrix for each board.
 
 - [x] Add `docs/HARDWARE_MATRIX.md`.
 - [x] Include rows for SNAPPY and VORTICON.
-- [ ] Include row for KEFKA / Dell Chromebook 11 3180.
-- [ ] Include row for MAGOLOR / Acer Chromebook Spin 511 R753T-C4XP.
+- [x] Include row for KEFKA / Dell Chromebook 11 3180.
+- [x] Include row for MAGOLOR / Acer Chromebook Spin 511 R753T-C4XP.
 - [x] Track status values:
   - [x] unknown
   - [x] detected
@@ -697,7 +697,7 @@ Create a persistent support matrix for each board.
 ### Acceptance criteria
 
 - [x] Matrix exists.
-- [ ] Every supported board has explicit component statuses, including KEFKA and MAGOLOR.
+- [x] Every supported board has explicit component statuses, including KEFKA and MAGOLOR.
 - [x] Unknowns are visible rather than implied supported.
 
 ## M23 — Documentation closeout for POC-1
@@ -717,8 +717,8 @@ Make the first proof of concept repeatable.
 - [x] Document known failures.
 - [x] Document audio safety status.
 - [x] Document AppImage workflow.
-- [ ] Document KEFKA build and hardware limitations in README and known gaps.
-- [ ] Document MAGOLOR build and hardware limitations in README and known gaps.
+- [x] Document KEFKA build and hardware limitations in README and known gaps.
+- [x] Document MAGOLOR build and hardware limitations in README and known gaps.
 - [ ] Document current image size and RAM metrics.
 
 ### Acceptance criteria
@@ -752,8 +752,8 @@ The Dell Chromebook 11 3180 KEFKA target is acceptable for initial repository su
 - [ ] KEFKA POC dependency graph resolves.
 - [ ] KEFKA desktop dependency graph resolves.
 - [ ] KEFKA POC WIC image builds or the blocker is documented.
-- [ ] KEFKA appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
-- [ ] KEFKA limitations are linked from README or known gaps.
+- [x] KEFKA appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
+- [x] KEFKA limitations are linked from README or known gaps.
 
 ## MAGOLOR target acceptance gate
 
@@ -765,8 +765,8 @@ The Acer Chromebook Spin 511 R753T-C4XP MAGOLOR target is acceptable for initial
 - [ ] MAGOLOR POC dependency graph resolves.
 - [ ] MAGOLOR desktop dependency graph resolves.
 - [ ] MAGOLOR POC WIC image builds or the blocker is documented.
-- [ ] MAGOLOR appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
-- [ ] MAGOLOR limitations are linked from README or known gaps.
+- [x] MAGOLOR appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
+- [x] MAGOLOR limitations are linked from README or known gaps.
 
 ## Desktop release gate
 
