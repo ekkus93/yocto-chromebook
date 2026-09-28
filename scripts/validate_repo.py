@@ -9,16 +9,19 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
-    ".gitignore", "README.md", "docs/APPIMAGE_TEST_SELECTION.md", "docs/AUDIO_SAFETY_POLICY.md", "docs/FIRMWARE_IDENTIFICATION.md", "docs/HARDWARE_EVIDENCE.md",
-    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/IMAGE_METRICS.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
+    ".gitignore", "README.md", ".github/workflows/kefka-validate.yml", ".github/workflows/magolor-validate.yml",
+    "docs/APPIMAGE_TEST_SELECTION.md", "docs/AUDIO_SAFETY_POLICY.md", "docs/FIRMWARE_IDENTIFICATION.md", "docs/HARDWARE_EVIDENCE.md",
+    "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/IMAGE_METRICS.md", "docs/KEFKA_HARDWARE_NOTES.md", "docs/MAGOLOR_HARDWARE_NOTES.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
     "docs/POC_PACKAGE_BASELINE.md", "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
     "docs/STORAGE_AND_UPDATE_DESIGN.md", "docs/UEFI_DEPLOYMENT.md", "docs/YOCTO_CHROMEBOOK_SPEC.md",
-    "docs/YOCTO_CHROMEBOOK_POC_TODO.md", "kas/snappy-poc.yml", "kas/vorticon-poc.yml",
-    "kas/snappy-desktop.yml", "kas/vorticon-desktop.yml", "meta-yocto-chromebook/conf/layer.conf",
+    "docs/YOCTO_CHROMEBOOK_POC_TODO.md", "kas/snappy-poc.yml", "kas/vorticon-poc.yml", "kas/kefka-poc.yml", "kas/magolor-poc.yml",
+    "kas/snappy-desktop.yml", "kas/vorticon-desktop.yml", "kas/kefka-desktop.yml", "kas/magolor-desktop.yml", "meta-yocto-chromebook/conf/layer.conf",
     "meta-yocto-chromebook/conf/distro/yocto-chromebook.conf", "meta-yocto-chromebook/conf/machine/snappy.conf",
-    "meta-yocto-chromebook/conf/machine/vorticon.conf",
+    "meta-yocto-chromebook/conf/machine/vorticon.conf", "meta-yocto-chromebook/conf/machine/kefka.conf", "meta-yocto-chromebook/conf/machine/magolor.conf",
     "meta-yocto-chromebook/conf/machine/include/intel-apollolake-chromebook.inc",
     "meta-yocto-chromebook/conf/machine/include/intel-geminilake-chromebook.inc",
+    "meta-yocto-chromebook/conf/machine/include/intel-braswell-chromebook.inc",
+    "meta-yocto-chromebook/conf/machine/include/intel-jasperlake-chromebook.inc",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-poc.bb",
     "meta-yocto-chromebook/recipes-core/images/yocto-chromebook-desktop.bb",
     "meta-yocto-chromebook/recipes-core/packagegroups/packagegroup-yocto-chromebook-poc.bb",
@@ -34,7 +37,7 @@ REQUIRED_FILES = [
 ]
 
 REQUIRED_DIRS = [
-    "kas", "meta-yocto-chromebook", "meta-yocto-chromebook/conf", "meta-yocto-chromebook/conf/distro",
+    ".github", ".github/workflows", "kas", "meta-yocto-chromebook", "meta-yocto-chromebook/conf", "meta-yocto-chromebook/conf/distro",
     "meta-yocto-chromebook/conf/machine", "meta-yocto-chromebook/conf/machine/include",
     "meta-yocto-chromebook/recipes-core", "meta-yocto-chromebook/recipes-core/images",
     "meta-yocto-chromebook/recipes-core/packagegroups", "meta-yocto-chromebook/recipes-desktop",
@@ -44,14 +47,17 @@ REQUIRED_DIRS = [
     "meta-yocto-chromebook/recipes-support/ncdu", "scripts",
 ]
 
-SPEC_REQUIRED_PHRASES = ["LXQt + Labwc", "AppImage", "MrChromebox UEFI", "`snappy`", "`vorticon`"]
+SPEC_REQUIRED_PHRASES = ["LXQt + Labwc", "AppImage", "MrChromebox UEFI", "`snappy`", "`vorticon`", "USB-C-era Intel Chromebooks"]
 TODO_REQUIRED_PHRASES = [
     "## M0 — Repository bootstrap", "## M1 — Yocto layer skeleton", "## M2 — kas bootstrap",
     "## M5 — POC image package baseline", "## M22 — Hardware qualification matrix", "## POC-1 release gate",
-    "## Desktop release gate", "[x] Add conservative initial mixer policy",
+    "## KEFKA target acceptance gate", "## MAGOLOR target acceptance gate", "## Desktop release gate", "[x] Add conservative initial mixer policy",
     "Basic suspend/resume works on SNAPPY or limitation documented",
     "Basic suspend/resume works on VORTICON or limitation documented",
+    "Basic suspend/resume works on KEFKA or limitation documented",
+    "Basic suspend/resume works on MAGOLOR or limitation documented",
     "No data-loss or hardware-risk behavior observed", "[x] `/data` design documented", "- [x] known gaps documented",
+    "Capture SOF/AVS firmware request lines", "Capture ALSA UCM2 card/profile state",
 ]
 LAYER_REQUIRED_PHRASES = ["BBFILE_COLLECTIONS", "LAYERSERIES_COMPAT_yoctochromebook", "scarthgap"]
 DISTRO_REQUIRED_PHRASES = ["TCLIBC = \"glibc\"", "INIT_MANAGER = \"systemd\"", "wayland", "AppImage"]
@@ -66,15 +72,15 @@ DESKTOP_PACKAGEGROUP_REQUIRED_PHRASES = ["labwc", "xwayland", "vlc"]
 NCDU_RECIPE_REQUIRED_PHRASES = ["SRC_URI", "30363019180cde0752c7fb006c12e154920412f4e1b5dc3090654698496bb17d", "inherit autotools pkgconfig"]
 UEFI_DEPLOYMENT_REQUIRED_PHRASES = ["MrChromebox UEFI Full ROM", "External USB boot workflow", "Internal eMMC deployment workflow", "GPT disk image", "EFI System Partition", "dd if=yocto-chromebook-poc-snappy.wic", "Evidence to capture"]
 STORAGE_UPDATE_REQUIRED_PHRASES = ["Initial POC partition layout", "Future persistent layout", "/data/apps", "/data/home", "Manual installer decision", "Future A/B update design", "rootfs-A", "rootfs-B", "rollback"]
-HARDWARE_MATRIX_REQUIRED_PHRASES = ["Status vocabulary", "unknown", "detected", "works", "partial", "blocked", "unsafe-disabled", "## SNAPPY", "## VORTICON", "UEFI boot", "eMMC", "keyboard", "touchpad", "Wi-Fi", "Bluetooth", "graphics", "USB-A", "USB-C", "battery", "brightness", "suspend/resume", "speakers", "headphones", "microphone", "webcam", "Firefox", "VLC", "AppImage"]
+HARDWARE_MATRIX_REQUIRED_PHRASES = ["Status vocabulary", "unknown", "detected", "works", "partial", "blocked", "unsafe-disabled", "## SNAPPY", "## VORTICON", "## KEFKA", "## MAGOLOR", "UEFI boot", "eMMC", "keyboard", "touchpad", "Wi-Fi", "Bluetooth", "graphics", "USB-A", "USB-C", "battery", "brightness", "suspend/resume", "speakers", "headphones", "microphone", "webcam", "Firefox", "VLC", "AppImage"]
 RUNTIME_BASELINE_REQUIRED_PHRASES = ["Bluetooth baseline", "bluez5", "Graphics and Wayland baseline", "mesa", "libdrm", "weston", "Desktop package baseline", "labwc", "xwayland", "vlc", "lxqt-session", "pcmanfm-qt", "qterminal", "AppImage runtime baseline", "fuse", "fuse3"]
 KNOWN_GAPS_REQUIRED_PHRASES = ["Build and image status", "Hardware validation status", "Firmware gaps", "Audio safety gaps", "Desktop and AppImage gaps", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/APPIMAGE_TEST_SELECTION.md", "LXQt provider strategy", "Next actionable milestones"]
 APPIMAGE_TEST_SELECTION_REQUIRED_PHRASES = ["GVim AppImage", "x86-64 AppImage", "/data/apps", "SHA256", "--appimage-extract-and-run", "does not close"]
 LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim Labwc-only desktop", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
 FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES = ["SNAPPY / Apollo Lake triage baseline", "VORTICON / Gemini Lake triage baseline", "linux-firmware", "iwlwifi", "Realtek", "not enough to mark the checklist items complete"]
-HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
+HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["snappy", "vorticon", "kefka", "magolor", "firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "SOF/AVS", "topology", "ALSA UCM2", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
 IMAGE_METRICS_REQUIRED_PHRASES = ["SNAPPY POC image", "2,656,201,728", "699,995,369", "Artifact ID", "10918571968", "RAM and boot-time metrics remain pending"]
-EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "df -h"]
+EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon|kefka|magolor> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "alsaucm listcards", "audio-topology", "wpctl status", "df -h"]
 AUDIO_SAFETY_REQUIRED_PHRASES = ["Audio Safety Policy", "mute-first", "internal speakers must remain unqualified", "yocto-chromebook-audio-safety-policy", "yocto-chromebook-audio-safe-startup", "Speaker safety gate"]
 
 def fail(message: str) -> None:
@@ -138,8 +144,12 @@ def main() -> int:
     assert_contains("meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb", ["audio-safety-policy.conf", "yocto-chromebook-audio-safe-startup", "inherit allarch"])
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
+    assert_kas_file("kas/kefka-poc.yml", "kefka", "yocto-chromebook-poc")
+    assert_kas_file("kas/magolor-poc.yml", "magolor", "yocto-chromebook-poc")
     assert_kas_file("kas/snappy-desktop.yml", "snappy", "yocto-chromebook-desktop")
     assert_kas_file("kas/vorticon-desktop.yml", "vorticon", "yocto-chromebook-desktop")
+    assert_kas_file("kas/kefka-desktop.yml", "kefka", "yocto-chromebook-desktop")
+    assert_kas_file("kas/magolor-desktop.yml", "magolor", "yocto-chromebook-desktop")
     print("yocto-chromebook repository validation passed")
     return 0
 

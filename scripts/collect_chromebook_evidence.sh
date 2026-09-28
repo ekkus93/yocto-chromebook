@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat >&2 <<'USAGE'
-Usage: collect_chromebook_evidence.sh <snappy|vorticon> <output-dir>
+Usage: collect_chromebook_evidence.sh <snappy|vorticon|kefka|magolor> <output-dir>
 
 Collect non-destructive hardware evidence from a booted Yocto Chromebook image
 or equivalent Linux rescue environment. The script writes plain-text logs only;
@@ -20,9 +20,9 @@ board="$1"
 out_dir="$2"
 
 case "$board" in
-  snappy|vorticon) ;;
+  snappy|vorticon|kefka|magolor) ;;
   *)
-    echo "ERROR: board must be 'snappy' or 'vorticon'" >&2
+    echo "ERROR: board must be one of: snappy, vorticon, kefka, magolor" >&2
     usage
     exit 2
     ;;
@@ -89,12 +89,16 @@ run_shell_log drm 'for d in /sys/class/drm/*; do echo "## $d"; cat "$d/status" 2
 run_shell_log backlight 'for d in /sys/class/backlight/*; do echo "## $d"; cat "$d/actual_brightness" 2>/dev/null || true; cat "$d/max_brightness" 2>/dev/null || true; done'
 run_shell_log power-supply 'for d in /sys/class/power_supply/*; do echo "## $d"; for f in type status capacity voltage_now current_now model_name manufacturer; do printf "%s=" "$f"; cat "$d/$f" 2>/dev/null || true; done; done'
 run_shell_log modules 'lsmod 2>/dev/null || true'
-run_shell_log firmware 'dmesg 2>/dev/null | grep -Ei "firmware|iwlwifi|rtl|ath|brcm|bluetooth|btusb|sof|avs|snd|hda|ucm|topology|drm|i915|mmc|sdhci|touchpad|i2c|hid|usb|battery|backlight" || true'
+run_shell_log firmware 'dmesg 2>/dev/null | grep -Ei "firmware|iwlwifi|rtl|ath|brcm|bluetooth|btusb|sof|avs|snd|hda|ucm|topology|tplg|rt5682|rt1015|max983|da7219|cs42l42|drm|i915|mmc|sdhci|touchpad|i2c|hid|usb|battery|backlight" || true'
 run_shell_log journal-boot 'journalctl -b --no-pager 2>/dev/null || true'
 run_shell_log network 'ip addr show 2>/dev/null; ip route show 2>/dev/null; nmcli general status 2>/dev/null || true; nmcli device status 2>/dev/null || true'
 run_shell_log bluetooth 'bluetoothctl list 2>/dev/null || true; rfkill list 2>/dev/null || true'
 run_shell_log graphics 'loginctl seat-status seat0 2>/dev/null || true; weston --version 2>/dev/null || true; labwc --version 2>/dev/null || true'
-run_shell_log audio 'aplay -l 2>/dev/null || true; arecord -l 2>/dev/null || true; pactl info 2>/dev/null || true; wpctl status 2>/dev/null || true'
+run_shell_log audio-cards 'aplay -l 2>/dev/null || true; arecord -l 2>/dev/null || true; cat /proc/asound/cards 2>/dev/null || true; cat /proc/asound/devices 2>/dev/null || true'
+run_shell_log audio-ucm 'alsaucm listcards 2>/dev/null || true; for d in /usr/share/alsa/ucm2 /usr/share/alsa/ucm2/conf.d; do echo "## $d"; find "$d" -maxdepth 3 -type f 2>/dev/null | sort || true; done'
+run_shell_log audio-topology 'for d in /lib/firmware /usr/lib/firmware; do echo "## $d"; find "$d" -type f \( -iname "*sof*" -o -iname "*tplg*" -o -iname "*ucm*" -o -iname "*rt5682*" -o -iname "*rt1015*" -o -iname "*max983*" \) 2>/dev/null | sort || true; done'
+run_shell_log audio-mixer-state 'amixer -c 0 contents 2>/dev/null || true; amixer -c 0 scontents 2>/dev/null || true; amixer -c 1 contents 2>/dev/null || true; amixer -c 1 scontents 2>/dev/null || true'
+run_shell_log audio-session 'pactl info 2>/dev/null || true; pactl list cards 2>/dev/null || true; pactl list sinks 2>/dev/null || true; wpctl status 2>/dev/null || true; pw-dump 2>/dev/null || true'
 run_shell_log image-metrics 'df -h 2>/dev/null; du -sh / /boot /data 2>/dev/null || true; free -h 2>/dev/null'
 
 cat >"$out_dir/README.txt" <<EOF
@@ -107,6 +111,11 @@ Use this bundle to update docs/HARDWARE_MATRIX.md and the hardware-dependent
 items in docs/YOCTO_CHROMEBOOK_POC_TODO.md. Do not mark a component as works
 unless the captured evidence demonstrates functional behavior, not just device
 presence.
+
+Audio logs intentionally identify cards, codecs, amplifiers, SOF/AVS firmware,
+topology files, UCM2 profiles, PipeWire/WirePlumber state, and mixer controls
+without playing audio. Internal speaker playback remains excluded until the
+speaker-safety gate is reviewed for this board.
 EOF
 
 echo "Evidence written to $out_dir"
