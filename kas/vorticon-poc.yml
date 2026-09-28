@@ -24,6 +24,7 @@ repos:
       meta-python:
       meta-filesystems:
       meta-multimedia:
+      meta-gnome:
 
   yocto-chromebook:
     path: "."
