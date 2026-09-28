@@ -39,19 +39,24 @@ Hardware validation still requires:
 
 ## Desktop package baseline
 
-The desktop image includes `packagegroup-yocto-chromebook-desktop`, which currently pulls in the packages that resolve with the selected scarthgap layer set:
+The desktop image includes `packagegroup-yocto-chromebook-desktop`, which currently pulls in:
 
 - `labwc`
 - `xwayland`
 - `vlc`
+- `sddm`
+- `lxqt-session`
+- `lxqt-panel`
+- `lxqt-powermanagement`
+- `lxqt-config`
+- `pcmanfm-qt`
+- `qterminal`
+- `yocto-chromebook-lxqt-labwc-session`
 
-These packages cover the current compositor, XWayland compatibility, and VLC baseline. They do not complete the LXQt desktop milestone.
-
-The attempted LXQt package expansion for `lxqt-session`, `lxqt-panel`, `lxqt-powermanagement`, `lxqt-config`, `pcmanfm-qt`, and `qterminal` failed dependency-graph validation because the current layer set does not provide those package names. The failure is intentionally documented instead of being hidden by TODO reconciliation.
+The LXQt/SDDM packages are supplied by pinned `meta-qt5` and `meta-qt5-extra` revisions and pass exact-head SNAPPY desktop parse and dependency-graph validation. The repository-owned session package installs the SDDM Wayland session entry, starts Labwc with an LXQt-oriented environment, autostarts the panel/desktop/power components, and seeds the first SDDM session choice without overwriting later user state. This is a build-time and configuration baseline, not a claim that the login/session path works on hardware.
 
 Desktop validation still requires:
 
-- an LXQt-capable layer or local recipes that provide the missing LXQt packages
 - a desktop image build for at least one target
 - SDDM or another configured login path reaching an LXQt session
 - QTerminal launch evidence
