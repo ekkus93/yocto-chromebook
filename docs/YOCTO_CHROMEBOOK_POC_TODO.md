@@ -517,10 +517,17 @@ Separate OS image from persistent user/application data.
 
 ### Goals
 
-Identify audio hardware and define safe enablement per board.
+Identify audio hardware and define safe enablement per board, including USB-C-era Intel Chromebook DSP/UCM2/topology quirks before any internal speaker route is enabled.
 
 ### Tasks
 
+- [x] Add project-level USB-C-era Intel Chromebook DSP/UCM2/topology safety policy to the spec.
+- [ ] Create a board-specific audio bring-up record before enabling internal speakers on any board.
+- [ ] Capture audio evidence: `lspci -nn`, `lsusb`, `dmesg`, journal logs, SOF/AVS firmware requests, and topology request lines.
+- [ ] Capture ALSA/PipeWire evidence: `aplay -l`, `arecord -l`, `alsaucm listcards`, PipeWire/WirePlumber state, and mixer-control enumeration.
+- [ ] Verify UCM2 card/profile selection and topology files before internal speaker tests.
+- [ ] Validate non-speaker output first where possible: headphones, HDMI, USB-C, or USB audio.
+- [ ] Keep internal speakers muted or disabled in first boot images until the speaker enablement checklist passes.
 - [ ] SNAPPY: identify Intel audio path: AVS or SOF.
 - [ ] SNAPPY: identify codec/amplifier devices.
 - [ ] SNAPPY: identify required kernel options/modules.
@@ -537,6 +544,7 @@ Identify audio hardware and define safe enablement per board.
 - [ ] MAGOLOR: identify codec/amplifier devices.
 - [ ] MAGOLOR: identify required kernel options/modules.
 - [ ] MAGOLOR: identify firmware/topology/UCM2 requirements.
+- [ ] MAGOLOR: treat Jasper Lake SOF/AVS plus codec/amplifier/UCM2 routing as unresolved until hardware evidence identifies the actual safe route.
 - [ ] Determine whether any board uses MAX98357A or another speaker-risk amp path.
 - [x] Add conservative initial mixer policy.
 - [ ] Validate PipeWire/WirePlumber enumeration.
@@ -550,10 +558,13 @@ Identify audio hardware and define safe enablement per board.
 
 ### Acceptance criteria
 
+- [x] Spec contains the USB-C-era Intel Chromebook DSP/UCM2/topology policy.
+- [ ] Per-board audio bring-up record exists before any internal speaker route is enabled.
 - [ ] Audio hardware identity documented for SNAPPY.
 - [ ] Audio hardware identity documented for VORTICON.
 - [ ] Audio hardware identity documented for KEFKA.
 - [ ] Audio hardware identity documented for MAGOLOR.
+- [ ] MAGOLOR internal speakers remain unqualified until a MAGOLOR-specific SOF/AVS, topology, UCM2, codec, and amplifier record exists.
 - [ ] Internal speakers are not enabled unsafely.
 - [ ] No board is marked audio-qualified until speaker-safety risk is resolved.
 - [ ] At least one safe audio output path works or limitations are explicitly documented.

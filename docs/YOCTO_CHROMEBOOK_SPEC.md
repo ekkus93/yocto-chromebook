@@ -4,7 +4,7 @@
 
 `yocto-chromebook` is a Yocto/OpenEmbedded project for building compact, reproducible Linux images for Intel Chromebooks that have been converted to standard UEFI boot using MrChromebox firmware.
 
-The immediate goal is a proof-of-concept image for two HP Chromebook 11 variants, followed by a reusable architecture for additional Intel Chromebooks.
+The immediate goal is a proof-of-concept image for several Intel Chromebook 11-class devices, followed by a reusable architecture for additional Intel Chromebooks.
 
 The project is intentionally not a general-purpose Debian replacement with an end-user package manager. It is an appliance-style Chromebook Linux platform:
 
@@ -24,6 +24,8 @@ The first board targets are:
 | --- | --- | --- | --- |
 | `snappy` | HP Chromebook 11 G6 EE-family devices | Apollo Lake | Cr50, legacy/pre-Groot recovery UI, known Chromebook audio caveats |
 | `vorticon` | HP Chromebook 11 G8 EE Intel | Gemini Lake | Cr50, target device for the published Debian/SuzyQ conversion guide |
+| `kefka` | Dell Chromebook 11 3180 / 3189-class devices | Braswell | MrChromebox UEFI target; hardware runtime unqualified |
+| `magolor` | Acer Chromebook Spin 511 R753T-C4XP | Jasper Lake | USB-C-era Intel Chromebook; audio DSP/UCM2/topology must be treated as board-specific until evidenced |
 
 The exact retail device strings vary by model. Board identity and MrChromebox compatibility must be verified before firmware conversion or image qualification.
 
@@ -44,6 +46,8 @@ A single shared desktop image recipe should be buildable for multiple machines:
 ```bash
 MACHINE=snappy bitbake yocto-chromebook-desktop
 MACHINE=vorticon bitbake yocto-chromebook-desktop
+MACHINE=kefka bitbake yocto-chromebook-desktop
+MACHINE=magolor bitbake yocto-chromebook-desktop
 ```
 
 The resulting binaries are machine-specific because the kernel, firmware, audio topology, and machine configuration differ, but the userspace policy and desktop stack remain shared.
@@ -57,13 +61,18 @@ Target layout:
 ```text
 yocto-chromebook/
 ├── docs/
+│   ├── HARDWARE_MATRIX.md
 │   ├── YOCTO_CHROMEBOOK_SPEC.md
 │   └── YOCTO_CHROMEBOOK_POC_TODO.md
 ├── kas/
 │   ├── snappy-poc.yml
 │   ├── snappy-desktop.yml
 │   ├── vorticon-poc.yml
-│   └── vorticon-desktop.yml
+│   ├── vorticon-desktop.yml
+│   ├── kefka-poc.yml
+│   ├── kefka-desktop.yml
+│   ├── magolor-poc.yml
+│   └── magolor-desktop.yml
 ├── meta-yocto-chromebook/
 │   ├── conf/
 │   │   ├── layer.conf
@@ -72,9 +81,13 @@ yocto-chromebook/
 │   │   └── machine/
 │   │       ├── include/
 │   │       │   ├── intel-apollolake-chromebook.inc
-│   │       │   └── intel-geminilake-chromebook.inc
+│   │       │   ├── intel-geminilake-chromebook.inc
+│   │       │   ├── intel-braswell-chromebook.inc
+│   │       │   └── intel-jasperlake-chromebook.inc
 │   │       ├── snappy.conf
-│   │       └── vorticon.conf
+│   │       ├── vorticon.conf
+│   │       ├── kefka.conf
+│   │       └── magolor.conf
 │   ├── recipes-core/
 │   ├── recipes-desktop/
 │   ├── recipes-bsp/
@@ -101,16 +114,25 @@ Each kas file should pin:
 - target `MACHINE`
 - target image recipe
 
-Initial expected invocations:
+Expected POC invocations:
 
 ```bash
 kas build kas/snappy-poc.yml
 kas build kas/vorticon-poc.yml
-kas build kas/snappy-desktop.yml
-kas build kas/vorticon-desktop.yml
+kas build kas/kefka-poc.yml
+kas build kas/magolor-poc.yml
 ```
 
-The POC may start with fewer kas files if needed, but the final repository structure should support the four commands above.
+Expected desktop invocations:
+
+```bash
+kas build kas/snappy-desktop.yml
+kas build kas/vorticon-desktop.yml
+kas build kas/kefka-desktop.yml
+kas build kas/magolor-desktop.yml
+```
+
+The POC may start with fewer kas files if needed, but the final repository structure should support the commands above.
 
 ## 6. Toolchain and C library policy
 
@@ -399,7 +421,7 @@ The shared stack is:
 
 ```text
 machine config
-    -> AVS or SOF selection
+    -> AVS, SOF, legacy HDA, or other Intel audio path selection
     -> codec / amplifier drivers
     -> firmware + topology
     -> ALSA UCM2
@@ -413,31 +435,52 @@ The project must treat internal speaker enablement conservatively.
 
 Some Intel Chromebooks use amplifier/topology combinations such as `MAX98357A` that can be unsafe if routed or limited incorrectly. A wrong topology or unrestricted volume path can risk damaging internal speakers.
 
-### 17.2 Safety policy
+### 17.2 USB-C-era Chromebook DSP/UCM2/topology quirk class
+
+USB-C charging is not itself an audio transport requirement, but USB-C-era Intel Chromebooks tend to overlap with newer Chromebook audio designs that are easy to misconfigure under a generic Linux image. Jasper Lake and later boards can require the exact combination of Intel SOF or AVS driver selection, DSP firmware, topology file, ALSA UCM2 card/profile, codec driver, and speaker-amplifier routing. A machine can therefore have apparently working PipeWire or ALSA enumeration while internal speakers remain muted, routed to the wrong port, missing from the UCM2 profile, or unsafe to enable.
+
+Do not treat a successful image build, kernel boot, `aplay -l`, or generic UCM2 profile match as internal-speaker support. For USB-C-era boards such as `magolor`, internal speakers remain unqualified until a board-specific evidence record proves the selected driver path, topology, UCM2 profile, codec/amplifier pair, route names, mixer limits, and suspend/resume behavior.
+
+### 17.3 Safety policy
 
 For any newly supported board:
 
 - internal speakers are considered unqualified until tested
 - headphone, HDMI, USB-C, or USB audio may be validated separately
-- internal speaker output must start at low volume only
+- internal speaker output must start muted or disabled in first boot images
+- internal speaker output must start at low volume only after topology and route review
 - volume limits must be validated
 - mute/unmute must be validated
 - suspend/resume must not produce pops, blasts, or stuck high volume
 - no board may be marked audio-qualified while a known speaker-damage risk remains
 
-### 17.3 Board-specific audio requirements
+### 17.4 Board-specific audio requirements
 
 For each board, document:
 
-- Intel audio path: AVS or SOF
+- Intel audio path: AVS, SOF, legacy HDA, or other
 - codec and amplifier devices
 - required kernel options/modules
 - DSP firmware files
 - topology files
-- ALSA UCM2 profile
+- ALSA UCM2 card/profile
 - PipeWire/WirePlumber quirks
 - safe initial mixer state
 - maximum safe volume policy if known
+
+### 17.5 Required audio bring-up workflow
+
+Before enabling internal speakers on any board, create or update a board-specific audio bring-up record with:
+
+1. exact board, product, firmware state, image artifact, and commit SHA;
+2. `lspci -nn`, `lsusb`, `dmesg`, and journal evidence for audio, DSP, codec, amplifier, and firmware/topology requests;
+3. `aplay -l`, `arecord -l`, `alsaucm listcards`, PipeWire/WirePlumber status, and mixer-control enumeration;
+4. installed SOF/AVS firmware and topology file paths, or evidence that the board does not use them;
+5. selected UCM2 card/profile and the routes it exposes for headphones, speakers, HDMI, USB-C, USB audio, microphone, and internal microphone where present;
+6. a non-speaker output validation result before internal speaker tests where hardware permits; and
+7. a speaker enablement test plan with low-volume start, explicit mute behavior, maximum-volume limit, and suspend/resume re-test.
+
+Internal speakers must stay `unsafe-disabled` in `docs/HARDWARE_MATRIX.md` until this workflow is satisfied for the board.
 
 ## 18. Power management policy
 
