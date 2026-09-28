@@ -75,22 +75,23 @@ Do not use any of these shortcuts to close M12:
 - importing an old Yocto-series LXQt layer without scarthgap compatibility qualification
 - marking package tasks complete from recipe names alone
 - claiming desktop success from parse-only validation
-- bypassing dependency-graph or image-build validation
+- bypassing dependency-graph or image-build validation when claiming the M12 desktop-image acceptance criterion
 
 ## Acceptance path
 
 A future LXQt provider PR should include the provider layer or local recipes, packagegroup updates, documentation, and validation together.
 
-Minimum merge evidence:
+Minimum merge evidence for package-inclusion and provider configuration changes:
 
 1. `python3 scripts/validate_repo.py` passes.
 2. `kas dump` passes for all kas files.
 3. SNAPPY desktop parse passes.
 4. SNAPPY desktop dependency graph resolves.
-5. A desktop image build for at least one target passes before claiming the M12 build acceptance criterion.
+5. Full POC image qualification still passes for both configured target boards.
+
+The SNAPPY desktop full WIC build currently exceeds the GitHub-hosted runner budget during pull-request validation, so the workflow keeps that job as an explicit `workflow_dispatch` gate. A desktop image build for at least one target must pass before claiming the M12 desktop-image build acceptance criterion.
 
 Runtime acceptance still requires booted-system evidence for login/session launch, QTerminal, PCManFM-Qt, keyboard, touchpad, and graphics behavior.
-
 
 ## Repository-owned session integration
 

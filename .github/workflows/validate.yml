@@ -259,7 +259,10 @@ jobs:
 
   snappy-desktop-image:
     name: SNAPPY desktop image build
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    # Full desktop WIC qualification currently exceeds the six-hour GitHub-hosted
+    # runner ceiling for PRs. Keep it available as an explicit manual gate before
+    # claiming the M12 desktop-image build acceptance criterion.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
