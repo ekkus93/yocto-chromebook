@@ -9,6 +9,10 @@ MACHINE_FEATURES:append = " efi keyboard pci screen serial usbhost wifi bluetoot
 IMAGE_FSTYPES += "wic wic.gz"
 WKS_FILE ?= "efi-bootdisk.wks.in"
 
+# Keep broad firmware available for first boot while board evidence identifies
+# the exact Wi-Fi, Bluetooth, audio, and other device firmware requirements.
+MACHINE_EXTRA_RRECOMMENDS:append = " linux-firmware linux-firmware-iwlwifi"
+
 # Keep the initial image generic x86-64 until hardware-specific kernel,
 # firmware, topology, and UCM2 requirements are qualified per board.
 SERIAL_CONSOLES ?= "115200;ttyS0"
