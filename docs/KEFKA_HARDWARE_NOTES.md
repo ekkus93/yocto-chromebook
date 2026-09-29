@@ -32,6 +32,12 @@ kas shell kas/kefka-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
 kas build kas/kefka-desktop.yml
 ```
 
+## CI qualification evidence
+
+- `Validate KEFKA` run `36461497534` on commit `9c3e64357be4a2ca93d42d0f57abb2884998cc3f` completed successfully and included the KEFKA POC WIC image build gate.
+- Subsequent commits through `197540e7e34e41d8bc3d6a5411fcc02b945daa53` changed the TODO and SNAPPY/VORTICON include files only; they did not change KEFKA kas files, KEFKA machine files, shared recipes, layer metadata, or the KEFKA workflow.
+- A fresh target workflow should still be preferred before marking exact-current-head KEFKA WIC acceptance complete.
+
 ## Hardware qualification still required
 
 All runtime items remain unknown until tested on the actual Dell Chromebook 11 3180 hardware:

@@ -32,6 +32,12 @@ kas shell kas/magolor-desktop.yml -c 'bitbake -g yocto-chromebook-desktop'
 kas build kas/magolor-desktop.yml
 ```
 
+## CI qualification evidence
+
+- `Validate MAGOLOR` run `36475140425` on commit `e32d2806630914a99d014497316f7702f52fd9b2` completed successfully and included the MAGOLOR POC WIC image build gate.
+- The follow-up commit through `197540e7e34e41d8bc3d6a5411fcc02b945daa53` changed only the TODO reconciliation for that exact MAGOLOR WIC evidence.
+- MAGOLOR POC WIC acceptance is therefore documented in this note and reconciled in the canonical TODO; fresh target workflow runs remain useful regression evidence after future machine, kas, layer, or recipe changes.
+
 ## Hardware qualification still required
 
 All runtime items remain unknown until tested on the actual Acer Chromebook Spin 511 R753T-C4XP hardware:
