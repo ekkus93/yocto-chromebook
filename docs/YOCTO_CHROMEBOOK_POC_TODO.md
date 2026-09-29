@@ -398,6 +398,7 @@ Enable Intel graphics and a Wayland compositor path.
 - [ ] MAGOLOR starts a Wayland compositor or documented minimal equivalent.
 - [ ] No software-only graphics fallback unless explicitly documented as temporary.
 
+
 ## M12 — LXQt + Labwc desktop
 
 ### Goals
@@ -775,7 +776,7 @@ The Acer Chromebook Spin 511 R753T-C4XP MAGOLOR target is acceptable for initial
 - [x] `MACHINE=magolor` reaches BitBake parsing.
 - [x] MAGOLOR POC dependency graph resolves.
 - [x] MAGOLOR desktop dependency graph resolves.
-- [ ] MAGOLOR POC WIC image builds or the blocker is documented.
+- [x] MAGOLOR POC WIC image builds or the blocker is documented.
 - [x] MAGOLOR appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
 - [x] MAGOLOR limitations are linked from README or known gaps.
 
