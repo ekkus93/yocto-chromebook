@@ -269,7 +269,7 @@ Get the POC image booting from MrChromebox UEFI.
 ### Acceptance criteria
 
 - [ ] SNAPPY reaches kernel boot log from MrChromebox UEFI.
-- [ ] VORTICON reaches kernel boot log from MrChromebox UEFI.
+- [ ] VORTICON reaches kernel boot log from MrChrombox UEFI.
 - [ ] KEFKA reaches kernel boot log from MrChromebox UEFI.
 - [ ] MAGOLOR reaches kernel boot log from MrChromebox UEFI.
 - [ ] At least one board reaches a shell login.
@@ -763,7 +763,7 @@ The Dell Chromebook 11 3180 KEFKA target is acceptable for initial repository su
 - [x] `MACHINE=kefka` reaches BitBake parsing.
 - [x] KEFKA POC dependency graph resolves.
 - [x] KEFKA desktop dependency graph resolves.
-- [ ] KEFKA POC WIC image builds or the blocker is documented.
+- [x] KEFKA POC WIC image builds or the blocker is documented.
 - [x] KEFKA appears in `docs/HARDWARE_MATRIX.md` with explicit unknown statuses.
 - [x] KEFKA limitations are linked from README or known gaps.
 
