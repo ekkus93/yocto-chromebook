@@ -37,6 +37,8 @@ kas build kas/kefka-desktop.yml
 - `Validate KEFKA` run `36461497534` on commit `9c3e64357be4a2ca93d42d0f57abb2884998cc3f` completed successfully and included the KEFKA POC WIC image build gate.
 - Exact-head `Validate KEFKA` run `36512544176` on commit `e35580f7e8fa2a683fb74edcad5e11e327452be3` completed successfully, including kas expansion, POC and desktop parse/dependency validation, and the KEFKA POC WIC image build.
 - The exact-head run uploaded artifact `kefka-poc-image-e35580f7e8fa2a683fb74edcad5e11e327452be3` (artifact ID `11020632426`, 708,985,171 bytes), providing retained build evidence for the qualified WIC output.
+- Exact-head `Validate KEFKA` run `36546613296` on commit `d77754d6661167cd20966ceaf79799fbadfc2f5e` completed successfully, including the KEFKA POC WIC image build.
+- That run uploaded artifact `kefka-poc-image-d77754d6661167cd20966ceaf79799fbadfc2f5e` (artifact ID `11040053785`, 708,986,581 bytes), confirming the WIC output on the documentation commit itself.
 - This qualifies repository-side KEFKA image construction only; runtime hardware qualification remains separate.
 
 ## Hardware qualification still required
