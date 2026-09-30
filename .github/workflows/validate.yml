@@ -125,13 +125,15 @@ jobs:
           wic="$(find build -type f -name 'yocto-chromebook-poc-*.wic' | sort | head -n 1 || true)"
           wic_gz="$(find build -type f -name 'yocto-chromebook-poc-*.wic.gz' | sort | head -n 1 || true)"
           manifest="$(find build -type f -name 'yocto-chromebook-poc-*.manifest' | sort | head -n 1 || true)"
+          rootfs="$(find build -type d -path '*/yocto-chromebook-poc/*/rootfs' | sort | head -n 1 || true)"
 
-          for output in "$wic" "$wic_gz" "$manifest"; do
+          for output in "$wic" "$wic_gz" "$manifest" "$rootfs"; do
             test -n "$output" && test -e "$output" || {
-              echo "Missing expected SNAPPY POC image output" >&2
+              echo "Missing expected SNAPPY POC image/rootfs output" >&2
               echo "wic=$wic" >&2
               echo "wic_gz=$wic_gz" >&2
               echo "manifest=$manifest" >&2
+              echo "rootfs=$rootfs" >&2
               find build -maxdepth 5 -type d | sort >&2
               exit 1
             }
@@ -141,10 +143,13 @@ jobs:
             echo "wic=$wic"
             echo "wic_gz=$wic_gz"
             echo "manifest=$manifest"
+            echo "rootfs=$rootfs"
           } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
 
           sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
           stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
+          rootfs_apparent_bytes="$(du --apparent-size --block-size=1 -s "$rootfs" | awk '{print $1}')"
+          printf '%s %s apparent-bytes\n' "$rootfs" "$rootfs_apparent_bytes" | tee -a "$artifact_dir/SIZES.txt" "$artifact_dir/ROOTFS_SIZE.txt"
 
           cp -L "$wic_gz" "$artifact_dir/"
           cp -L "$manifest" "$artifact_dir/"
@@ -225,13 +230,15 @@ jobs:
           wic="$(find build -type f -name 'yocto-chromebook-poc-*.wic' | sort | head -n 1 || true)"
           wic_gz="$(find build -type f -name 'yocto-chromebook-poc-*.wic.gz' | sort | head -n 1 || true)"
           manifest="$(find build -type f -name 'yocto-chromebook-poc-*.manifest' | sort | head -n 1 || true)"
+          rootfs="$(find build -type d -path '*/yocto-chromebook-poc/*/rootfs' | sort | head -n 1 || true)"
 
-          for output in "$wic" "$wic_gz" "$manifest"; do
+          for output in "$wic" "$wic_gz" "$manifest" "$rootfs"; do
             test -n "$output" && test -e "$output" || {
-              echo "Missing expected VORTICON POC image output" >&2
+              echo "Missing expected VORTICON POC image/rootfs output" >&2
               echo "wic=$wic" >&2
               echo "wic_gz=$wic_gz" >&2
               echo "manifest=$manifest" >&2
+              echo "rootfs=$rootfs" >&2
               find build -maxdepth 5 -type d | sort >&2
               exit 1
             }
@@ -241,10 +248,13 @@ jobs:
             echo "wic=$wic"
             echo "wic_gz=$wic_gz"
             echo "manifest=$manifest"
+            echo "rootfs=$rootfs"
           } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
 
           sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
           stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
+          rootfs_apparent_bytes="$(du --apparent-size --block-size=1 -s "$rootfs" | awk '{print $1}')"
+          printf '%s %s apparent-bytes\n' "$rootfs" "$rootfs_apparent_bytes" | tee -a "$artifact_dir/SIZES.txt" "$artifact_dir/ROOTFS_SIZE.txt"
 
           cp -L "$wic_gz" "$artifact_dir/"
           cp -L "$manifest" "$artifact_dir/"
@@ -327,13 +337,15 @@ jobs:
           wic="$(find build -type f -name 'yocto-chromebook-desktop-*.wic' | sort | head -n 1 || true)"
           wic_gz="$(find build -type f -name 'yocto-chromebook-desktop-*.wic.gz' | sort | head -n 1 || true)"
           manifest="$(find build -type f -name 'yocto-chromebook-desktop-*.manifest' | sort | head -n 1 || true)"
+          rootfs="$(find build -type d -path '*/yocto-chromebook-desktop/*/rootfs' | sort | head -n 1 || true)"
 
-          for output in "$wic" "$wic_gz" "$manifest"; do
+          for output in "$wic" "$wic_gz" "$manifest" "$rootfs"; do
             test -n "$output" && test -e "$output" || {
-              echo "Missing expected SNAPPY desktop image output" >&2
+              echo "Missing expected SNAPPY desktop image/rootfs output" >&2
               echo "wic=$wic" >&2
               echo "wic_gz=$wic_gz" >&2
               echo "manifest=$manifest" >&2
+              echo "rootfs=$rootfs" >&2
               exit 1
             }
           done
@@ -342,10 +354,13 @@ jobs:
             echo "wic=$wic"
             echo "wic_gz=$wic_gz"
             echo "manifest=$manifest"
+            echo "rootfs=$rootfs"
           } | tee "$artifact_dir/IMAGE_OUTPUTS.txt"
 
           sha256sum "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SHA256SUMS.txt"
           stat --printf='%n %s bytes\n' "$wic" "$wic_gz" "$manifest" | tee "$artifact_dir/SIZES.txt"
+          rootfs_apparent_bytes="$(du --apparent-size --block-size=1 -s "$rootfs" | awk '{print $1}')"
+          printf '%s %s apparent-bytes\n' "$rootfs" "$rootfs_apparent_bytes" | tee -a "$artifact_dir/SIZES.txt" "$artifact_dir/ROOTFS_SIZE.txt"
 
           cp -L "$wic_gz" "$artifact_dir/"
           cp -L "$manifest" "$artifact_dir/"

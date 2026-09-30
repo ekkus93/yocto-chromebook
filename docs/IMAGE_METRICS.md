@@ -2,7 +2,7 @@
 
 This document records currently qualified image-size evidence for `yocto-chromebook` images.
 
-The values here are build-artifact metrics, not booted-system runtime metrics. Hardware boot, installed rootfs usage from a running board, RAM, and boot-time measurements remain pending until SNAPPY or VORTICON evidence bundles are collected.
+The values here are build-artifact metrics, not booted-system runtime metrics. The validation workflow also captures the built rootfs staging tree with `du --apparent-size --block-size=1`; that is a reproducible installed-content footprint before filesystem allocation overhead, not a claim about free/used blocks on a booted board. Hardware boot, runtime filesystem usage, RAM, and boot-time measurements remain pending until SNAPPY or VORTICON evidence bundles are collected.
 
 ## Current exact-head POC build evidence
 
@@ -49,7 +49,7 @@ The earlier SNAPPY image-build gate merged by PR #30 provides a useful historica
 
 The following measurements still require additional build, mounted-image, or booted-board evidence and must remain open in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`:
 
-- installed POC rootfs size from a mounted or booted target image,
+- exact POC rootfs installed-content size from the new build-time rootfs capture (pending the first successful exact-head run containing that instrumentation),
 - compressed and installed desktop image sizes,
 - boot-to-console time,
 - boot-to-LXQt time,

@@ -9,7 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
-    ".gitignore", "README.md", ".github/workflows/kefka-validate.yml", ".github/workflows/magolor-validate.yml", ".github/workflows/firefox-provider.yml",
+    ".gitignore", "README.md", ".github/workflows/validate.yml", ".github/workflows/kefka-validate.yml", ".github/workflows/magolor-validate.yml", ".github/workflows/firefox-provider.yml",
     "docs/APPIMAGE_TEST_SELECTION.md", "docs/AUDIO_SAFETY_POLICY.md", "docs/FIRMWARE_IDENTIFICATION.md", "docs/FIREFOX_PROVIDER_STRATEGY.md", "docs/HARDWARE_EVIDENCE.md",
     "docs/HARDWARE_MATRIX.md", "docs/HARDWARE_NOTES.md", "docs/IMAGE_METRICS.md", "docs/KEFKA_HARDWARE_NOTES.md", "docs/MAGOLOR_HARDWARE_NOTES.md", "docs/LXQT_PROVIDER_STRATEGY.md", "docs/POC_KNOWN_GAPS.md",
     "docs/POC_PACKAGE_BASELINE.md", "docs/RUNTIME_COMPATIBILITY_BASELINE.md",
@@ -89,6 +89,7 @@ HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["snappy", "vorticon", "kefka", "magolor", 
 IMAGE_METRICS_REQUIRED_PHRASES = ["SNAPPY POC image", "2,656,201,728", "699,995,369", "Artifact ID", "10918571968", "RAM and boot-time metrics remain pending"]
 EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon|kefka|magolor> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "alsaucm listcards", "audio-topology", "wpctl status", "df -h"]
 AUDIO_SAFETY_REQUIRED_PHRASES = ["Audio Safety Policy", "mute-first", "internal speakers must remain unqualified", "yocto-chromebook-audio-safety-policy", "yocto-chromebook-audio-safe-startup", "Speaker safety gate"]
+VALIDATE_WORKFLOW_REQUIRED_PHRASES = ["ROOTFS_SIZE.txt", "du --apparent-size --block-size=1", "yocto-chromebook-poc/*/rootfs", "yocto-chromebook-desktop/*/rootfs"]
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
@@ -153,6 +154,7 @@ def main() -> int:
     assert_contains("docs/IMAGE_METRICS.md", IMAGE_METRICS_REQUIRED_PHRASES)
     assert_contains("scripts/collect_chromebook_evidence.sh", EVIDENCE_SCRIPT_REQUIRED_PHRASES)
     assert_contains("docs/AUDIO_SAFETY_POLICY.md", AUDIO_SAFETY_REQUIRED_PHRASES)
+    assert_contains(".github/workflows/validate.yml", VALIDATE_WORKFLOW_REQUIRED_PHRASES)
     assert_contains("meta-yocto-chromebook/recipes-multimedia/audio-safety/yocto-chromebook-audio-safety-policy.bb", ["audio-safety-policy.conf", "yocto-chromebook-audio-safe-startup", "inherit allarch"])
     assert_kas_file("kas/snappy-poc.yml", "snappy", "yocto-chromebook-poc")
     assert_kas_file("kas/vorticon-poc.yml", "vorticon", "yocto-chromebook-poc")
