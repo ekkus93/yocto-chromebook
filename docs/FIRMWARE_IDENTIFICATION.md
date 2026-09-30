@@ -1,8 +1,8 @@
 # Firmware Identification Notes
 
-This document captures repository-side firmware identification work for SNAPPY and VORTICON without marking hardware-dependent TODO items complete before booted-device evidence exists.
+This document captures repository-side firmware identification work for SNAPPY, VORTICON, KEFKA, and MAGOLOR without marking hardware-dependent TODO items complete before booted-device evidence exists.
 
-`docs/YOCTO_CHROMEBOOK_POC_TODO.md` keeps M3 and M4 firmware tasks open until the required package names and blob paths are confirmed from a real board using `scripts/collect_chromebook_evidence.sh` or equivalent logs.
+`docs/YOCTO_CHROMEBOOK_POC_TODO.md` keeps the M3, M4, M4A, and M4B firmware tasks open until the required package names and blob paths are confirmed from a real board using `scripts/collect_chromebook_evidence.sh` or equivalent logs.
 
 ## Completion rule
 
@@ -16,6 +16,18 @@ A firmware item can be closed only when a board-specific evidence update records
 6. any firmware that must stay excluded because it is unsafe, proprietary-only, unavailable, or not needed.
 
 Expected chipset names from vendor literature are useful triage inputs, but they are not enough to mark the checklist items complete.
+
+## Shared repository baseline
+
+All four POC targets keep `linux-firmware` in the POC package baseline while board-specific evidence is unknown. That broad baseline is intentionally conservative: it increases image size, but it avoids prematurely omitting Wi-Fi, Bluetooth, graphics, or audio firmware before the actual board variant is probed.
+
+The expected narrowing workflow is:
+
+1. boot the current POC image on the target board,
+2. run `sudo scripts/collect_chromebook_evidence.sh <board> <output-dir>`,
+3. review `pci.txt`, `usb.txt`, `firmware.txt`, `journal-boot.txt`, `audio-cards.txt`, `audio-ucm.txt`, and `audio-topology.txt`,
+4. map observed firmware file paths to Yocto package names,
+5. update this document, the relevant hardware notes, and the canonical TODO in one evidence-backed change.
 
 ## SNAPPY / Apollo Lake triage baseline
 
@@ -41,6 +53,30 @@ Initial Yocto firmware triage:
 - keep audio firmware/topology/UCM2 unresolved until ALSA cards, kernel logs, topology requests, and codec/amplifier identifiers are captured,
 - keep internal speakers unsafe-disabled until the audio safety gate is satisfied.
 
+## KEFKA / Braswell triage baseline
+
+KEFKA is the ChromeOS board/device name used by Dell Chromebook 11 3180 / 3189 class hardware in the `strago` / Intel Braswell family. The repository currently qualifies KEFKA as a build and image-construction target only; runtime firmware identity remains open until the actual Dell unit is booted and probed.
+
+Initial Yocto firmware triage:
+
+- keep `linux-firmware` in the POC image until KEFKA evidence allows narrower package selection,
+- treat Wi-Fi and Bluetooth chipsets as board-variant investigation items rather than assuming a single vendor,
+- capture PCI/USB identities and firmware request lines before choosing Intel, Realtek, Broadcom, Atheros, or other wireless firmware packages,
+- treat Braswell-era audio as unresolved until ALSA card identity, codec/amplifier identity, kernel driver path, UCM2 availability, and mixer controls are captured,
+- keep internal speakers unsafe-disabled until the audio safety gate is satisfied.
+
+## MAGOLOR / Jasper Lake triage baseline
+
+MAGOLOR is the ChromeOS board/device name used by Acer Chromebook Spin 511 R753T / R753TN class hardware in the `dedede` / Intel Jasper Lake family, including the requested R753T-C4XP SKU. The repository currently qualifies MAGOLOR as a build and image-construction target only; runtime firmware identity remains open until that hardware is booted and probed.
+
+Initial Yocto firmware triage:
+
+- keep `linux-firmware` in the POC image until MAGOLOR evidence allows narrower package selection,
+- treat Wi-Fi and Bluetooth chipsets as board-variant investigation items until the actual SKU is probed,
+- capture PCI/USB identities and firmware request lines before choosing Intel, Realtek, Broadcom, Atheros, or other wireless firmware packages,
+- treat Jasper Lake audio as an explicit SOF/AVS, topology, ALSA UCM2, codec, amplifier, PipeWire, WirePlumber, and mixer-state investigation item,
+- keep internal speakers unsafe-disabled until a MAGOLOR-specific safe route is documented and the audio safety gate is satisfied.
+
 ## Source references for triage only
 
 These references are used to seed investigation. They do not replace booted-device evidence:
@@ -49,12 +85,14 @@ These references are used to seed investigation. They do not replace booted-devi
 - HP Chromebook 11 G6 EE QuickSpecs: `https://media.flixcar.com/f360cdn/HP-4263866599-4aa7-1710enuc.pdf`
 - HP Chromebook 11 G8 EE specifications: `https://support.hp.com/sk-en/document/ish_1869429-1551299-16`
 - HP Chromebook 11 G8 EE QuickSpecs: `https://h20195.www2.hp.com/v2/getpdf.aspx/4AA7-6544ENUC.pdf`
+- Dell Chromebook 11 3180 support notes in `docs/KEFKA_HARDWARE_NOTES.md`
+- Acer Chromebook Spin 511 R753T-C4XP support notes in `docs/MAGOLOR_HARDWARE_NOTES.md`
 
 ## Evidence handoff
 
-When a collector bundle is available, update these files in the same PR:
+When a collector bundle is available, update these files in the same PR or direct-master evidence commit:
 
-- `docs/HARDWARE_NOTES.md` with confirmed package/blob names,
+- `docs/HARDWARE_NOTES.md` or the board-specific hardware notes with confirmed package/blob names,
 - `docs/HARDWARE_MATRIX.md` with observed component statuses,
-- `docs/YOCTO_CHROMEBOOK_POC_TODO.md` with checked M3/M4 firmware items only if the evidence supports closure,
+- `docs/YOCTO_CHROMEBOOK_POC_TODO.md` with checked M3, M4, M4A, or M4B firmware items only if the evidence supports closure,
 - machine includes or packagegroups if the image needs board-specific firmware narrowing beyond the current broad `linux-firmware` baseline.
