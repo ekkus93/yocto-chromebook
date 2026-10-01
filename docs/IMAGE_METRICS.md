@@ -24,7 +24,7 @@ The artifact-upload sizes describe the GitHub Actions artifact archives. The exa
 | VORTICON POC | installed rootfs staging tree | `1,523,100,180` | `1.42 GiB` | n/a |
 | VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.wic` | `2,711,919,616` | `2.53 GiB` | `bbd80d3f3725664a9190ad75389740f9274e5e533769ffb42ce806966c7c6633` |
 | VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.wic.gz` | `708,917,800` | `676.08 MiB` | `f0c24e849cea6205b34a918822e659b6e9577366ae6227419fe8d1f3bd8837f2` |
-| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.manifest` | `64,929` | `63.41 KiB` | `166551c2a4cccf11408937183a634c95ee9dceff86` |
+| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.manifest` | `64,929` | `63.41 KiB` | `166551c2a4cccf1143b2568fad428ccf892e61408937183a634c95ee9dceff86` |
 
 The installed-content measurement is the apparent byte count of BitBake's completed rootfs staging tree. It is reproducible build evidence for M19's installed POC rootfs-size task; booted-filesystem allocation and free-space measurements remain runtime evidence.
 
