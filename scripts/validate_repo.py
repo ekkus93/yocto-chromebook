@@ -85,9 +85,24 @@ KNOWN_GAPS_REQUIRED_PHRASES = ["Build and image status", "Hardware validation st
 APPIMAGE_TEST_SELECTION_REQUIRED_PHRASES = ["GVim AppImage", "x86-64 AppImage", "/data/apps", "SHA256", "--appimage-extract-and-run", "does not close"]
 LXQT_PROVIDER_STRATEGY_REQUIRED_PHRASES = ["Maintained scarthgap-compatible LXQt layer", "Local recipes in this layer", "Interim Labwc-only desktop", "Rejected shortcuts", "dependency graph resolves", "desktop image build for at least one target"]
 FIRMWARE_IDENTIFICATION_REQUIRED_PHRASES = ["SNAPPY / Apollo Lake triage baseline", "VORTICON / Gemini Lake triage baseline", "KEFKA / Braswell triage baseline", "MAGOLOR / Jasper Lake triage baseline", "linux-firmware", "iwlwifi", "SOF/AVS", "not enough to mark the checklist items complete"]
-HARDWARE_EVIDENCE_REQUIRED_PHRASES = ["snappy", "vorticon", "kefka", "magolor", "firmware package and blob identity", "MrChromebox UEFI boot behavior", "eMMC discovery", "audio path identification", "SOF/AVS", "topology", "ALSA UCM2", "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md"]
+HARDWARE_EVIDENCE_REQUIRED_PHRASES = [
+    "snappy", "vorticon", "kefka", "magolor", "firmware package and blob identity",
+    "loaded module firmware declarations", "driver bindings", "installed firmware package and file inventory",
+    "MrChromebox UEFI boot behavior", "boot timing through `systemd-analyze`", "eMMC discovery",
+    "audio path identification", "SOF/AVS", "topology", "ALSA UCM2",
+    "optional active Wi-Fi, HTTPS, and Bluetooth functional evidence",
+    "Internal speaker tests are deliberately excluded", "Disk-destructive install actions are deliberately excluded", "docs/HARDWARE_MATRIX.md",
+]
 IMAGE_METRICS_REQUIRED_PHRASES = ["SNAPPY POC image", "2,656,201,728", "699,995,369", "Artifact ID", "10918571968", "RAM and boot-time metrics remain pending"]
-EVIDENCE_SCRIPT_REQUIRED_PHRASES = ["collect_chromebook_evidence.sh <snappy|vorticon|kefka|magolor> <output-dir>", "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list", "aplay -l", "alsaucm listcards", "audio-topology", "wpctl status", "df -h"]
+EVIDENCE_SCRIPT_REQUIRED_PHRASES = [
+    "collect_chromebook_evidence.sh <snappy|vorticon|kefka|magolor> <output-dir>",
+    "YOCTO_CHROMEBOOK_ENABLE_NETWORK_TESTS", "YOCTO_CHROMEBOOK_ENABLE_BLUETOOTH_SCAN",
+    "systemd-analyze time", "boot-timing", "driver-bindings", "module-firmware",
+    "installed-firmware-packages", "installed-firmware-files", "resolvectl status", "iw dev",
+    "network-active-test", "bluetooth-active-scan", "df -B1", "free -b",
+    "lspci -nnvv", "lsusb -tv", "journalctl -b --no-pager", "bluetoothctl list",
+    "aplay -l", "alsaucm listcards", "audio-topology", "wpctl status", "df -h",
+]
 AUDIO_SAFETY_REQUIRED_PHRASES = ["Audio Safety Policy", "mute-first", "internal speakers must remain unqualified", "yocto-chromebook-audio-safety-policy", "yocto-chromebook-audio-safe-startup", "Speaker safety gate"]
 VALIDATE_WORKFLOW_REQUIRED_PHRASES = ["ROOTFS_SIZE.txt", "du --apparent-size --block-size=1", "yocto-chromebook-poc/*/rootfs", "yocto-chromebook-desktop/*/rootfs"]
 
