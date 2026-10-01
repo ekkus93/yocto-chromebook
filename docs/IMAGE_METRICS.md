@@ -6,50 +6,38 @@ The values here are build-artifact metrics, not booted-system runtime metrics. T
 
 ## Current exact-head POC build evidence
 
-GitHub Actions `Validate` run #246 completed successfully for exact `master` commit `200cad6db5aa2fb8e94fbc52652e4785607a25b4` on 2026-09-30. Both POC WIC image jobs completed their build, evidence-capture, and artifact-upload steps successfully. The evidence-capture steps recorded the exact WIC, compressed WIC, manifest sizes, and SHA-256 digests before upload.
+GitHub Actions `Validate` run #250 completed successfully for exact `master` commit `ab5c622d8bc901f05c80657923ddf50c60931dee` on 2026-10-01. Both POC WIC image jobs completed their build, rootfs/image evidence-capture, and artifact-upload steps successfully.
 
 | Target | Workflow run | Job | Uploaded artifact | Artifact upload size |
 | --- | --- | --- | --- | ---: |
-| SNAPPY POC | `36629893558` (#246) | `109616149515` | `snappy-poc-image-200cad6db5aa2fb8e94fbc52652e4785607a25b4` | `708,986,902 bytes` |
-| VORTICON POC | `36629893558` (#246) | `109616149779` | `vorticon-poc-image-200cad6db5aa2fb8e94fbc52652e4785607a25b4` | `708,986,050 bytes` |
+| SNAPPY POC | `36783554240` (#250) | `110119441607` | `snappy-poc-image-ab5c622d8bc901f05c80657923ddf50c60931dee` | `708,984,949 bytes` |
+| VORTICON POC | `36783554240` (#250) | `110119441495` | `vorticon-poc-image-ab5c622d8bc901f05c80657923ddf50c60931dee` | `708,986,306 bytes` |
 
-The artifact-upload sizes describe the GitHub Actions artifact archives. The exact payload measurements captured inside run #246 are:
+The artifact-upload sizes describe the GitHub Actions artifact archives. The exact payload and installed-content measurements captured inside run #250 are:
 
 | Target | Output | Bytes | Approximate size | SHA-256 |
 | --- | --- | ---: | ---: | --- |
-| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260929210019.wic` | `2,711,919,616` | `2.53 GiB` | `b642017d412b7ead0bf80aad33d789ff1dcd61adbe38dd89a9b1a528122381e8` |
-| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260929210019.wic.gz` | `708,919,746` | `676.08 MiB` | `17d8843cdbe602c4ad061876f8a59df91f5af76902946d7b4e23e892b50539b0` |
-| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260929210019.manifest` | `64,029` | `62.53 KiB` | `33e3f6052ab0f5744cd8b6d403ddafca57c64b9224bba745c9c540a7d6b7f269` |
-| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260929210202.wic` | `2,711,919,616` | `2.53 GiB` | `d9b382f30513eb506097315bdcd80acb28726ac59421c0c526a86c7afd79628f` |
-| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260929210202.wic.gz` | `708,917,938` | `676.08 MiB` | `50401e6a3e8388de08ada83bd6027c166a3dfb91c64a903f1d951112726b10a7` |
-| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260929210202.manifest` | `64,929` | `63.41 KiB` | `166551c2a4cccf1143b2568fad428ccf892e61408937183a634c95ee9dceff86` |
+| SNAPPY POC | installed rootfs staging tree | `1,523,100,176` | `1.42 GiB` | n/a |
+| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260930221014.wic` | `2,711,919,616` | `2.53 GiB` | `4c32883b6818e89a5519928829d7bf12adb00d8b8fa7260c33ed540a487d3c0d` |
+| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260930221014.wic.gz` | `708,917,405` | `676.08 MiB` | `0032ce52a224c0008f6fd2a567bbdbe764aaf5fdc8f543051b81ebd7d84c149f` |
+| SNAPPY POC | `yocto-chromebook-poc-snappy.rootfs-20260930221014.manifest` | `64,029` | `62.53 KiB` | `33e3f6052ab0f5744cd8b6d403ddafca57c64b9224bba745c9c540a7d6b7f269` |
+| VORTICON POC | installed rootfs staging tree | `1,523,100,180` | `1.42 GiB` | n/a |
+| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.wic` | `2,711,919,616` | `2.53 GiB` | `bbd80d3f3725664a9190ad75389740f9274e5e533769ffb42ce806966c7c6633` |
+| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.wic.gz` | `708,917,800` | `676.08 MiB` | `f0c24e849cea6205b34a918822e659b6e9577366ae6227419fe8d1f3bd8837f2` |
+| VORTICON POC | `yocto-chromebook-poc-vorticon.rootfs-20260930220907.manifest` | `64,929` | `63.41 KiB` | `166551c2a4cccf11408937183a634c95ee9dceff86` |
 
-The current qualified compressed POC payload sizes are therefore `708,919,746 bytes` for SNAPPY and `708,917,938 bytes` for VORTICON.
+The installed-content measurement is the apparent byte count of BitBake's completed rootfs staging tree. It is reproducible build evidence for M19's installed POC rootfs-size task; booted-filesystem allocation and free-space measurements remain runtime evidence.
 
-## Earlier qualified SNAPPY POC payload size
+## Earlier qualified POC payload evidence
 
-The earlier SNAPPY image-build gate merged by PR #30 provides a useful historical comparison point.
+`Validate` run #246 passed at commit `200cad6db5aa2fb8e94fbc52652e4785607a25b4` on 2026-09-30. Before rootfs staging-tree capture was added, it recorded compressed POC payload sizes of `708,919,746 bytes` for SNAPPY and `708,917,938 bytes` for VORTICON. The near-identical run #250 values show the current POC payload remains approximately 676 MiB compressed.
 
-- Merged `master` commit: `1e2e06c14623964218898ae7b8222d50638d9436`
-- Qualified PR head: `fb2506f963816fbf935a0fabcba23c87e5bc9788`
-- GitHub Actions PR run: `36265813568` (`Validate` run #179)
-- Image job: `108470140445` (`SNAPPY POC image build`)
-- Uploaded artifact: `snappy-poc-image-af34af0782a44566725a0dcc9522728e4f197956`
-- Artifact ID: `10918571968`
-- Artifact upload size: `700,060,998 bytes`
-- Image output timestamp in filenames: `20260926192542`
-
-| Output | Bytes | Approximate size | SHA-256 |
-| --- | ---: | ---: | --- |
-| `yocto-chromebook-poc-snappy.rootfs-20260926192542.wic` | `2,656,201,728` | `2.47 GiB` | `fc884684d217bd7a8f1b21434f9f1f4beb68e563dc7af9e813c2602a0c495726` |
-| `yocto-chromebook-poc-snappy.rootfs-20260926192542.wic.gz` | `699,995,369` | `667.57 MiB` | `6e80bac9927a812726b0a63d011cf8951ef02d4c7b6afe4a5d3045671f6af4ba` |
-| `yocto-chromebook-poc-snappy.rootfs-20260926192542.manifest` | `62,502` | `61.04 KiB` | `5e80e03df5ff5d4ee10e15150805670d6b291f34f42d0fd2a850a48bdf647b0f` |
+The earlier SNAPPY image-build gate merged by PR #30 is also a useful historical comparison point: its compressed WIC was `699,995,369 bytes` (`667.57 MiB`) at qualified PR head `fb2506f963816fbf935a0fabcba23c87e5bc9788`.
 
 ## Open metrics
 
-The following measurements still require additional build, mounted-image, or booted-board evidence and must remain open in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`:
+The following measurements still require additional build or booted-board evidence and must remain open in `docs/YOCTO_CHROMEBOOK_POC_TODO.md`:
 
-- exact POC rootfs installed-content size from the new build-time rootfs capture (pending the first successful exact-head run containing that instrumentation),
 - compressed and installed desktop image sizes,
 - boot-to-console time,
 - boot-to-LXQt time,
