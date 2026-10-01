@@ -28,11 +28,11 @@ The artifact-upload sizes describe the GitHub Actions artifact archives. The exa
 
 The installed-content measurement is the apparent byte count of BitBake's completed rootfs staging tree. It is reproducible build evidence for M19's installed POC rootfs-size task; booted-filesystem allocation and free-space measurements remain runtime evidence.
 
-## Earlier qualified POC payload evidence
+## Earlier qualified SNAPPY POC image payload evidence
 
 `Validate` run #246 passed at commit `200cad6db5aa2fb8e94fbc52652e4785607a25b4` on 2026-09-30. Before rootfs staging-tree capture was added, it recorded compressed POC payload sizes of `708,919,746 bytes` for SNAPPY and `708,917,938 bytes` for VORTICON. The near-identical run #250 values show the current POC payload remains approximately 676 MiB compressed.
 
-The earlier SNAPPY image-build gate merged by PR #30 is also a useful historical comparison point: its compressed WIC was `699,995,369 bytes` (`667.57 MiB`) at qualified PR head `fb2506f963816fbf935a0fabcba23c87e5bc9788`.
+The earlier SNAPPY image-build gate merged by PR #30 is also a useful historical comparison point. Artifact ID `10918571968` recorded a raw WIC size of `2,656,201,728` bytes and a compressed WIC size of `699,995,369` bytes (`667.57 MiB`) at qualified PR head `fb2506f963816fbf935a0fabcba23c87e5bc9788`.
 
 ## Open metrics
 

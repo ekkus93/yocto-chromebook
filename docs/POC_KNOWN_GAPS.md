@@ -9,13 +9,15 @@ It is intentionally conservative: a feature is not marked supported until there 
 - The repository has parse and dependency-graph validation for the SNAPPY and VORTICON POC images and the SNAPPY desktop scaffold.
 - The SNAPPY and VORTICON POC WIC image-build gates have been merged into `master`.
 - KEFKA and MAGOLOR have repository build scaffolds and dedicated validation workflows, but their final acceptance remains governed by `docs/YOCTO_CHROMEBOOK_POC_TODO.md` until exact-head validation and documentation evidence are reconciled.
-- The qualified SNAPPY POC image artifact is recorded in `docs/IMAGE_METRICS.md`.
-- Current qualified SNAPPY POC image sizes are:
-  - raw `.wic`: `2,656,201,728 bytes`
-  - compressed `.wic.gz`: `699,995,369 bytes`
-  - manifest: `62,502 bytes`
-- VORTICON POC WIC build evidence exists from exact-head CI, but VORTICON size metrics still need to be copied into `docs/IMAGE_METRICS.md`.
-- Installed rootfs size, boot-time, and RAM metrics still require booted or mounted-image evidence.
+- The current qualified SNAPPY and VORTICON POC image artifacts, compressed image sizes, raw WIC sizes, manifest sizes, and installed rootfs staging-tree sizes are recorded in `docs/IMAGE_METRICS.md`.
+- Current run #250 qualified POC metrics are:
+  - SNAPPY raw `.wic`: `2,711,919,616 bytes`
+  - SNAPPY compressed `.wic.gz`: `708,917,405 bytes`
+  - SNAPPY installed rootfs staging tree: `1,523,100,176 bytes`
+  - VORTICON raw `.wic`: `2,711,919,616 bytes`
+  - VORTICON compressed `.wic.gz`: `708,917,800 bytes`
+  - VORTICON installed rootfs staging tree: `1,523,100,180 bytes`
+- Desktop image sizes, boot-time, and RAM metrics still require additional desktop-build or booted-board evidence.
 
 ## Hardware validation status
 
@@ -58,4 +60,4 @@ Desktop runtime launch evidence also remains open.
 
 ## Next actionable milestones
 
-The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording mounted-image rootfs size, VORTICON POC image sizes, and desktop image sizes. The next build milestone is qualifying the KEFKA and MAGOLOR target gates on current `master`; the desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone is qualifying the Firefox provider workflow and then collecting runtime evidence on a booted desktop.
+The next hardware milestone is booting at least one board from MrChromebox UEFI and capturing logs for the hardware matrix. The next non-hardware metrics milestone is recording desktop image sizes. The next build milestone is qualifying the KEFKA and MAGOLOR target gates on current `master`; the desktop milestone is qualifying the SNAPPY desktop WIC and then validating the LXQt-on-Labwc session path; the browser milestone is collecting runtime evidence on a booted desktop.
