@@ -19,18 +19,36 @@ The first argument must be one of the supported board identifiers: `snappy`, `vo
 
 The script writes plain-text command output only. It does not upload anything automatically and it should be reviewed before being committed or attached to an issue.
 
+Default collection is passive. Optional active checks are available only when explicitly enabled:
+
+```bash
+sudo YOCTO_CHROMEBOOK_ENABLE_NETWORK_TESTS=1 \
+  YOCTO_CHROMEBOOK_HTTPS_TEST_URL=https://example.com \
+  scripts/collect_chromebook_evidence.sh snappy /tmp/yocto-chromebook-snappy-evidence
+
+sudo YOCTO_CHROMEBOOK_ENABLE_BLUETOOTH_SCAN=1 \
+  scripts/collect_chromebook_evidence.sh snappy /tmp/yocto-chromebook-snappy-evidence
+```
+
+The network option runs a bounded Wi-Fi rescan and HTTPS probe. The Bluetooth option runs a bounded scan. Both remain opt-in so the default collector can be used safely during first boot without initiating radio scans.
+
 ## Evidence categories
 
 The bundle is intended to support these TODO areas:
 
 - firmware package and blob identity for Wi-Fi, Bluetooth, graphics, and audio
+- loaded module firmware declarations through `modinfo`
+- driver bindings across PCI, USB, I2C, and platform buses
+- installed firmware package and file inventory
 - MrChromebox UEFI boot behavior and kernel boot logs
+- boot timing through `systemd-analyze` and `/proc/stat` `btime`
 - eMMC discovery and read/write planning
 - keyboard, touchpad, USB, battery, brightness, suspend/resume, and webcam detection
 - graphics and Wayland baseline diagnostics
 - audio path identification before any internal speaker enablement
 - USB-C-era Chromebook audio quirk triage, including SOF/AVS, topology, ALSA UCM2, codec, amplifier, PipeWire, WirePlumber, and mixer evidence
 - image size, filesystem, and memory baseline measurements
+- optional active Wi-Fi, HTTPS, and Bluetooth functional evidence when explicitly enabled
 
 ## Safety policy
 
